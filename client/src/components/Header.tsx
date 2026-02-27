@@ -718,6 +718,18 @@ export function Header({
                         <Label className="mb-2 block">Current Requests ({requestType})</Label>
                         {outputRequests
                           .filter((req) => req.requestType === requestType)
+                          .sort((a, b) => {
+                            const elA = nodes.find((n) => n.id === a.elementId) || edges.find((e) => e.id === a.elementId);
+                            const elB = nodes.find((n) => n.id === b.elementId) || edges.find((e) => e.id === b.elementId);
+                            
+                            const getSortKey = (el) => {
+                              if (!el) return "";
+                              if (el.data?.nodeNumber !== undefined) return `node-${String(el.data.nodeNumber).padStart(10, '0')}`;
+                              return `edge-${el.data?.label || el.id}`;
+                            };
+                            
+                            return getSortKey(elA).localeCompare(getSortKey(elB), undefined, { numeric: true });
+                          })
                           .map((req) => {
                           const el =
                             nodes.find((n) => n.id === req.elementId) ||

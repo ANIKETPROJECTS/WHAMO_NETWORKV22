@@ -56,6 +56,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
   const [localParams, setLocalParams] = useState(computationalParams);
   const [selectedElementId, setSelectedElementId] = useState<string>("");
   const [selectedVars, setSelectedVars] = useState<string[]>([]);
+  const [requestType, setRequestType] = useState<"HISTORY" | "PLOT" | "SPREADSHEET">("HISTORY");
 
   const handleAddRequest = () => {
     if (!selectedElementId || selectedVars.length === 0) return;
@@ -67,7 +68,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
     addOutputRequest({
       elementId: selectedElementId,
       elementType: type,
-      requestType: 'HISTORY', // Default to HISTORY as this dialog doesn't have a selector yet
+      requestType: requestType,
       variables: selectedVars
     });
     setSelectedElementId("");
@@ -215,7 +216,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                     <SelectContent>
                       <SelectItem value="_" disabled>Nodes</SelectItem>
                       {nodes
-                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === 'HISTORY'))
+                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType))
                         .map(n => (
                           <SelectItem key={n.id} value={n.id}>
                             {String(n.data.nodeNumber)}
@@ -223,12 +224,25 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                         ))}
                       <SelectItem value="__" disabled>Conduits</SelectItem>
                       {edges
-                        .filter(e => !outputRequests.some(req => req.elementId === e.id && req.requestType === 'HISTORY'))
+                        .filter(e => !outputRequests.some(req => req.elementId === e.id && req.requestType === requestType))
                         .map(e => (
                           <SelectItem key={e.id} value={e.id}>
                             {e.data?.label || `Edge ${e.id}`}
                           </SelectItem>
                         ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid gap-2">
+                  <Label>Request Type</Label>
+                  <Select value={requestType} onValueChange={(v: any) => setRequestType(v)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select type..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="HISTORY">HISTORY</SelectItem>
+                      <SelectItem value="PLOT">PLOT</SelectItem>
+                      <SelectItem value="SPREADSHEET">SPREADSHEET</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -255,8 +269,22 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                 <Separator />
                 
                 <div className="max-h-[200px] overflow-auto">
-                  <Label className="mb-2 block">Current Requests</Label>
-                  {outputRequests.map(req => {
+                  <Label className="mb-2 block">Current Requests ({requestType})</Label>
+                  {outputRequests
+                    .filter(req => req.requestType === requestType)
+                    .sort((a, b) => {
+                      const elA = nodes.find(n => n.id === a.elementId) || edges.find(e => e.id === a.elementId);
+                      const elB = nodes.find(n => n.id === b.elementId) || edges.find(e => e.id === b.elementId);
+                      
+                      const getSortKey = (el) => {
+                        if (!el) return "";
+                        if (el.data?.nodeNumber !== undefined) return `node-${String(el.data.nodeNumber).padStart(10, '0')}`;
+                        return `edge-${el.data?.label || el.id}`;
+                      };
+                      
+                      return getSortKey(elA).localeCompare(getSortKey(elB), undefined, { numeric: true });
+                    })
+                    .map(req => {
                     const el = nodes.find(n => n.id === req.elementId) || edges.find(e => e.id === req.elementId);
                     const displayLabel = String(el?.data?.nodeNumber || el?.data?.label || req.elementId);
                     return (
