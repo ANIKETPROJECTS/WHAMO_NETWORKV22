@@ -8,7 +8,7 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
 
   const SI_TO_FPS = {
     length: 3.28084, // m to ft
-    diameter: 3.28084, // m to ft
+    diameter: 39.3701, // m to in
     elevation: 3.28084, // m to ft
     celerity: 3.28084, // m/s to ft/s
     area: 10.7639, // m2 to ft2

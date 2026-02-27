@@ -34,7 +34,7 @@ export function PropertiesPanel() {
 
   const SI_TO_FPS = {
     length: 3.28084, // m to ft
-    diameter: 3.28084, // m to ft
+    diameter: 39.3701, // m to in
     elevation: 3.28084, // m to ft
     celerity: 3.28084, // m/s to ft/s
     area: 10.7639, // m2 to ft2
@@ -351,7 +351,7 @@ export function PropertiesPanel() {
                 />
               </div>
 
-              {(element.data?.type === 'AIRTANK' || element.data?.type === 'DIFFERENTIAL') && (
+              {(element.data?.type_st === 'AIRTANK' || element.data?.type_st === 'DIFFERENTIAL') && (
                 <div className="grid gap-2">
                   <Label htmlFor="htank">Initial Water Level (HTANK) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                   <Input 
@@ -363,10 +363,10 @@ export function PropertiesPanel() {
                 </div>
               )}
 
-              {element.data?.type === 'DIFFERENTIAL' && (
+              {element.data?.type_st === 'DIFFERENTIAL' && (
                 <>
                   <div className="grid gap-2">
-                    <Label htmlFor="riserdiam">Riser Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
+                    <Label htmlFor="riserdiam">Riser Diameter ({currentUnit === 'SI' ? 'm' : 'in'})</Label>
                     <Input 
                       id="riserdiam" 
                       type="number" 
@@ -397,7 +397,7 @@ export function PropertiesPanel() {
 
               {!element.data?.hasShape && (
                 <div className="grid gap-2">
-                  <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
+                  <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'in'})</Label>
                   <Input 
                     id="diam" 
                     type="number" 
@@ -560,7 +560,7 @@ export function PropertiesPanel() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="d">D ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
+                    <Label htmlFor="d">D ({currentUnit === 'SI' ? 'm' : 'in'})</Label>
                     <Input 
                       id="d" 
                       type="number" 
@@ -592,7 +592,7 @@ export function PropertiesPanel() {
                 </div>
                 {!element.data?.variable && (
                   <div className="space-y-2">
-                    <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
+                    <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'in'})</Label>
                     <Input 
                       id="diam" 
                       type="number" 
@@ -673,7 +673,7 @@ export function PropertiesPanel() {
           {!isNode && element.data?.type === 'dummy' && (
             <>
               <div className="grid gap-2">
-                <Label htmlFor="diam">Diameter (m)</Label>
+                <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'in'})</Label>
                 <Input 
                   id="diam" 
                   type="number" 
