@@ -647,7 +647,10 @@ function DesignerInner() {
                         variant="ghost"
                         size="sm"
                         className="h-8 px-2 hover:bg-destructive/10 hover:text-destructive"
-                        onClick={() => setShowDiagram(false)}
+                        onClick={() => {
+                          setShowDiagram(false);
+                          setIsMaximized(false);
+                        }}
                       >
                         <X className="w-4 h-4" />
                       </Button>
