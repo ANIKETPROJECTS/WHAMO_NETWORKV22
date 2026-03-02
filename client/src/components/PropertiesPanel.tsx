@@ -69,8 +69,9 @@ export function PropertiesPanel() {
     };
 
     Object.entries(element.data || {}).forEach(([key, value]) => {
-      if (typeof value === 'number' && fieldMapping[key]) {
-        dataUpdate[key] = Number(convertValue(value, currentUnit, newUnit, fieldMapping[key]).toFixed(4));
+      const numValue = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
+      if (!isNaN(numValue) && fieldMapping[key]) {
+        dataUpdate[key] = Number(convertValue(numValue, currentUnit, newUnit, fieldMapping[key]).toFixed(4));
       }
     });
 
@@ -90,10 +91,14 @@ export function PropertiesPanel() {
   };
 
   const handleChange = (key: string, value: any) => {
+    const numericValue = (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value))) 
+      ? Number(value) 
+      : value;
+      
     if (isNode) {
-      updateNodeData(selectedElementId, { [key]: value });
+      updateNodeData(selectedElementId, { [key]: numericValue });
     } else {
-      updateEdgeData(selectedElementId, { [key]: value });
+      updateEdgeData(selectedElementId, { [key]: numericValue });
     }
   };
 

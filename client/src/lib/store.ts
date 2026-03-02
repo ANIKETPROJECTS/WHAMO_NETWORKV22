@@ -168,10 +168,12 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       flow: 35.3147,
     };
 
-    const convertValue = (value: number, from: UnitSystem, to: UnitSystem, type: keyof typeof SI_TO_FPS) => {
-      if (from === to) return value;
+    const convertValue = (value: number | string, from: UnitSystem, to: UnitSystem, type: keyof typeof SI_TO_FPS) => {
+      const numValue = typeof value === 'string' ? parseFloat(value) : value;
+      if (isNaN(numValue)) return value;
+      if (from === to) return numValue;
       const factor = SI_TO_FPS[type] || 1;
-      return to === 'FPS' ? value * factor : value / factor;
+      return to === 'FPS' ? numValue * factor : numValue / factor;
     };
 
     const fieldMapping: Record<string, keyof typeof SI_TO_FPS> = {
@@ -185,7 +187,10 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       bottomElevation: 'elevation',
       distance: 'length',
       celerity: 'celerity',
-      area: 'area'
+      area: 'area',
+      initialWaterLevel: 'elevation',
+      riserDiameter: 'diameter',
+      riserTop: 'elevation'
     };
 
     // Convert all nodes
@@ -194,8 +199,8 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
       const dataUpdate: any = {};
       Object.entries(node.data || {}).forEach(([key, value]) => {
-        if (typeof value === 'number' && fieldMapping[key]) {
-          dataUpdate[key] = Number(convertValue(value, oldUnit, unit, fieldMapping[key]).toFixed(4));
+        if ((typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))) && fieldMapping[key]) {
+          dataUpdate[key] = Number(convertValue(value as any, oldUnit, unit, fieldMapping[key]).toFixed(4));
         }
       });
 
@@ -217,8 +222,8 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
       const dataUpdate: any = {};
       Object.entries(edge.data || {}).forEach(([key, value]) => {
-        if (typeof value === 'number' && fieldMapping[key]) {
-          dataUpdate[key] = Number(convertValue(value, oldUnit, unit, fieldMapping[key]).toFixed(4));
+        if ((typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))) && fieldMapping[key]) {
+          dataUpdate[key] = Number(convertValue(value as any, oldUnit, unit, fieldMapping[key]).toFixed(4));
         }
       });
 
