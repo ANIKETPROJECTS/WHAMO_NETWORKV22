@@ -23,7 +23,9 @@ export type NodeType = z.infer<typeof nodeTypeSchema>;
 export const reservoirPropsSchema = z.object({
   id: z.string(),
   elevation: z.number(),
+  mode: z.enum(["fixed", "schedule"]).default("fixed"),
   reservoirElevation: z.number().default(0),
+  hScheduleNumber: z.number().optional(),
   comment: z.string().optional(),
 });
 
@@ -110,6 +112,14 @@ export const dummyPipePropsSchema = z.object({
   comment: z.string().optional(),
 });
 
+export const hScheduleSchema = z.object({
+  number: z.number().int(),
+  points: z.array(z.object({
+    time: z.number(),
+    head: z.number()
+  }))
+});
+
 // Network State Structure (matches the spec's JSON structure)
 export const networkStateSchema = z.object({
   nodes: z.array(z.object({
@@ -125,6 +135,7 @@ export const networkStateSchema = z.object({
     target: z.string(),
     data: z.any(), // Holds the specific properties based on type
   })),
+  hSchedules: z.array(hScheduleSchema).default([]),
 });
 
 export type NetworkState = z.infer<typeof networkStateSchema>;

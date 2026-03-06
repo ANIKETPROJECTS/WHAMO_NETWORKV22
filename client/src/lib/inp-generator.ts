@@ -197,7 +197,11 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
     addComment(n.data.comment);
     addL('RESERVOIR');
     addL(` ID ${label}`);
-    addL(` ELEV ${toFPS(Number(n.data.reservoirElevation || 0), unit, 'elevation')}`);
+    if (n.data.mode === 'schedule') {
+      addL(` HSCHEDULE ${n.data.hScheduleNumber || 1}`);
+    } else {
+      addL(` ELEV ${toFPS(Number(n.data.reservoirElevation || 0), unit, 'elevation')}`);
+    }
     addL(' FINISH');
     addL('');
   });
@@ -333,6 +337,20 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
   addL('');
   addL('SCHEDULE');
   
+  const hSchedules = state.hSchedules || [];
+  const usedHScheduleNumbers = new Set(nodes.filter(n => n.type === 'reservoir' && n.data.mode === 'schedule').map(n => n.data.hScheduleNumber || 1));
+  
+  usedHScheduleNumbers.forEach(num => {
+    const sched = hSchedules.find(s => s.number === num);
+    if (!sched || sched.points.length === 0) {
+      throw new Error(`HSCHEDULE ${num} requires at least one T/H pair`);
+    }
+    addL(`  HSCHEDULE ${num}`);
+    sched.points.forEach(p => {
+      addL(`   T ${p.time} H ${toFPS(Number(p.head), globalUnit, 'elevation')}`);
+    });
+  });
+
   const flowBoundaries = nodes.filter(n => n.type === 'flowBoundary');
   flowBoundaries.forEach(n => {
     const d = n.data;

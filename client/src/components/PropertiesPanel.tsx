@@ -18,7 +18,10 @@ export function PropertiesPanel() {
     updateNodeData, 
     updateEdgeData,
     deleteElement,
-    globalUnit
+    globalUnit,
+    hSchedules,
+    updateHSchedule,
+    addHSchedule
   } = useNetworkStore();
 
   if (!selectedElementId) return null;
@@ -245,7 +248,28 @@ export function PropertiesPanel() {
                   onChange={(e) => handleChange('elevation', e.target.value)} 
                 />
               </div>
+
               {element.data?.type === 'reservoir' && (
+                <div className="grid gap-2 mb-4">
+                  <Label>Boundary Condition Mode</Label>
+                  <RadioGroup 
+                    value={element.data?.mode || 'fixed'} 
+                    onValueChange={(v) => handleChange('mode', v)}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="fixed" id="mode-fixed" />
+                      <Label htmlFor="mode-fixed">Fixed Elevation</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="schedule" id="mode-schedule" />
+                      <Label htmlFor="mode-schedule">H Schedule</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              )}
+
+              {element.data?.type === 'reservoir' && (element.data?.mode || 'fixed') === 'fixed' && (
                 <div className="grid gap-2">
                   <Label htmlFor="resElev">Reservoir Elevation (HW) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                   <Input 
@@ -255,6 +279,109 @@ export function PropertiesPanel() {
                     value={element.data?.reservoirElevation !== undefined ? parseFloat(Number(element.data.reservoirElevation).toFixed(8)) : 0} 
                     onChange={(e) => handleChange('reservoirElevation', e.target.value)} 
                   />
+                </div>
+              )}
+
+              {element.data?.type === 'reservoir' && element.data?.mode === 'schedule' && (
+                <div className="space-y-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="hScheduleNum">H Schedule Number</Label>
+                    <Select 
+                      value={(element.data?.hScheduleNumber || 1).toString()} 
+                      onValueChange={(v) => {
+                        const num = parseInt(v);
+                        addHSchedule(num);
+                        handleChange('hScheduleNumber', num);
+                      }}
+                    >
+                      <SelectTrigger id="hScheduleNum">
+                        <SelectValue placeholder="Select schedule" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[1, 2, 3, 4, 5].map(num => (
+                          <SelectItem key={num} value={num.toString()}>HSCHEDULE {num}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium">T/H Pairs</Label>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="h-7 px-2"
+                        onClick={() => {
+                          const schedNum = element.data?.hScheduleNumber || 1;
+                          const currentSched = hSchedules.find(s => s.number === schedNum);
+                          const points = currentSched ? [...currentSched.points] : [];
+                          updateHSchedule(schedNum, [...points, { time: 0, head: 0 }]);
+                        }}
+                      >
+                        Add Pair
+                      </Button>
+                    </div>
+
+                    <div className="space-y-2">
+                      {(hSchedules.find(s => s.number === (element.data?.hScheduleNumber || 1))?.points || []).map((point, index) => (
+                        <div key={index} className="flex items-end gap-2 p-2 border rounded-md bg-muted/30 relative group">
+                          <div className="grid gap-1 flex-1">
+                            <Label className="text-[10px]">Time (T)</Label>
+                            <Input 
+                              type="number"
+                              className="h-7 text-xs"
+                              value={point.time}
+                              onChange={(e) => {
+                                const schedNum = element.data?.hScheduleNumber || 1;
+                                const currentSched = hSchedules.find(s => s.number === schedNum);
+                                if (currentSched) {
+                                  const newPoints = [...currentSched.points];
+                                  newPoints[index] = { ...newPoints[index], time: parseFloat(e.target.value) || 0 };
+                                  updateHSchedule(schedNum, newPoints);
+                                }
+                              }}
+                            />
+                          </div>
+                          <div className="grid gap-1 flex-1">
+                            <Label className="text-[10px]">Head (H) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
+                            <Input 
+                              type="number"
+                              className="h-7 text-xs"
+                              value={point.head}
+                              onChange={(e) => {
+                                const schedNum = element.data?.hScheduleNumber || 1;
+                                const currentSched = hSchedules.find(s => s.number === schedNum);
+                                if (currentSched) {
+                                  const newPoints = [...currentSched.points];
+                                  newPoints[index] = { ...newPoints[index], head: parseFloat(e.target.value) || 0 };
+                                  updateHSchedule(schedNum, newPoints);
+                                }
+                              }}
+                            />
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => {
+                              const schedNum = element.data?.hScheduleNumber || 1;
+                              const currentSched = hSchedules.find(s => s.number === schedNum);
+                              if (currentSched) {
+                                const newPoints = currentSched.points.filter((_, i) => i !== index);
+                                updateHSchedule(schedNum, newPoints);
+                              }
+                            }}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                      {(!hSchedules.find(s => s.number === (element.data?.hScheduleNumber || 1))?.points || hSchedules.find(s => s.number === (element.data?.hScheduleNumber || 1))!.points.length === 0) && (
+                        <p className="text-[10px] text-muted-foreground text-center py-2 italic">No T/H pairs added.</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
               {element.data?.type === 'flowBoundary' && (

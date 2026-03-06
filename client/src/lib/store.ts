@@ -37,6 +37,8 @@ interface NodeData extends Record<string, unknown> {
   tankTop?: number | string;
   tankBottom?: number | string;
   shape?: { e: number | string; a: number | string }[];
+  mode?: 'fixed' | 'schedule';
+  hScheduleNumber?: number;
 }
 
 interface EdgeData extends Record<string, unknown> {
@@ -85,6 +87,7 @@ interface OutputRequest {
 interface NetworkState {
   nodes: WhamoNode[];
   edges: WhamoEdge[];
+  hSchedules: { number: number; points: { time: number; head: number | string }[] }[];
   selectedElementId: string | null;
   selectedElementType: 'node' | 'edge' | null;
   computationalParams: ComputationalParameters;
@@ -119,6 +122,8 @@ interface NetworkState {
   setProjectNameError: (error: string | null) => void;
   setLoadedFileHandle: (handle: FileSystemFileHandle | null) => void;
   setGlobalUnit: (unit: UnitSystem) => void;
+  updateHSchedule: (number: number, points: { time: number; head: number | string }[]) => void;
+  addHSchedule: (number: number) => void;
   undo: () => void;
   redo: () => void;
   saveToHistory: () => void;
@@ -130,6 +135,7 @@ const getId = () => `${idCounter++}`;
 export const useNetworkStore = create<NetworkState>((set, get) => ({
   nodes: [],
   edges: [],
+  hSchedules: [],
   selectedElementId: null,
   selectedElementType: null,
   computationalParams: {
@@ -476,6 +482,7 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
     set({ 
       nodes, 
       edges: processedEdges, 
+      hSchedules: (params as any)?.hSchedules || [],
       computationalParams: params || get().computationalParams,
       outputRequests: requests || [],
       projectName: projectName || get().projectName,
@@ -494,6 +501,7 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
     set({ 
       nodes: [], 
       edges: [], 
+      hSchedules: [],
       selectedElementId: null, 
       selectedElementType: null, 
       outputRequests: [],
@@ -543,6 +551,27 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
     set({ computationalParams: { ...get().computationalParams, ...params } });
   },
 
+  updateHSchedule: (number, points) => {
+    get().saveToHistory();
+    const { hSchedules } = get();
+    const existingIndex = hSchedules.findIndex(s => s.number === number);
+    if (existingIndex >= 0) {
+      const newSchedules = [...hSchedules];
+      newSchedules[existingIndex] = { number, points };
+      set({ hSchedules: newSchedules });
+    } else {
+      set({ hSchedules: [...hSchedules, { number, points }] });
+    }
+  },
+
+  addHSchedule: (number) => {
+    get().saveToHistory();
+    const { hSchedules } = get();
+    if (!hSchedules.find(s => s.number === number)) {
+      set({ hSchedules: [...hSchedules, { number, points: [] }] });
+    }
+  },
+
   addOutputRequest: (request) => {
     get().saveToHistory();
     const id = `req-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -571,8 +600,8 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
   },
 
   saveToHistory: () => {
-    const { nodes, edges, computationalParams, outputRequests, history } = get();
-    const currentState = { nodes, edges, computationalParams, outputRequests };
+    const { nodes, edges, hSchedules, computationalParams, outputRequests, history } = get();
+    const currentState = JSON.parse(JSON.stringify({ nodes, edges, hSchedules, computationalParams, outputRequests }));
     set({
       history: {
         past: [currentState, ...history.past].slice(0, 50),
