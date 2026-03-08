@@ -22,7 +22,7 @@ export function NodeSelectionPanel() {
     });
 
   const allSelected = nodeSelectionSet.size === 0 || nodesList.every(n => nodeSelectionSet.has(n.id));
-  const noneSelected = nodeSelectionSet.size === 0;
+  const anySelected = nodeSelectionSet.size > 0;
 
   return (
     <div className="flex flex-col gap-3 p-4 h-full">
@@ -44,13 +44,13 @@ export function NodeSelectionPanel() {
           Select All
         </Button>
         <Button
-          variant={noneSelected ? "destructive" : "outline"}
+          variant={anySelected ? "destructive" : "outline"}
           size="sm"
           className="h-8 text-xs flex-1 gap-1"
           onClick={() => setAllNodesSelected(false)}
         >
           <XSquare className="w-3.5 h-3.5" />
-          Clear
+          Clear All
         </Button>
       </div>
 
@@ -65,15 +65,17 @@ export function NodeSelectionPanel() {
             return (
               <div
                 key={node.id}
-                className="flex items-center gap-2 p-2 hover:bg-accent rounded cursor-pointer"
-                onClick={() => toggleNodeSelection(node.id)}
+                className="flex items-center gap-2 p-2 hover:bg-accent rounded transition-colors"
               >
                 <Checkbox
                   checked={isSelected}
                   onCheckedChange={() => toggleNodeSelection(node.id)}
-                  className="h-4 w-4"
+                  className="h-4 w-4 cursor-pointer"
                 />
-                <div className="flex-1 min-w-0">
+                <div 
+                  className="flex-1 min-w-0 cursor-pointer"
+                  onClick={() => toggleNodeSelection(node.id)}
+                >
                   <div className="text-xs font-medium">Node {node.id}</div>
                   <div className="text-xs text-muted-foreground truncate">{node.label} - Elev: {node.elevation}</div>
                 </div>
