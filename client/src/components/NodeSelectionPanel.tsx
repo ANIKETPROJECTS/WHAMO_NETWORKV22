@@ -61,7 +61,7 @@ export function NodeSelectionPanel() {
       <ScrollArea className="flex-1 border rounded-md">
         <div className="space-y-1 p-2">
           {nodesList.map(node => {
-            const isSelected = nodeSelectionSet.size === 0 || nodeSelectionSet.has(node.id);
+            const isSelected = nodeSelectionSet.has(node.id);
             return (
               <div
                 key={node.id}
