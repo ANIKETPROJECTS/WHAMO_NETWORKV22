@@ -173,7 +173,7 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
   sortedNodeIds.forEach(id => {
     const node = nodes.find(n => (n.data.nodeNumber?.toString() || n.id) === id);
     if (node && node.data.elevation !== undefined) {
-      const isSelected = nodeSelectionSet.size === 0 || nodeSelectionSet.has(id);
+      const isSelected = nodeSelectionSet.size > 0 && nodeSelectionSet.has(id);
       if (isSelected) {
         const unit = node.data.unit || globalUnit;
         const elev = toFPS(Number(node.data.elevation), unit, 'elevation');

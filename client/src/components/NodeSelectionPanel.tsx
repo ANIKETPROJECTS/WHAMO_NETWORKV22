@@ -55,7 +55,7 @@ export function NodeSelectionPanel() {
       </div>
 
       <div className="text-xs text-muted-foreground border-t pt-2">
-        When empty or all selected, all nodes are exported. Unselect nodes to exclude them.
+        When empty, no nodes are exported. Select nodes to include them.
       </div>
 
       <ScrollArea className="flex-1 border rounded-md">
