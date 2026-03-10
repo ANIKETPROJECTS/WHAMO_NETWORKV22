@@ -80,6 +80,7 @@ interface OutputRequest {
   id: string; // Internal ID for the request
   elementId: string; // ID of the node or edge
   elementType: 'node' | 'edge';
+  isElement?: boolean; // For nodes, distinguish between Node and Element (e.g. Surge Tank)
   requestType: 'HISTORY' | 'PLOT' | 'SPREADSHEET';
   variables: string[]; // e.g., ['Q', 'HEAD', 'ELEV']
 }

@@ -394,10 +394,12 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
           : edges.find(e => e.id === req.elementId);
         
         const isSurgeTank = req.elementType === 'node' && element?.data?.type === 'surgeTank';
-        const label = isSurgeTank 
+        const useElementRequest = isSurgeTank && req.isElement;
+        
+        const label = useElementRequest 
           ? (element?.data?.label || element?.id || req.elementId)
           : (element?.data?.nodeNumber || element?.data?.label || element?.id || req.elementId);
-        const typeStr = isSurgeTank ? 'ELEM' : 'NODE';
+        const typeStr = useElementRequest ? 'ELEM' : 'NODE';
         addL(` ${typeStr} ${label} ${req.variables.join(' ')}`);
       });
       addL(' FINISH');

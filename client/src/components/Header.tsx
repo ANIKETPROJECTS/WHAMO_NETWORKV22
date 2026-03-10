@@ -129,12 +129,18 @@ export function Header({
   const handleAddRequest = () => {
     if (!selectedElementId || selectedVars.length === 0) return;
 
-    const node = nodes.find((n) => n.id === selectedElementId);
+    const [mode, id] = selectedElementId.includes(':') 
+      ? selectedElementId.split(':') 
+      : [null, selectedElementId];
+    
+    const actualId = id || selectedElementId;
+    const node = nodes.find((n) => n.id === actualId);
     const type = node ? "node" : "edge";
 
     addOutputRequest({
-      elementId: selectedElementId,
+      elementId: actualId,
       elementType: type,
+      isElement: mode === 'element',
       requestType: requestType,
       variables: selectedVars,
     });
@@ -651,11 +657,12 @@ export function Header({
                                   !outputRequests.some(
                                     (req) =>
                                       req.elementId === n.id &&
-                                      req.requestType === requestType,
+                                      req.requestType === requestType &&
+                                      req.isElement,
                                   ),
                               )
                               .map((n) => (
-                                <SelectItem key={n.id} value={n.id}>
+                                <SelectItem key={`element-${n.id}`} value={`element:${n.id}`}>
                                   {n.data.label}
                                 </SelectItem>
                               ))}
@@ -668,11 +675,12 @@ export function Header({
                                   !outputRequests.some(
                                     (req) =>
                                       req.elementId === n.id &&
-                                      req.requestType === requestType,
+                                      req.requestType === requestType &&
+                                      !req.isElement,
                                   ),
                               )
                               .map((n) => (
-                                <SelectItem key={n.id} value={n.id}>
+                                <SelectItem key={`node-${n.id}`} value={`node:${n.id}`}>
                                   {String(n.data.nodeNumber)}
                                 </SelectItem>
                               ))}
@@ -776,31 +784,34 @@ export function Header({
                             return getSortKey(elA).localeCompare(getSortKey(elB), undefined, { numeric: true });
                           })
                           .map((req) => {
-                          const el =
-                            nodes.find((n) => n.id === req.elementId) ||
-                            edges.find((e) => e.id === req.elementId);
-                          const displayLabel = el?.data?.type === 'surgeTank'
-                            ? el?.data?.label
-                            : (String(el?.data?.nodeNumber) || el?.data?.label || req.elementId);
-                          return (
-                            <div
-                              key={`${req.id}-${req.requestType}`}
-                              className="flex items-center justify-between text-sm py-1 border-b"
-                            >
-                              <span>
-                                {displayLabel} ({req.requestType}): {req.variables.join(", ")}
-                              </span>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-6 w-6"
-                                onClick={() => removeOutputRequest(req.id)}
+                            const el =
+                              nodes.find((n) => n.id === req.elementId) ||
+                              edges.find((e) => e.id === req.elementId);
+                            const isNodeElement = req.elementType === 'node' && el?.data?.type === 'surgeTank' && req.isElement;
+                            const displayLabel = isNodeElement 
+                              ? el?.data?.label 
+                              : (el?.data?.nodeNumber?.toString() || el?.data?.label || req.elementId);
+                            const prefix = isNodeElement ? 'ELEM' : (req.elementType === 'node' ? 'NODE' : 'ELEM');
+                            return (
+                              <div
+                                key={`${req.id}-${req.requestType}`}
+                                className="flex items-center justify-between text-sm py-1 border-b"
                               >
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          );
-                        })}
+                                <span>
+                                  {prefix} {displayLabel} ({req.requestType}):{" "}
+                                  {req.variables.join(", ")}
+                                </span>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-6 w-6"
+                                  onClick={() => removeOutputRequest(req.id)}
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </Button>
+                              </div>
+                            );
+                          })}
                       </div>
                     </div>
                   </DialogContent>

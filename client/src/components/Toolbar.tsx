@@ -61,13 +61,19 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
   const handleAddRequest = () => {
     if (!selectedElementId || selectedVars.length === 0) return;
     
-    const node = nodes.find(n => n.id === selectedElementId);
-    const edge = edges.find(e => e.id === selectedElementId);
+    const [mode, id] = selectedElementId.includes(':') 
+      ? selectedElementId.split(':') 
+      : [null, selectedElementId];
+    
+    const actualId = id || selectedElementId;
+    const node = nodes.find(n => n.id === actualId);
+    const edge = edges.find(e => e.id === actualId);
     const type = node ? 'node' : 'edge';
 
     addOutputRequest({
-      elementId: selectedElementId,
+      elementId: actualId,
       elementType: type,
+      isElement: mode === 'element',
       requestType: requestType,
       variables: selectedVars
     });
@@ -217,17 +223,17 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                       <SelectItem value="_" disabled>Elements</SelectItem>
                       {nodes
                         .filter(n => n.data.type === 'surgeTank')
-                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType))
+                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType && req.isElement))
                         .map(n => (
-                          <SelectItem key={n.id} value={n.id}>
+                          <SelectItem key={`element-${n.id}`} value={`element:${n.id}`}>
                             {n.data.label}
                           </SelectItem>
                         ))}
                       <SelectItem value="__" disabled>Nodes</SelectItem>
                       {nodes
-                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType))
+                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType && !req.isElement))
                         .map(n => (
-                          <SelectItem key={n.id} value={n.id}>
+                          <SelectItem key={`node-${n.id}`} value={`node:${n.id}`}>
                             {String(n.data.nodeNumber)}
                           </SelectItem>
                         ))}
@@ -308,12 +314,14 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                     })
                     .map(req => {
                     const el = nodes.find(n => n.id === req.elementId) || edges.find(e => e.id === req.elementId);
-                    const displayLabel = el?.data?.type === 'surgeTank' 
+                    const isNodeElement = req.elementType === 'node' && el?.data?.type === 'surgeTank' && req.isElement;
+                    const displayLabel = isNodeElement 
                       ? el?.data?.label 
-                      : (String(el?.data?.nodeNumber) || el?.data?.label || req.elementId);
+                      : (el?.data?.nodeNumber?.toString() || el?.data?.label || req.elementId);
+                    const prefix = isNodeElement ? 'ELEM' : (req.elementType === 'node' ? 'NODE' : 'ELEM');
                     return (
                       <div key={`${req.id}-${req.requestType}`} className="flex items-center justify-between text-sm py-1 border-b">
-                        <span>{displayLabel} ({req.requestType}): {req.variables.join(', ')}</span>
+                        <span>{prefix} {displayLabel} ({req.requestType}): {req.variables.join(', ')}</span>
                         <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeOutputRequest(req.id)}>
                           <Trash2 className="w-3 h-3" />
                         </Button>
