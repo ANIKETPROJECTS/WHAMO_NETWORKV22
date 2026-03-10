@@ -214,16 +214,35 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                       <SelectValue placeholder="Select element..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="_" disabled>Nodes</SelectItem>
+                      <SelectItem value="_" disabled>Elements</SelectItem>
+                      {nodes
+                        .filter(n => n.data.type === 'surgeTank')
+                        .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType))
+                        .map(n => (
+                          <SelectItem key={n.id} value={n.id}>
+                            {n.data.label}
+                          </SelectItem>
+                        ))}
+                      <SelectItem value="__" disabled>Nodes</SelectItem>
                       {nodes
                         .filter(n => !outputRequests.some(req => req.elementId === n.id && req.requestType === requestType))
                         .map(n => (
                           <SelectItem key={n.id} value={n.id}>
-                            {n.data.type === 'surgeTank' ? n.data.label : String(n.data.nodeNumber)}
+                            {String(n.data.nodeNumber)}
                           </SelectItem>
                         ))}
-                      <SelectItem value="__" disabled>Conduits</SelectItem>
+                      <SelectItem value="___" disabled>Conduits</SelectItem>
                       {edges
+                        .filter(e => e.data?.type === 'conduit')
+                        .filter(e => !outputRequests.some(req => req.elementId === e.id && req.requestType === requestType))
+                        .map(e => (
+                          <SelectItem key={e.id} value={e.id}>
+                            {e.data?.label || `Edge ${e.id}`}
+                          </SelectItem>
+                        ))}
+                      <SelectItem value="____" disabled>Dummy pipe</SelectItem>
+                      {edges
+                        .filter(e => e.data?.type === 'dummy')
                         .filter(e => !outputRequests.some(req => req.elementId === e.id && req.requestType === requestType))
                         .map(e => (
                           <SelectItem key={e.id} value={e.id}>
