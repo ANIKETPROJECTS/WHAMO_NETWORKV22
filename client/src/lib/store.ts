@@ -565,9 +565,24 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
     get().saveToHistory();
     const state = get();
     if (type === 'node') {
-      const remainingNodes = state.nodes.filter(n => n.id !== id);
       const remainingEdges = state.edges.filter(e => e.source !== id && e.target !== id);
-      
+
+      // Auto-downgrade neighboring junctions that drop to ≤2 connections after this node is removed
+      const nodeIdsToDowngrade: string[] = [];
+      for (const n of state.nodes) {
+        if (n.id === id || n.type !== 'junction') continue;
+        const degree = remainingEdges.filter(e => e.source === n.id || e.target === n.id).length;
+        if (degree <= 2) nodeIdsToDowngrade.push(n.id);
+      }
+
+      const remainingNodes = state.nodes
+        .filter(n => n.id !== id)
+        .map(n =>
+          nodeIdsToDowngrade.includes(n.id)
+            ? { ...n, type: 'node' as NodeType, data: { ...n.data, type: 'node' as NodeType } }
+            : n
+        );
+
       set({ 
         nodes: remainingNodes, 
         edges: remainingEdges,
