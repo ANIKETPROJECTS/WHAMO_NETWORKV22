@@ -111,6 +111,17 @@ export function PropertiesPanel() {
       }
     });
 
+    // Explicit conversion for pipeE (psi ↔ Pa) and pipeWT (ft ↔ m)
+    // Done explicitly rather than via generic loop to guarantee correct conversion
+    if (element.data?.pipeE != null && element.data.pipeE !== '') {
+      const val = parseFloat(String(element.data.pipeE));
+      if (!isNaN(val)) dataUpdate.pipeE = parseFloat(convertValue(val, currentUnit, newUnit, 'pressure').toFixed(2));
+    }
+    if (element.data?.pipeWT != null && element.data.pipeWT !== '') {
+      const val = parseFloat(String(element.data.pipeWT));
+      if (!isNaN(val)) dataUpdate.pipeWT = parseFloat(convertValue(val, currentUnit, newUnit, 'diameter').toFixed(6));
+    }
+
     // Handle schedulePoints
     if (element.data?.schedulePoints) {
       if (cachedTarget.schedulePoints) {
