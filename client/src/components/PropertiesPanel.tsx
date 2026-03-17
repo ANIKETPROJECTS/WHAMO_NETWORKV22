@@ -826,7 +826,19 @@ export function PropertiesPanel() {
                     type="number" 
                     step="0.001"
                     value={element.data?.friction || 0} 
-                    onChange={(e) => handleChange('friction', e.target.value)} 
+                    onChange={(e) => {
+                      handleChange('friction', e.target.value);
+                      if ((element.data?.frictionMode || 'direct') === 'manning') {
+                        const f = parseFloat(e.target.value);
+                        const diamFt = currentUnit === 'SI'
+                          ? (parseFloat(element.data?.diameter) || 0) * 3.28084
+                          : (parseFloat(element.data?.diameter) || 0);
+                        if (!isNaN(f) && f > 0 && diamFt > 0) {
+                          const n = Math.sqrt((f * Math.pow(diamFt, 1 / 3)) / 185);
+                          handleChange('manningsN', parseFloat(n.toFixed(6)).toString());
+                        }
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -837,9 +849,19 @@ export function PropertiesPanel() {
                     id="use-mannings"
                     data-testid="friction-mode-manning"
                     checked={(element.data?.frictionMode || 'direct') === 'manning'}
-                    onCheckedChange={(checked) =>
-                      handleChange('frictionMode', checked ? 'manning' : 'direct')
-                    }
+                    onCheckedChange={(checked) => {
+                      handleChange('frictionMode', checked ? 'manning' : 'direct');
+                      if (checked) {
+                        const f = parseFloat(element.data?.friction) || 0;
+                        const diamFt = currentUnit === 'SI'
+                          ? (parseFloat(element.data?.diameter) || 0) * 3.28084
+                          : (parseFloat(element.data?.diameter) || 0);
+                        if (f > 0 && diamFt > 0) {
+                          const n = Math.sqrt((f * Math.pow(diamFt, 1 / 3)) / 185);
+                          handleChange('manningsN', parseFloat(n.toFixed(6)).toString());
+                        }
+                      }
+                    }}
                   />
                   <Label htmlFor="use-mannings" className="cursor-pointer font-medium">
                     Calculate friction from Manning's n
