@@ -310,7 +310,6 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                   <Label>Request Type</Label>
                   <Select value={requestType} onValueChange={(v: any) => {
                     setRequestType(v);
-                    setSelectedElementId("");
                   }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select type..." />
