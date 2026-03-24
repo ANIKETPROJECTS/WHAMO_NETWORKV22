@@ -29,7 +29,9 @@ import {
   ListVideo,
   Info,
   CheckSquare,
+  Table2,
 } from "lucide-react";
+import { FlexTable } from "@/components/FlexTable";
 import {
   Menubar,
   MenubarContent,
@@ -86,6 +88,7 @@ export function Header({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [showFlexTable, setShowFlexTable] = useState(false);
 
   useEffect(() => {
     const handleFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement);
@@ -500,6 +503,13 @@ export function Header({
                   window.dispatchEvent(event);
                 }} className="gap-2">
                   <CheckSquare className="w-4 h-4" /> Node Selection
+                </MenubarItem>
+                <MenubarItem
+                  onClick={() => setShowFlexTable(true)}
+                  className="gap-2"
+                  data-testid="menu-flextable"
+                >
+                  <Table2 className="w-4 h-4" /> Flex Table
                 </MenubarItem>
                 <MenubarSeparator />
                 <Dialog>
@@ -1012,6 +1022,7 @@ export function Header({
           </Button>
         </div>
       </div>
+      <FlexTable open={showFlexTable} onClose={() => setShowFlexTable(false)} />
     </div>
   );
 }

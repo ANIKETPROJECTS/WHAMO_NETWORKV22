@@ -1,0 +1,160 @@
+🎯 Objective
+
+Add a new feature in the Tools menu called “Flex Table” that opens a dynamic editable table containing all element data (similar to the reference image provided).
+
+🧩 Feature Requirements
+1. Tools Menu Integration
+
+Add a new option under Tools → “Flex Table”
+
+On click, open a modal / panel / full-screen drawer containing the table
+
+2. Flex Table (Global Data Table)
+
+Display all elements in rows, including:
+
+Pipe
+
+Reservoir
+
+Conduit
+
+Surge Tank
+
+Flow Boundary
+
+All other elements in the network
+
+Columns should include (dynamic based on element type):
+
+Element Type
+
+Label / ID
+
+Material
+
+Diameter
+
+Length
+
+Wave Speed
+
+Flow
+
+Status flags (checkboxes)
+
+Any other existing parameters
+
+Structure should be dynamic + schema-driven (not hardcoded per element)
+
+3. Two-Way Data Binding (CRITICAL)
+
+When user updates a value in:
+
+✅ Flex Table → reflect immediately in right-side element panel
+
+✅ Right-side panel → reflect immediately in Flex Table
+
+Use centralized state management (React state / context / store)
+
+Ensure:
+
+No duplicate states
+
+No desync issues
+
+Real-time updates
+
+4. Unit Conversion (SI / FPS)
+
+Add SI / FPS toggle inside Flex Table (top-right)
+
+Behavior:
+
+Convert all numeric values in table dynamically
+
+Follow same logic as existing right-side unit conversion
+
+Maintain internal base values (no precision loss)
+
+5. Editing Capabilities
+
+Table cells should be:
+
+Editable (input / dropdown / checkbox based on type)
+
+Validated (numeric, required fields, etc.)
+
+Support:
+
+Inline editing
+
+Keyboard navigation (optional but preferred)
+
+6. UI/UX Design
+
+Clean, professional grid layout (similar to engineering software tables)
+
+Sticky header
+
+Scrollable body
+
+Highlight edited cells
+
+Alternate row colors (light gray/white)
+
+Match existing blue/white theme
+
+7. Performance Considerations
+
+Use virtualization if rows are large
+
+Avoid unnecessary re-renders
+
+Debounce updates if needed
+
+8. Architecture Guidelines
+
+Do NOT modify existing calculation logic
+
+Do NOT break existing element forms
+
+Extend current data model instead of duplicating
+
+Create reusable components:
+
+FlexTable
+
+TableRow
+
+EditableCell
+
+UnitToggle
+
+⚠️ Important Constraints
+
+Keep backward compatibility intact
+
+Maintain current workflow and UI behavior
+
+No breaking changes in:
+
+Diagram interactions
+
+Output generation (.INP / .OUT)
+
+✅ Expected Outcome
+
+A fully functional Flex Table
+
+Centralized editable dataset
+
+Seamless sync between:
+
+Diagram elements
+
+Right-side panel
+
+Flex Table
+
+Accurate SI/FPS conversion across all views
