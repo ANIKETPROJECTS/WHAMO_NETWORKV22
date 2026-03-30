@@ -480,6 +480,7 @@ function ColHeader({ col, unit }: { col: ColKey; unit: UnitSystem }) {
 // ─── Row cell renderer ────────────────────────────────────────────────────────
 function RowCells({
   col, row, idx, unit, globalUnit, changeEdge, changeNode, hSchedules, onOpenPairsEditor, onSetUnit,
+  isHighlighted, onHighlightRow,
 }: {
   col: ColKey;
   row: UnifiedRow;
@@ -491,6 +492,8 @@ function RowCells({
   hSchedules: any[];
   onOpenPairsEditor: (rowId: string, rowKind: 'node' | 'edge', pairsType: 'qSchedule' | 'hSchedule' | 'shapePairs', scheduleNumber?: number) => void;
   onSetUnit: (id: string, kind: 'node' | 'edge', unit: UnitSystem) => void;
+  isHighlighted: boolean;
+  onHighlightRow: () => void;
 }) {
   const d = row.data;
   const isEdge = row.kind === 'edge';
@@ -514,7 +517,19 @@ function RowCells({
 
   switch (col) {
     case 'rowNum': return (
-      <td key={col} className="border-r border-slate-200 px-2 py-[7px] text-slate-400 text-center text-xs w-9 select-none">{idx + 1}</td>
+      <td
+        key={col}
+        data-testid={`cell-rownum-${row.id}`}
+        className={cn(
+          'border-r px-2 py-[7px] text-center text-xs w-9 select-none cursor-pointer transition-colors',
+          isHighlighted
+            ? 'bg-[#1a73e8] text-white border-[#1557b0] font-bold'
+            : 'border-slate-200 text-slate-400 hover:bg-blue-100 hover:text-blue-700'
+        )}
+        onClick={e => { e.stopPropagation(); onHighlightRow(); }}
+      >
+        {idx + 1}
+      </td>
     );
     case 'unitToggle': return (
       <UnitToggleCell
@@ -741,6 +756,10 @@ function UnifiedTable({
   onSetUnit: (id: string, kind: 'node' | 'edge', unit: UnitSystem) => void;
 }) {
   const cols = COLS[filter] ?? COLS.all;
+  const [highlightedRowId, setHighlightedRowId] = useState<string | null>(null);
+
+  // Clear highlight when filter changes
+  useEffect(() => { setHighlightedRowId(null); }, [filter]);
 
   if (rows.length === 0) {
     return (
@@ -761,6 +780,7 @@ function UnifiedTable({
         <tbody>
           {rows.map((row, idx) => {
             const isEven = idx % 2 === 0;
+            const isHighlighted = highlightedRowId === row.id;
             const changeEdge = (f: string, v: string) => onChangeEdge(row.id, f, v, row.data);
             const changeNode = (f: string, v: string) => onChangeNode(row.id, f, v, row.data);
             return (
@@ -768,8 +788,13 @@ function UnifiedTable({
                 key={row.id}
                 data-testid={`row-${row.kind}-${row.id}`}
                 className={cn(
-                  'border-b border-slate-100 hover:bg-blue-50/30 transition-colors cursor-pointer',
-                  isEven ? 'bg-white' : 'bg-slate-50/50'
+                  'border-b transition-colors cursor-pointer',
+                  isHighlighted
+                    ? 'bg-blue-50 border-blue-200 outline outline-1 outline-blue-300'
+                    : cn(
+                        'border-slate-100 hover:bg-blue-50/30',
+                        isEven ? 'bg-white' : 'bg-slate-50/50'
+                      )
                 )}
                 onClick={() => row.kind === 'edge' ? onSelectEdge(row.id) : onSelectNode(row.id)}
               >
@@ -780,6 +805,8 @@ function UnifiedTable({
                     hSchedules={hSchedules}
                     onOpenPairsEditor={onOpenPairsEditor}
                     onSetUnit={onSetUnit}
+                    isHighlighted={isHighlighted}
+                    onHighlightRow={() => setHighlightedRowId(isHighlighted ? null : row.id)}
                   />
                 ))}
               </tr>
