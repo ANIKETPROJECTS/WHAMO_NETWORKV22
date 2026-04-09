@@ -50,6 +50,11 @@ export function DataList({ data, title }: { data: any, title: string }) {
 
   const entries = Object.entries(data).filter(([key]) => {
     if (HIDDEN_KEYS.has(key)) return false;
+
+    // Pump and Check Valve do not have node number or elevation
+    if (data.type === 'pump' || data.type === 'checkValve') {
+      if (key === 'nodeNumber' || key === 'elevation') return false;
+    }
     
     // Surge Tank specific filtering
     if (data.type === 'surgeTank' || data.type_st) {
