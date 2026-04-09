@@ -138,6 +138,8 @@ interface NetworkState {
   removeOutputRequest: (id: string) => void;
   addSnapshotTime: (time: number) => void;
   removeSnapshotTime: (index: number) => void;
+  addPcharType: (typeNum?: number) => void;
+  deletePcharType: (typeNum: number) => void;
   toggleLock: () => void;
   setProjectName: (name: string) => void;
   setProjectNameError: (error: string | null) => void;
@@ -992,6 +994,23 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
   removeSnapshotTime: (index) => {
     set({ snapshotTimes: get().snapshotTimes.filter((_, i) => i !== index) });
+  },
+
+  addPcharType: (typeNum) => {
+    const existing = get().pcharData;
+    const existingNums = Object.keys(existing).map(Number);
+    const newNum = typeNum !== undefined
+      ? typeNum
+      : (existingNums.length > 0 ? Math.max(...existingNums) + 1 : 1);
+    if (existing[newNum] !== undefined) return;
+    const defaultPchar: PcharType = { sratio: [], qratio: [], hratio: [], tratio: [] };
+    set({ pcharData: { ...existing, [newNum]: defaultPchar } });
+  },
+
+  deletePcharType: (typeNum) => {
+    const existing = { ...get().pcharData };
+    delete existing[typeNum];
+    set({ pcharData: existing });
   },
 
   toggleLock: () => {

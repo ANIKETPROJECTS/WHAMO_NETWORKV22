@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Trash2, ChevronDown, ChevronRight } from 'lucide-react';
+import { Trash2, ChevronDown, ChevronRight, Plus } from 'lucide-react';
 
 function PcharEditor({ pType, activePc, updatePcharData }: {
   pType: number;
@@ -125,7 +125,11 @@ export function PropertiesPanel() {
     addHSchedule,
     pcharData,
     updatePcharData,
+    addPcharType,
+    deletePcharType,
   } = useNetworkStore();
+
+  const [newTypeNum, setNewTypeNum] = useState<string>("");
 
   if (!selectedElementId) return null;
 
@@ -651,19 +655,68 @@ export function PropertiesPanel() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="pumpType">Pump Type (PCHAR TYPE)</Label>
-                  <Select
-                    value={String(element.data?.pumpType ?? 1)}
-                    onValueChange={(v) => handleChange('pumpType', v)}
-                  >
-                    <SelectTrigger id="pumpType" data-testid="select-pumptype">
-                      <SelectValue placeholder="Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(pcharData).map(Number).sort((a, b) => a - b).map(t => (
-                        <SelectItem key={t} value={String(t)}>TYPE {t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="flex gap-1 items-center">
+                    <Select
+                      value={String(element.data?.pumpType ?? 1)}
+                      onValueChange={(v) => handleChange('pumpType', v)}
+                    >
+                      <SelectTrigger id="pumpType" data-testid="select-pumptype" className="flex-1">
+                        <SelectValue placeholder="Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.keys(pcharData).map(Number).sort((a, b) => a - b).map(t => (
+                          <SelectItem key={t} value={String(t)}>TYPE {t}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-9 w-9 shrink-0 text-destructive hover:text-destructive"
+                      title="Delete this PCHAR type"
+                      disabled={Object.keys(pcharData).length <= 1}
+                      onClick={() => {
+                        const currentType = Number(element.data?.pumpType ?? 1);
+                        deletePcharType(currentType);
+                        const remaining = Object.keys(pcharData).map(Number).filter(t => t !== currentType).sort((a, b) => a - b);
+                        if (remaining.length > 0) handleChange('pumpType', String(remaining[0]));
+                      }}
+                      data-testid="button-delete-pchar-type"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <input
+                      type="number"
+                      min="1"
+                      className="flex h-8 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                      placeholder="Type no. (blank = auto)"
+                      value={newTypeNum}
+                      onChange={(e) => setNewTypeNum(e.target.value)}
+                      data-testid="input-new-pchar-type"
+                    />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 shrink-0"
+                      title="Add new PCHAR type"
+                      onClick={() => {
+                        const parsed = newTypeNum.trim() !== "" ? parseInt(newTypeNum) : undefined;
+                        const existingNums = Object.keys(pcharData).map(Number);
+                        const nextNum = parsed !== undefined && !isNaN(parsed)
+                          ? parsed
+                          : (existingNums.length > 0 ? Math.max(...existingNums) + 1 : 1);
+                        if (pcharData[nextNum] !== undefined) return;
+                        addPcharType(nextNum);
+                        handleChange('pumpType', String(nextNum));
+                        setNewTypeNum("");
+                      }}
+                      data-testid="button-add-pchar-type"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="grid gap-1">
