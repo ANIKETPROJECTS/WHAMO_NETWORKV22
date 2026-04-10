@@ -487,7 +487,7 @@ export function PropertiesPanel() {
                       <Input
                         id="nodeNum"
                         data-testid="input-node-number"
-                        type="number"
+                        type="text" inputMode="decimal"
                         value={nodeNumInput}
                         onChange={(e) => setNodeNumInput(e.target.value)}
                         onBlur={handleNodeNumberBlur}
@@ -509,7 +509,7 @@ export function PropertiesPanel() {
                 <Label htmlFor="elev">{element.data?.type === 'surgeTank' ? 'Node Elevation' : 'Elevation'} ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                 <Input 
                   id="elev" 
-                  type="number" 
+                  type="text" inputMode="decimal" 
                   step="any"
                   value={element.data?.elevation !== undefined ? parseFloat(Number(element.data.elevation).toFixed(8)) : 0} 
                   onChange={(e) => handleChange('elevation', e.target.value)} 
@@ -541,7 +541,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="resElev">Reservoir Elevation (HW) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                   <Input 
                     id="resElev" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     step="any"
                     value={element.data?.reservoirElevation !== undefined ? parseFloat(Number(element.data.reservoirElevation).toFixed(8)) : 0} 
                     onChange={(e) => handleChange('reservoirElevation', e.target.value)} 
@@ -609,7 +609,7 @@ export function PropertiesPanel() {
                           <div className="grid gap-1 flex-1">
                             <Label className="text-[10px]">Time (T)</Label>
                             <Input 
-                              type="number"
+                              type="text" inputMode="decimal"
                               className="h-7 text-xs"
                               value={point.time}
                               onChange={(e) => {
@@ -626,7 +626,7 @@ export function PropertiesPanel() {
                           <div className="grid gap-1 flex-1">
                             <Label className="text-[10px]">Head (H) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                             <Input 
-                              type="number"
+                              type="text" inputMode="decimal"
                               className="h-7 text-xs"
                               value={point.head}
                               onChange={(e) => {
@@ -670,7 +670,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="scheduleNum">Schedule Number</Label>
                     <Input 
                       id="scheduleNum" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       value={element.data?.scheduleNumber || 0} 
                       onChange={(e) => handleChange('scheduleNumber', e.target.value)} 
                     />
@@ -698,7 +698,7 @@ export function PropertiesPanel() {
                           <div className="grid gap-1 flex-1">
                             <Label className="text-[10px]">Time (T)</Label>
                             <Input 
-                              type="number"
+                              type="text" inputMode="decimal"
                               className="h-7 text-xs"
                               value={point.time}
                               onChange={(e) => {
@@ -711,7 +711,7 @@ export function PropertiesPanel() {
                           <div className="grid gap-1 flex-1">
                             <Label className="text-[10px]">Flow (Q) ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
                             <Input 
-                              type="number"
+                              type="text" inputMode="decimal"
                               className="h-7 text-xs"
                               value={point.flow}
                               onChange={(e) => {
@@ -792,7 +792,7 @@ export function PropertiesPanel() {
                           onKeyDown={(e) => e.stopPropagation()}
                         >
                           <input
-                            type="number"
+                            type="text" inputMode="decimal"
                             min="1"
                             className="flex h-7 w-full rounded border border-input bg-transparent px-2 py-0.5 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                             placeholder="Type no. (blank = auto)"
@@ -846,31 +846,31 @@ export function PropertiesPanel() {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="grid gap-1">
                     <Label htmlFor="rq" className="text-xs">Rated Flow RQ ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
-                    <Input id="rq" data-testid="input-rq" type="number" step="any"
+                    <Input id="rq" data-testid="input-rq" type="text" inputMode="decimal" step="any"
                       value={element.data?.rq !== undefined ? Number(element.data.rq) : 0}
                       onChange={(e) => handleChange('rq', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rhead" className="text-xs">Rated Head RHEAD ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input id="rhead" data-testid="input-rhead" type="number" step="any"
+                    <Input id="rhead" data-testid="input-rhead" type="text" inputMode="decimal" step="any"
                       value={element.data?.rhead !== undefined ? Number(element.data.rhead) : 0}
                       onChange={(e) => handleChange('rhead', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rspeed" className="text-xs">Rated Speed RSPEED (RPM)</Label>
-                    <Input id="rspeed" data-testid="input-rspeed" type="number" step="any"
+                    <Input id="rspeed" data-testid="input-rspeed" type="text" inputMode="decimal" step="any"
                       value={element.data?.rspeed !== undefined ? Number(element.data.rspeed) : 0}
                       onChange={(e) => handleChange('rspeed', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rtorque" className="text-xs">Rated Torque RTOROUE</Label>
-                    <Input id="rtorque" data-testid="input-rtorque" type="number" step="any"
+                    <Input id="rtorque" data-testid="input-rtorque" type="text" inputMode="decimal" step="any"
                       value={element.data?.rtorque !== undefined ? Number(element.data.rtorque) : 0}
                       onChange={(e) => handleChange('rtorque', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1 col-span-2">
                     <Label htmlFor="wr2" className="text-xs">WR² (Moment of Inertia)</Label>
-                    <Input id="wr2" data-testid="input-wr2" type="number" step="any"
+                    <Input id="wr2" data-testid="input-wr2" type="text" inputMode="decimal" step="any"
                       value={element.data?.wr2 !== undefined ? Number(element.data.wr2) : 0}
                       onChange={(e) => handleChange('wr2', e.target.value)} className="h-7 text-xs" />
                   </div>
@@ -903,7 +903,7 @@ export function PropertiesPanel() {
                 <Input
                   id="valveDiam"
                   data-testid="input-valvediam"
-                  type="number"
+                  type="text" inputMode="decimal"
                   step="any"
                   value={element.data?.valveDiam !== undefined ? Number(element.data.valveDiam) : 0}
                   onChange={(e) => handleChange('valveDiam', e.target.value)}
@@ -937,7 +937,7 @@ export function PropertiesPanel() {
                 <Label htmlFor="tankTop">Top Elevation ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                 <Input 
                   id="tankTop" 
-                  type="number" 
+                  type="text" inputMode="decimal" 
                   step="any"
                   value={element.data?.tankTop !== undefined ? parseFloat(Number(element.data.tankTop).toFixed(8)) : 0} 
                   onChange={(e) => handleChange('tankTop', e.target.value)} 
@@ -947,7 +947,7 @@ export function PropertiesPanel() {
                 <Label htmlFor="tankBottom">Bottom Elevation ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                 <Input 
                   id="tankBottom" 
-                  type="number" 
+                  type="text" inputMode="decimal" 
                   step="any"
                   value={element.data?.tankBottom !== undefined ? parseFloat(Number(element.data.tankBottom).toFixed(8)) : 0} 
                   onChange={(e) => handleChange('tankBottom', e.target.value)} 
@@ -959,7 +959,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="htank">Initial Water Level (HTANK) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                   <Input 
                     id="htank" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     step="any"
                     value={element.data?.initialWaterLevel !== undefined ? parseFloat(Number(element.data.initialWaterLevel).toFixed(8)) : 0} 
                     onChange={(e) => handleChange('initialWaterLevel', e.target.value)} 
@@ -973,7 +973,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="riserdiam">Riser Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                     <Input 
                       id="riserdiam" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       step="any"
                       value={element.data?.riserDiameter !== undefined ? parseFloat(Number(element.data.riserDiameter).toFixed(8)) : 0} 
                       onChange={(e) => handleChange('riserDiameter', e.target.value)} 
@@ -983,7 +983,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="risertop">Riser Top Elevation ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                     <Input 
                       id="risertop" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       step="any"
                       value={element.data?.riserTop !== undefined ? parseFloat(Number(element.data.riserTop).toFixed(8)) : 0} 
                       onChange={(e) => handleChange('riserTop', e.target.value)} 
@@ -1006,7 +1006,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                   <Input 
                     id="diam" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     step="any"
                     value={element.data?.diameter !== undefined ? parseFloat(Number(element.data.diameter).toFixed(8)) : 0} 
                     onChange={(e) => handleChange('diameter', e.target.value)} 
@@ -1019,7 +1019,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="st-celerity">Celerity ({currentUnit === 'SI' ? 'm/s' : 'ft/s'})</Label>
                   <Input 
                     id="st-celerity" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     step="any"
                     value={element.data?.celerity !== undefined ? parseFloat(Number(element.data.celerity).toFixed(8)) : 0} 
                     onChange={(e) => handleChange('celerity', e.target.value)} 
@@ -1029,7 +1029,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="st-friction">Friction</Label>
                   <Input 
                     id="st-friction" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     step="any"
                     value={element.data?.friction !== undefined ? parseFloat(Number(element.data.friction).toFixed(8)) : 0} 
                     onChange={(e) => handleChange('friction', e.target.value)} 
@@ -1052,7 +1052,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="st-cplus">CPLUS</Label>
                     <Input 
                       id="st-cplus" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       step="any"
                       value={element.data?.cplus !== undefined ? parseFloat(Number(element.data.cplus).toFixed(8)) : 0} 
                       onChange={(e) => handleChange('cplus', e.target.value)} 
@@ -1062,7 +1062,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="st-cminus">CMINUS</Label>
                     <Input 
                       id="st-cminus" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       step="any"
                       value={element.data?.cminus !== undefined ? parseFloat(Number(element.data.cminus).toFixed(8)) : 0} 
                       onChange={(e) => handleChange('cminus', e.target.value)} 
@@ -1094,7 +1094,7 @@ export function PropertiesPanel() {
                         <div className="grid gap-1 flex-1">
                           <Label className="text-[10px]">E ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                           <Input 
-                            type="number"
+                            type="text" inputMode="decimal"
                             step="any"
                             className="h-7 text-xs"
                             value={pair.e !== undefined ? parseFloat(Number(pair.e).toFixed(8)) : 0}
@@ -1108,7 +1108,7 @@ export function PropertiesPanel() {
                         <div className="grid gap-1 flex-1">
                           <Label className="text-[10px]">A ({currentUnit === 'SI' ? 'm²' : 'ft²'})</Label>
                           <Input 
-                            type="number"
+                            type="text" inputMode="decimal"
                             step="any"
                             className="h-7 text-xs"
                             value={pair.a !== undefined ? parseFloat(Number(pair.a).toFixed(8)) : 0}
@@ -1158,7 +1158,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="distance">DISTANCE ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                     <Input 
                       id="distance" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       value={element.data?.distance || 0} 
                       onChange={(e) => handleChange('distance', e.target.value)} 
                     />
@@ -1167,7 +1167,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="area">AREA ({currentUnit === 'SI' ? 'm²' : 'ft²'})</Label>
                     <Input 
                       id="area" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       value={element.data?.area || 0} 
                       onChange={(e) => handleChange('area', e.target.value)} 
                     />
@@ -1176,7 +1176,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="d">D ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                     <Input 
                       id="d" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       value={element.data?.d || 0} 
                       onChange={(e) => handleChange('d', e.target.value)} 
                     />
@@ -1185,7 +1185,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="a">A ({currentUnit === 'SI' ? 'm²' : 'ft²'})</Label>
                     <Input 
                       id="a" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       value={element.data?.a || 0} 
                       onChange={(e) => handleChange('a', e.target.value)} 
                     />
@@ -1198,7 +1198,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="length">Length ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                   <Input 
                     id="length" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     value={element.data?.length || 0} 
                     onChange={(e) => handleChange('length', e.target.value)} 
                   />
@@ -1208,7 +1208,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                     <Input 
                       id="diam" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       value={element.data?.diameter || 0} 
                       onChange={(e) => handleChange('diameter', e.target.value)} 
                     />
@@ -1220,7 +1220,7 @@ export function PropertiesPanel() {
                   <Label htmlFor="celerity">Wave Speed ({currentUnit === 'SI' ? 'm/s' : 'ft/s'})</Label>
                   <Input 
                     id="celerity" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     value={element.data?.celerity || 0} 
                     onChange={(e) => {
                       handleChange('celerity', e.target.value);
@@ -1232,7 +1232,7 @@ export function PropertiesPanel() {
                   <Input 
                     id="friction" 
                     data-testid="input-friction"
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     step="0.001"
                     value={element.data?.friction || 0} 
                     onChange={(e) => {
@@ -1265,7 +1265,7 @@ export function PropertiesPanel() {
                     <Input
                       id="pipe-e"
                       data-testid="input-pipe-e"
-                      type="number"
+                      type="text" inputMode="decimal"
                       placeholder={currentUnit === 'SI' ? 'e.g. 2.07e11' : 'e.g. 30000000'}
                       value={element.data?.pipeE ?? ''}
                       onChange={(e) => {
@@ -1289,7 +1289,7 @@ export function PropertiesPanel() {
                     <Input
                       id="pipe-wt"
                       data-testid="input-pipe-wt"
-                      type="number"
+                      type="text" inputMode="decimal"
                       step="0.001"
                       placeholder={currentUnit === 'SI' ? 'e.g. 0.006' : 'e.g. 0.02'}
                       value={element.data?.pipeWT ?? ''}
@@ -1328,7 +1328,7 @@ export function PropertiesPanel() {
                   <Input
                     id="mannings-n"
                     data-testid="input-mannings-n"
-                    type="number"
+                    type="text" inputMode="decimal"
                     step="0.0001"
                     placeholder="e.g. 0.013"
                     value={(() => {
@@ -1371,7 +1371,7 @@ export function PropertiesPanel() {
                 <div className="flex items-center gap-2">
                   <Input 
                     id="segments" 
-                    type="number" 
+                    type="text" inputMode="decimal" 
                     className="flex-1"
                     value={element.data?.numSegments || 1} 
                     onChange={(e) => handleChange('numSegments', e.target.value)} 
@@ -1402,7 +1402,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="cplus">CPLUS (opt)</Label>
                     <Input 
                       id="cplus" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       placeholder="0.0"
                       value={element.data?.cplus ?? ''} 
                       onChange={(e) => handleChange('cplus', e.target.value === '' ? undefined : e.target.value)} 
@@ -1412,7 +1412,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="cminus">CMINUS (opt)</Label>
                     <Input 
                       id="cminus" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       placeholder="0.0"
                       value={element.data?.cminus ?? ''} 
                       onChange={(e) => handleChange('cminus', e.target.value === '' ? undefined : e.target.value)} 
@@ -1430,7 +1430,7 @@ export function PropertiesPanel() {
                 <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                 <Input 
                   id="diam" 
-                  type="number" 
+                  type="text" inputMode="decimal" 
                   value={element.data?.diameter || 0} 
                   onChange={(e) => handleChange('diameter', e.target.value)} 
                 />
@@ -1451,7 +1451,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="cplus">CPLUS (opt)</Label>
                     <Input 
                       id="cplus" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       placeholder="0.0"
                       value={element.data?.cplus ?? ''} 
                       onChange={(e) => handleChange('cplus', e.target.value === '' ? undefined : e.target.value)} 
@@ -1461,7 +1461,7 @@ export function PropertiesPanel() {
                     <Label htmlFor="cminus">CMINUS (opt)</Label>
                     <Input 
                       id="cminus" 
-                      type="number" 
+                      type="text" inputMode="decimal" 
                       placeholder="0.0"
                       value={element.data?.cminus ?? ''} 
                       onChange={(e) => handleChange('cminus', e.target.value === '' ? undefined : e.target.value)} 

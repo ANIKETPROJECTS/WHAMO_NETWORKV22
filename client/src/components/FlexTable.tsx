@@ -170,8 +170,8 @@ function EditableCell({ value, type = 'text', onChange, readOnly, dimmed, testId
           ref={inputRef}
           data-testid={testId}
           className="w-full h-[30px] px-2 text-xs border-0 outline-none ring-1 ring-blue-500 ring-inset bg-white"
-          type={type === 'number' ? 'number' : 'text'}
-          step="any"
+          type="text"
+          inputMode={type === 'number' ? 'decimal' : 'text'}
           value={localVal}
           onChange={e => setLocalVal(e.target.value)}
           onBlur={commit}
@@ -408,14 +408,14 @@ function PairsEditorModal({
               <input
                 data-testid={`pair-time-${idx}`}
                 className="border border-slate-200 rounded px-2 h-7 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400"
-                type="number" step="any"
+                type="text" inputMode="decimal" step="any"
                 value={row.time}
                 onChange={e => handleChange(idx, 'time', e.target.value)}
               />
               <input
                 data-testid={`pair-value-${idx}`}
                 className="border border-slate-200 rounded px-2 h-7 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400"
-                type="number" step="any"
+                type="text" inputMode="decimal" step="any"
                 value={row.value}
                 onChange={e => handleChange(idx, 'value', e.target.value)}
               />
@@ -569,30 +569,30 @@ function RowCells({
         onChange={isEdge ? v => changeEdge('type', v) : undefined} testId={`cell-ptype-${row.id}`} />
     );
     case 'nodeNum': return (
-      <EditableCell key={col} value={!isEdge ? (d.nodeNumber ?? '') : ''} type="number"
+      <EditableCell key={col} value={!isEdge ? (d.nodeNumber ?? '') : ''} type="text" inputMode="decimal"
         readOnly={isEdge} dimmed={isEdge} onChange={v => changeNode('nodeNumber', v)} testId={`cell-nodenum-${row.id}`} />
     );
     case 'diameter': {
       const surgeShapeActive = isSurge && d.hasShape;
       return (
-        <EditableCell key={col} value={fmt(d.diameter)} type="number"
+        <EditableCell key={col} value={fmt(d.diameter)} type="text" inputMode="decimal"
           readOnly={(!isEdge && !isSurge) || surgeShapeActive}
           dimmed={(!isEdge && !isSurge && !isConduit && !isDummy) || surgeShapeActive}
           onChange={v => change('diameter', v)} testId={`cell-diameter-${row.id}`} />
       );
     }
     case 'length': return (
-      <EditableCell key={col} value={isEdge && !isDummy ? fmt(d.length) : ''} type="number"
+      <EditableCell key={col} value={isEdge && !isDummy ? fmt(d.length) : ''} type="text" inputMode="decimal"
         readOnly={!isEdge || isDummy} dimmed={!isEdge || isDummy}
         onChange={v => changeEdge('length', v)} testId={`cell-length-${row.id}`} />
     );
     case 'celerity': return (
-      <EditableCell key={col} value={fmt(d.celerity)} type="number"
+      <EditableCell key={col} value={fmt(d.celerity)} type="text" inputMode="decimal"
         readOnly={!isEdge && !isSurge} dimmed={!isEdge && !isSurge}
         onChange={v => change('celerity', v)} testId={`cell-celerity-${row.id}`} />
     );
     case 'friction': return (
-      <EditableCell key={col} value={fmt(d.friction)} type="number"
+      <EditableCell key={col} value={fmt(d.friction)} type="text" inputMode="decimal"
         readOnly={!isEdge && !isSurge} dimmed={!isEdge && !isSurge}
         onChange={v => change('friction', v)} testId={`cell-friction-${row.id}`} />
     );
@@ -606,13 +606,13 @@ function RowCells({
         return '';
       })();
       return (
-        <EditableCell key={col} value={mN} type="number"
+        <EditableCell key={col} value={mN} type="text" inputMode="decimal"
           readOnly={!isConduit} dimmed={!isConduit}
           onChange={v => changeEdge('manningsN', v)} testId={`cell-manningsn-${row.id}`} />
       );
     }
     case 'segments': return (
-      <EditableCell key={col} value={isEdge && !isDummy ? fmt(d.numSegments) : ''} type="number"
+      <EditableCell key={col} value={isEdge && !isDummy ? fmt(d.numSegments) : ''} type="text" inputMode="decimal"
         readOnly={!isEdge || isDummy} dimmed={!isEdge || isDummy}
         onChange={v => changeEdge('numSegments', v)} testId={`cell-segments-${row.id}`} />
     );
@@ -625,22 +625,22 @@ function RowCells({
         onChange={v => change('hasAddedLoss', String(v))} testId={`cell-addedloss-${row.id}`} />
     );
     case 'cplus': return (
-      <EditableCell key={col} value={d.cplus ?? ''} type="number"
+      <EditableCell key={col} value={d.cplus ?? ''} type="text" inputMode="decimal"
         readOnly={!d.hasAddedLoss} dimmed={!d.hasAddedLoss}
         onChange={v => change('cplus', v)} testId={`cell-cplus-${row.id}`} />
     );
     case 'cminus': return (
-      <EditableCell key={col} value={d.cminus ?? ''} type="number"
+      <EditableCell key={col} value={d.cminus ?? ''} type="text" inputMode="decimal"
         readOnly={!d.hasAddedLoss} dimmed={!d.hasAddedLoss}
         onChange={v => change('cminus', v)} testId={`cell-cminus-${row.id}`} />
     );
     case 'pipeE': return (
-      <EditableCell key={col} value={d.pipeE ?? ''} type="number"
+      <EditableCell key={col} value={d.pipeE ?? ''} type="text" inputMode="decimal"
         readOnly={!isConduit} dimmed={!isConduit}
         onChange={v => changeEdge('pipeE', v)} testId={`cell-pipee-${row.id}`} />
     );
     case 'pipeWT': return (
-      <EditableCell key={col} value={d.pipeWT ?? ''} type="number"
+      <EditableCell key={col} value={d.pipeWT ?? ''} type="text" inputMode="decimal"
         readOnly={!isConduit} dimmed={!isConduit}
         onChange={v => changeEdge('pipeWT', v)} testId={`cell-pipewt-${row.id}`} />
     );
@@ -649,17 +649,17 @@ function RowCells({
         dimmed={!isConduit} onChange={isConduit ? v => changeEdge('variable', String(v)) : undefined} testId={`cell-variable-${row.id}`} />
     );
     case 'distance': return (
-      <EditableCell key={col} value={d.distance ?? ''} type="number"
+      <EditableCell key={col} value={d.distance ?? ''} type="text" inputMode="decimal"
         readOnly={!d.variable} dimmed={!d.variable}
         onChange={v => changeEdge('distance', v)} testId={`cell-distance-${row.id}`} />
     );
     case 'area': return (
-      <EditableCell key={col} value={d.area ?? ''} type="number"
+      <EditableCell key={col} value={d.area ?? ''} type="text" inputMode="decimal"
         readOnly={!d.variable} dimmed={!d.variable}
         onChange={v => changeEdge('area', v)} testId={`cell-area-${row.id}`} />
     );
     case 'elevation': return (
-      <EditableCell key={col} value={!isFlow ? fmt(d.elevation) : ''} type="number"
+      <EditableCell key={col} value={!isFlow ? fmt(d.elevation) : ''} type="text" inputMode="decimal"
         readOnly={isEdge || isFlow} dimmed={isEdge || isFlow}
         onChange={v => changeNode('elevation', v)} testId={`cell-elev-${row.id}`} />
     );
@@ -668,12 +668,12 @@ function RowCells({
         dimmed={!isRes} onChange={isRes ? v => changeNode('mode', v) : undefined} testId={`cell-mode-${row.id}`} />
     );
     case 'resElev': return (
-      <EditableCell key={col} value={isRes && d.mode !== 'schedule' ? fmt(d.reservoirElevation) : ''} type="number"
+      <EditableCell key={col} value={isRes && d.mode !== 'schedule' ? fmt(d.reservoirElevation) : ''} type="text" inputMode="decimal"
         readOnly={!isRes || d.mode === 'schedule'} dimmed={!isRes || d.mode === 'schedule'}
         onChange={v => changeNode('reservoirElevation', v)} testId={`cell-reselev-${row.id}`} />
     );
     case 'hSchedNum': return (
-      <EditableCell key={col} value={isRes && d.mode === 'schedule' ? (d.hScheduleNumber ?? 1) : ''} type="number"
+      <EditableCell key={col} value={isRes && d.mode === 'schedule' ? (d.hScheduleNumber ?? 1) : ''} type="text" inputMode="decimal"
         readOnly={!isRes || d.mode !== 'schedule'} dimmed={!isRes || d.mode !== 'schedule'}
         onChange={v => changeNode('hScheduleNumber', v)} testId={`cell-hschednum-${row.id}`} />
     );
@@ -694,28 +694,28 @@ function RowCells({
         dimmed={!isSurge} onChange={isSurge ? v => changeNode('type_st', v) : undefined} testId={`cell-sttype-${row.id}`} />
     );
     case 'tankTop': return (
-      <EditableCell key={col} value={isSurge ? fmt(d.tankTop) : ''} type="number"
+      <EditableCell key={col} value={isSurge ? fmt(d.tankTop) : ''} type="text" inputMode="decimal"
         readOnly={!isSurge} dimmed={!isSurge}
         onChange={v => changeNode('tankTop', v)} testId={`cell-tanktop-${row.id}`} />
     );
     case 'tankBot': return (
-      <EditableCell key={col} value={isSurge ? fmt(d.tankBottom) : ''} type="number"
+      <EditableCell key={col} value={isSurge ? fmt(d.tankBottom) : ''} type="text" inputMode="decimal"
         readOnly={!isSurge} dimmed={!isSurge}
         onChange={v => changeNode('tankBottom', v)} testId={`cell-tankbot-${row.id}`} />
     );
     case 'initWaterLevel': return (
-      <EditableCell key={col} value={isSurge && (d.type_st === 'AIRTANK' || d.type_st === 'DIFFERENTIAL') ? fmt(d.initialWaterLevel) : ''} type="number"
+      <EditableCell key={col} value={isSurge && (d.type_st === 'AIRTANK' || d.type_st === 'DIFFERENTIAL') ? fmt(d.initialWaterLevel) : ''} type="text" inputMode="decimal"
         readOnly={!isSurge || (d.type_st !== 'AIRTANK' && d.type_st !== 'DIFFERENTIAL')}
         dimmed={!isSurge || (d.type_st !== 'AIRTANK' && d.type_st !== 'DIFFERENTIAL')}
         onChange={v => changeNode('initialWaterLevel', v)} testId={`cell-htank-${row.id}`} />
     );
     case 'riserDiam': return (
-      <EditableCell key={col} value={isSurge && d.type_st === 'DIFFERENTIAL' ? fmt(d.riserDiameter) : ''} type="number"
+      <EditableCell key={col} value={isSurge && d.type_st === 'DIFFERENTIAL' ? fmt(d.riserDiameter) : ''} type="text" inputMode="decimal"
         readOnly={!isSurge || d.type_st !== 'DIFFERENTIAL'} dimmed={!isSurge || d.type_st !== 'DIFFERENTIAL'}
         onChange={v => changeNode('riserDiameter', v)} testId={`cell-riserdiam-${row.id}`} />
     );
     case 'riserTop': return (
-      <EditableCell key={col} value={isSurge && d.type_st === 'DIFFERENTIAL' ? fmt(d.riserTop) : ''} type="number"
+      <EditableCell key={col} value={isSurge && d.type_st === 'DIFFERENTIAL' ? fmt(d.riserTop) : ''} type="text" inputMode="decimal"
         readOnly={!isSurge || d.type_st !== 'DIFFERENTIAL'} dimmed={!isSurge || d.type_st !== 'DIFFERENTIAL'}
         onChange={v => changeNode('riserTop', v)} testId={`cell-risertop-${row.id}`} />
     );
@@ -732,7 +732,7 @@ function RowCells({
       />
     );
     case 'schedNum': return (
-      <EditableCell key={col} value={isFlow ? (d.scheduleNumber ?? '') : ''} type="number"
+      <EditableCell key={col} value={isFlow ? (d.scheduleNumber ?? '') : ''} type="text" inputMode="decimal"
         readOnly={!isFlow} dimmed={!isFlow}
         onChange={v => changeNode('scheduleNumber', v)} testId={`cell-schednum-${row.id}`} />
     );
@@ -759,27 +759,27 @@ function RowCells({
       );
     }
     case 'rq': return (
-      <EditableCell key={col} value={isPump ? fmt(d.rq ?? 0) : ''} type="number"
+      <EditableCell key={col} value={isPump ? fmt(d.rq ?? 0) : ''} type="text" inputMode="decimal"
         readOnly={!isPump} dimmed={!isPump}
         onChange={v => changeNode('rq', v)} testId={`cell-rq-${row.id}`} />
     );
     case 'rhead': return (
-      <EditableCell key={col} value={isPump ? fmt(d.rhead ?? 0) : ''} type="number"
+      <EditableCell key={col} value={isPump ? fmt(d.rhead ?? 0) : ''} type="text" inputMode="decimal"
         readOnly={!isPump} dimmed={!isPump}
         onChange={v => changeNode('rhead', v)} testId={`cell-rhead-${row.id}`} />
     );
     case 'rspeed': return (
-      <EditableCell key={col} value={isPump ? fmt(d.rspeed ?? 0) : ''} type="number"
+      <EditableCell key={col} value={isPump ? fmt(d.rspeed ?? 0) : ''} type="text" inputMode="decimal"
         readOnly={!isPump} dimmed={!isPump}
         onChange={v => changeNode('rspeed', v)} testId={`cell-rspeed-${row.id}`} />
     );
     case 'rtorque': return (
-      <EditableCell key={col} value={isPump ? fmt(d.rtorque ?? 0) : ''} type="number"
+      <EditableCell key={col} value={isPump ? fmt(d.rtorque ?? 0) : ''} type="text" inputMode="decimal"
         readOnly={!isPump} dimmed={!isPump}
         onChange={v => changeNode('rtorque', v)} testId={`cell-rtorque-${row.id}`} />
     );
     case 'wr2': return (
-      <EditableCell key={col} value={isPump ? fmt(d.wr2 ?? 0) : ''} type="number"
+      <EditableCell key={col} value={isPump ? fmt(d.wr2 ?? 0) : ''} type="text" inputMode="decimal"
         readOnly={!isPump} dimmed={!isPump}
         onChange={v => changeNode('wr2', v)} testId={`cell-wr2-${row.id}`} />
     );
@@ -789,7 +789,7 @@ function RowCells({
         dimmed={!isCheckValve} onChange={isCheckValve ? v => changeNode('valveStatus', v) : undefined} testId={`cell-valvestatus-${row.id}`} />
     );
     case 'valveDiam': return (
-      <EditableCell key={col} value={isCheckValve ? fmt(d.valveDiam ?? 0) : ''} type="number"
+      <EditableCell key={col} value={isCheckValve ? fmt(d.valveDiam ?? 0) : ''} type="text" inputMode="decimal"
         readOnly={!isCheckValve} dimmed={!isCheckValve}
         onChange={v => changeNode('valveDiam', v)} testId={`cell-valvediam-${row.id}`} />
     );

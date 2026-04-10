@@ -343,7 +343,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                     <div className="grid gap-2">
                       <Label>TIME</Label>
                       <input
-                        type="number"
+                        type="text" inputMode="decimal"
                         className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                         value={snapshotTimeInput}
                         onChange={(e) => setSnapshotTimeInput(e.target.value)}
@@ -476,7 +476,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                         <div className="col-span-3 space-y-1">
                           <Label className="text-[10px]">DTCOMP</Label>
                           <Input 
-                            type="number" 
+                            type="text" inputMode="decimal" 
                             step="0.001"
                             className="h-8 text-xs"
                             value={stage.dtcomp}
@@ -490,7 +490,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                         <div className="col-span-3 space-y-1">
                           <Label className="text-[10px]">DTOUT</Label>
                           <Input 
-                            type="number" 
+                            type="text" inputMode="decimal" 
                             step="0.01"
                             className="h-8 text-xs"
                             value={stage.dtout}
@@ -504,7 +504,7 @@ export function Toolbar({ onExport, onSave, onLoad }: { onExport: (fileName?: st
                         <div className="col-span-4 space-y-1">
                           <Label className="text-[10px]">TMAX</Label>
                           <Input 
-                            type="number" 
+                            type="text" inputMode="decimal" 
                             className="h-8 text-xs"
                             value={stage.tmax}
                             onChange={e => {
