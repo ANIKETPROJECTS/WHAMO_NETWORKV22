@@ -511,7 +511,7 @@ export function PropertiesPanel() {
                   id="elev" 
                   type="text" inputMode="decimal" 
                   step="any"
-                  value={element.data?.elevation !== undefined ? parseFloat(Number(element.data.elevation).toFixed(8)) : 0} 
+                  value={element.data?.elevation !== undefined ? parseFloat(Number(element.data.elevation).toFixed(8)) : ''} 
                   onChange={(e) => handleChange('elevation', e.target.value)} 
                 />
               </div>
@@ -543,7 +543,7 @@ export function PropertiesPanel() {
                     id="resElev" 
                     type="text" inputMode="decimal" 
                     step="any"
-                    value={element.data?.reservoirElevation !== undefined ? parseFloat(Number(element.data.reservoirElevation).toFixed(8)) : 0} 
+                    value={element.data?.reservoirElevation !== undefined ? parseFloat(Number(element.data.reservoirElevation).toFixed(8)) : ''} 
                     onChange={(e) => handleChange('reservoirElevation', e.target.value)} 
                   />
                 </div>
@@ -671,7 +671,7 @@ export function PropertiesPanel() {
                     <Input 
                       id="scheduleNum" 
                       type="text" inputMode="decimal" 
-                      value={element.data?.scheduleNumber || 0} 
+                      value={element.data?.scheduleNumber ?? ''} 
                       onChange={(e) => handleChange('scheduleNumber', e.target.value)} 
                     />
                   </div>
@@ -847,31 +847,31 @@ export function PropertiesPanel() {
                   <div className="grid gap-1">
                     <Label htmlFor="rq" className="text-xs">Rated Flow RQ ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
                     <Input id="rq" data-testid="input-rq" type="text" inputMode="decimal" step="any"
-                      value={element.data?.rq !== undefined ? Number(element.data.rq) : 0}
+                      value={element.data?.rq !== undefined ? Number(element.data.rq) : ''}
                       onChange={(e) => handleChange('rq', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rhead" className="text-xs">Rated Head RHEAD ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
                     <Input id="rhead" data-testid="input-rhead" type="text" inputMode="decimal" step="any"
-                      value={element.data?.rhead !== undefined ? Number(element.data.rhead) : 0}
+                      value={element.data?.rhead !== undefined ? Number(element.data.rhead) : ''}
                       onChange={(e) => handleChange('rhead', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rspeed" className="text-xs">Rated Speed RSPEED (RPM)</Label>
                     <Input id="rspeed" data-testid="input-rspeed" type="text" inputMode="decimal" step="any"
-                      value={element.data?.rspeed !== undefined ? Number(element.data.rspeed) : 0}
+                      value={element.data?.rspeed !== undefined ? Number(element.data.rspeed) : ''}
                       onChange={(e) => handleChange('rspeed', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rtorque" className="text-xs">Rated Torque RTOROUE</Label>
                     <Input id="rtorque" data-testid="input-rtorque" type="text" inputMode="decimal" step="any"
-                      value={element.data?.rtorque !== undefined ? Number(element.data.rtorque) : 0}
+                      value={element.data?.rtorque !== undefined ? Number(element.data.rtorque) : ''}
                       onChange={(e) => handleChange('rtorque', e.target.value)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1 col-span-2">
                     <Label htmlFor="wr2" className="text-xs">WR² (Moment of Inertia)</Label>
                     <Input id="wr2" data-testid="input-wr2" type="text" inputMode="decimal" step="any"
-                      value={element.data?.wr2 !== undefined ? Number(element.data.wr2) : 0}
+                      value={element.data?.wr2 !== undefined ? Number(element.data.wr2) : ''}
                       onChange={(e) => handleChange('wr2', e.target.value)} className="h-7 text-xs" />
                   </div>
                 </div>
@@ -905,7 +905,7 @@ export function PropertiesPanel() {
                   data-testid="input-valvediam"
                   type="text" inputMode="decimal"
                   step="any"
-                  value={element.data?.valveDiam !== undefined ? Number(element.data.valveDiam) : 0}
+                  value={element.data?.valveDiam !== undefined ? Number(element.data.valveDiam) : ''}
                   onChange={(e) => handleChange('valveDiam', e.target.value)}
                 />
               </div>
@@ -939,7 +939,7 @@ export function PropertiesPanel() {
                   id="tankTop" 
                   type="text" inputMode="decimal" 
                   step="any"
-                  value={element.data?.tankTop !== undefined ? parseFloat(Number(element.data.tankTop).toFixed(8)) : 0} 
+                  value={element.data?.tankTop !== undefined ? parseFloat(Number(element.data.tankTop).toFixed(8)) : ''} 
                   onChange={(e) => handleChange('tankTop', e.target.value)} 
                 />
               </div>
@@ -949,7 +949,7 @@ export function PropertiesPanel() {
                   id="tankBottom" 
                   type="text" inputMode="decimal" 
                   step="any"
-                  value={element.data?.tankBottom !== undefined ? parseFloat(Number(element.data.tankBottom).toFixed(8)) : 0} 
+                  value={element.data?.tankBottom !== undefined ? parseFloat(Number(element.data.tankBottom).toFixed(8)) : ''} 
                   onChange={(e) => handleChange('tankBottom', e.target.value)} 
                 />
               </div>
@@ -961,7 +961,7 @@ export function PropertiesPanel() {
                     id="htank" 
                     type="text" inputMode="decimal" 
                     step="any"
-                    value={element.data?.initialWaterLevel !== undefined ? parseFloat(Number(element.data.initialWaterLevel).toFixed(8)) : 0} 
+                    value={element.data?.initialWaterLevel !== undefined ? parseFloat(Number(element.data.initialWaterLevel).toFixed(8)) : ''} 
                     onChange={(e) => handleChange('initialWaterLevel', e.target.value)} 
                   />
                 </div>
@@ -975,7 +975,7 @@ export function PropertiesPanel() {
                       id="riserdiam" 
                       type="text" inputMode="decimal" 
                       step="any"
-                      value={element.data?.riserDiameter !== undefined ? parseFloat(Number(element.data.riserDiameter).toFixed(8)) : 0} 
+                      value={element.data?.riserDiameter !== undefined ? parseFloat(Number(element.data.riserDiameter).toFixed(8)) : ''} 
                       onChange={(e) => handleChange('riserDiameter', e.target.value)} 
                     />
                   </div>
@@ -985,7 +985,7 @@ export function PropertiesPanel() {
                       id="risertop" 
                       type="text" inputMode="decimal" 
                       step="any"
-                      value={element.data?.riserTop !== undefined ? parseFloat(Number(element.data.riserTop).toFixed(8)) : 0} 
+                      value={element.data?.riserTop !== undefined ? parseFloat(Number(element.data.riserTop).toFixed(8)) : ''} 
                       onChange={(e) => handleChange('riserTop', e.target.value)} 
                     />
                   </div>
@@ -1008,7 +1008,7 @@ export function PropertiesPanel() {
                     id="diam" 
                     type="text" inputMode="decimal" 
                     step="any"
-                    value={element.data?.diameter !== undefined ? parseFloat(Number(element.data.diameter).toFixed(8)) : 0} 
+                    value={element.data?.diameter !== undefined ? parseFloat(Number(element.data.diameter).toFixed(8)) : ''} 
                     onChange={(e) => handleChange('diameter', e.target.value)} 
                   />
                 </div>
@@ -1021,7 +1021,7 @@ export function PropertiesPanel() {
                     id="st-celerity" 
                     type="text" inputMode="decimal" 
                     step="any"
-                    value={element.data?.celerity !== undefined ? parseFloat(Number(element.data.celerity).toFixed(8)) : 0} 
+                    value={element.data?.celerity !== undefined ? parseFloat(Number(element.data.celerity).toFixed(8)) : ''} 
                     onChange={(e) => handleChange('celerity', e.target.value)} 
                   />
                 </div>
@@ -1031,7 +1031,7 @@ export function PropertiesPanel() {
                     id="st-friction" 
                     type="text" inputMode="decimal" 
                     step="any"
-                    value={element.data?.friction !== undefined ? parseFloat(Number(element.data.friction).toFixed(8)) : 0} 
+                    value={element.data?.friction !== undefined ? parseFloat(Number(element.data.friction).toFixed(8)) : ''} 
                     onChange={(e) => handleChange('friction', e.target.value)} 
                   />
                 </div>
@@ -1054,7 +1054,7 @@ export function PropertiesPanel() {
                       id="st-cplus" 
                       type="text" inputMode="decimal" 
                       step="any"
-                      value={element.data?.cplus !== undefined ? parseFloat(Number(element.data.cplus).toFixed(8)) : 0} 
+                      value={element.data?.cplus !== undefined ? parseFloat(Number(element.data.cplus).toFixed(8)) : ''} 
                       onChange={(e) => handleChange('cplus', e.target.value)} 
                     />
                   </div>
@@ -1064,7 +1064,7 @@ export function PropertiesPanel() {
                       id="st-cminus" 
                       type="text" inputMode="decimal" 
                       step="any"
-                      value={element.data?.cminus !== undefined ? parseFloat(Number(element.data.cminus).toFixed(8)) : 0} 
+                      value={element.data?.cminus !== undefined ? parseFloat(Number(element.data.cminus).toFixed(8)) : ''} 
                       onChange={(e) => handleChange('cminus', e.target.value)} 
                     />
                   </div>
@@ -1097,7 +1097,7 @@ export function PropertiesPanel() {
                             type="text" inputMode="decimal"
                             step="any"
                             className="h-7 text-xs"
-                            value={pair.e !== undefined ? parseFloat(Number(pair.e).toFixed(8)) : 0}
+                            value={pair.e !== undefined ? parseFloat(Number(pair.e).toFixed(8)) : ''}
                             onChange={(e) => {
                               const newShape = [...(element.data?.shape as any[])];
                               newShape[index] = { ...newShape[index], e: parseFloat(e.target.value) || 0 };
@@ -1111,7 +1111,7 @@ export function PropertiesPanel() {
                             type="text" inputMode="decimal"
                             step="any"
                             className="h-7 text-xs"
-                            value={pair.a !== undefined ? parseFloat(Number(pair.a).toFixed(8)) : 0}
+                            value={pair.a !== undefined ? parseFloat(Number(pair.a).toFixed(8)) : ''}
                             onChange={(e) => {
                               const newShape = [...(element.data?.shape as any[])];
                               newShape[index] = { ...newShape[index], a: parseFloat(e.target.value) || 0 };
@@ -1159,7 +1159,7 @@ export function PropertiesPanel() {
                     <Input 
                       id="distance" 
                       type="text" inputMode="decimal" 
-                      value={element.data?.distance || 0} 
+                      value={element.data?.distance ?? ''} 
                       onChange={(e) => handleChange('distance', e.target.value)} 
                     />
                   </div>
@@ -1168,7 +1168,7 @@ export function PropertiesPanel() {
                     <Input 
                       id="area" 
                       type="text" inputMode="decimal" 
-                      value={element.data?.area || 0} 
+                      value={element.data?.area ?? ''} 
                       onChange={(e) => handleChange('area', e.target.value)} 
                     />
                   </div>
@@ -1177,7 +1177,7 @@ export function PropertiesPanel() {
                     <Input 
                       id="d" 
                       type="text" inputMode="decimal" 
-                      value={element.data?.d || 0} 
+                      value={element.data?.d ?? ''} 
                       onChange={(e) => handleChange('d', e.target.value)} 
                     />
                   </div>
@@ -1186,7 +1186,7 @@ export function PropertiesPanel() {
                     <Input 
                       id="a" 
                       type="text" inputMode="decimal" 
-                      value={element.data?.a || 0} 
+                      value={element.data?.a ?? ''} 
                       onChange={(e) => handleChange('a', e.target.value)} 
                     />
                   </div>
@@ -1199,7 +1199,7 @@ export function PropertiesPanel() {
                   <Input 
                     id="length" 
                     type="text" inputMode="decimal" 
-                    value={element.data?.length || 0} 
+                    value={element.data?.length ?? ''} 
                     onChange={(e) => handleChange('length', e.target.value)} 
                   />
                 </div>
@@ -1209,7 +1209,7 @@ export function PropertiesPanel() {
                     <Input 
                       id="diam" 
                       type="text" inputMode="decimal" 
-                      value={element.data?.diameter || 0} 
+                      value={element.data?.diameter ?? ''} 
                       onChange={(e) => handleChange('diameter', e.target.value)} 
                     />
                   </div>
@@ -1221,7 +1221,7 @@ export function PropertiesPanel() {
                   <Input 
                     id="celerity" 
                     type="text" inputMode="decimal" 
-                    value={element.data?.celerity || 0} 
+                    value={element.data?.celerity ?? ''} 
                     onChange={(e) => {
                       handleChange('celerity', e.target.value);
                     }}
@@ -1234,7 +1234,7 @@ export function PropertiesPanel() {
                     data-testid="input-friction"
                     type="text" inputMode="decimal" 
                     step="0.001"
-                    value={element.data?.friction || 0} 
+                    value={element.data?.friction ?? ''} 
                     onChange={(e) => {
                       handleChange('friction', e.target.value);
                       const f = parseFloat(e.target.value);
@@ -1431,7 +1431,7 @@ export function PropertiesPanel() {
                 <Input 
                   id="diam" 
                   type="text" inputMode="decimal" 
-                  value={element.data?.diameter || 0} 
+                  value={element.data?.diameter ?? ''} 
                   onChange={(e) => handleChange('diameter', e.target.value)} 
                 />
               </div>

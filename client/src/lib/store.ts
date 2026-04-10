@@ -552,12 +552,7 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
           },
           data: { 
             label: connectionLabel, 
-            type: 'conduit', 
-            length: 1000, 
-            diameter: 0.5, 
-            celerity: 1000, 
-            friction: 0.02, 
-            numSegments: 1 
+            type: 'conduit',
           }
         },
         get().edges
@@ -623,30 +618,30 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
     switch (type) {
       case 'reservoir':
-        initialData = { ...initialData, label: 'HW', nodeNumber, elevation: 100, reservoirElevation: 100 };
+        initialData = { ...initialData, label: 'HW', nodeNumber };
         break;
       case 'node':
-        initialData = { ...initialData, label: `Node ${nodeNumber}`, nodeNumber, elevation: 50 };
+        initialData = { ...initialData, label: `Node ${nodeNumber}`, nodeNumber };
         break;
       case 'junction':
-        initialData = { ...initialData, label: `Node ${nodeNumber}`, nodeNumber, elevation: 50 };
+        initialData = { ...initialData, label: `Node ${nodeNumber}`, nodeNumber };
         break;
       case 'surgeTank':
-        initialData = { ...initialData, label: 'ST', nodeNumber, topElevation: 120, bottomElevation: 80, diameter: 5, celerity: 1000, friction: 0.01 };
+        initialData = { ...initialData, label: 'ST', nodeNumber };
         break;
       case 'flowBoundary':
-        initialData = { ...initialData, label: `FB${id}`, nodeNumber, scheduleNumber: 1 };
+        initialData = { ...initialData, label: `FB${id}`, nodeNumber };
         break;
       case 'pump': {
         const pumpCount = get().nodes.filter(n => n.type === 'pump').length + 1;
         const existingTypes = Object.keys(get().pcharData).map(Number);
         newPumpTypeToInit = existingTypes.length > 0 ? Math.max(...existingTypes) + 1 : 1;
-        initialData = { ...initialData, label: `P${pumpCount}`, nodeNumber, elevation: 0, pumpStatus: 'ACTIVE', pumpType: newPumpTypeToInit, rq: 0, rhead: 0, rspeed: 0, rtorque: 0, wr2: 0 };
+        initialData = { ...initialData, label: `P${pumpCount}`, nodeNumber, pumpStatus: 'ACTIVE', pumpType: newPumpTypeToInit };
         break;
       }
       case 'checkValve': {
         const cvCount = get().nodes.filter(n => n.type === 'checkValve').length + 1;
-        initialData = { ...initialData, label: `VC${cvCount}`, nodeNumber, elevation: 0, valveStatus: 'OPEN', valveDiam: 0 };
+        initialData = { ...initialData, label: `VC${cvCount}`, nodeNumber, valveStatus: 'OPEN' };
         break;
       }
     }
