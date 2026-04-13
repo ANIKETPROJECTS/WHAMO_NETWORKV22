@@ -1093,7 +1093,7 @@ export function Header({
             data-testid="button-toggle-hover-data"
           >
             {showHoverData ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-            <span className="text-xs hidden sm:inline">{showHoverData ? "Hide Data" : "Show Data"}</span>
+            <span className="text-xs hidden sm:inline">{showHoverData ? "Hide Label" : "Show Label"}</span>
           </Button>
 
           <Button
