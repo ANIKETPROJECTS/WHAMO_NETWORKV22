@@ -642,9 +642,14 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       case 'surgeTank':
         initialData = { ...initialData, label: 'ST', nodeNumber };
         break;
-      case 'flowBoundary':
-        initialData = { ...initialData, label: `FB${id}`, nodeNumber };
+      case 'flowBoundary': {
+        const existingFBNums = get().nodes
+          .filter(n => n.type === 'flowBoundary' && n.data?.scheduleNumber !== undefined && n.data?.scheduleNumber !== '')
+          .map(n => n.data.scheduleNumber as number);
+        const scheduleNumber = existingFBNums.length > 0 ? Math.max(...existingFBNums) + 1 : 1;
+        initialData = { ...initialData, label: `FB${id}`, nodeNumber, scheduleNumber };
         break;
+      }
       case 'pump': {
         const pumpCount = get().nodes.filter(n => n.type === 'pump').length + 1;
         const existingTypes = Object.keys(get().pcharData).map(Number);

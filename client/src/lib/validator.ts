@@ -191,10 +191,10 @@ export function validateNetwork(nodes: WhamoNode[], edges: WhamoEdge[]): { error
         addError(n.id, `Flow Boundary ${d.label} must connect to exactly one node.`, d.label, n.type);
       }
       if (d.scheduleNumber === undefined || d.scheduleNumber === '') {
-        addError(n.id, `Flow Boundary ${d.label} missing Q-Schedule.`, d.label, n.type);
+        addError(n.id, `Flow Boundary ${d.label} missing Q-Schedule number.`, d.label, n.type);
       }
       
-      const points = d.schedulePoints || [];
+      const points = (d.schedulePoints as any[]) || [];
       if (points.length === 0) {
         addError(n.id, `Flow Boundary ${d.label} must have at least one Q-Schedule point.`, d.label, n.type);
       }
@@ -237,6 +237,32 @@ export function validateNetwork(nodes: WhamoNode[], edges: WhamoEdge[]): { error
       } else if (connections.length < 2 && !isTargetOfBoundary && !isSourceOfBoundary) {
         addWarning(n.id, `Node ${d.label} has fewer than 2 connections and is not connected to a boundary.`, d.label, n.type);
       }
+    }
+  });
+
+  // Duplicate Q-Schedule number check across all Flow Boundary nodes
+  const fbNodesWithNum = nodes.filter(n =>
+    n.type === 'flowBoundary' &&
+    n.data?.scheduleNumber !== undefined &&
+    n.data?.scheduleNumber !== ''
+  );
+  const schedNumMap = new Map<number, WhamoNode[]>();
+  fbNodesWithNum.forEach(n => {
+    const num = Number(n.data.scheduleNumber);
+    if (!schedNumMap.has(num)) schedNumMap.set(num, []);
+    schedNumMap.get(num)!.push(n);
+  });
+  schedNumMap.forEach((fbGroup, num) => {
+    if (fbGroup.length > 1) {
+      const labels = fbGroup.map(n => n.data.label).join(', ');
+      fbGroup.forEach(n => {
+        addError(
+          n.id,
+          `Duplicate Q-Schedule number ${num}: used by ${labels}. Each Flow Boundary must have a unique schedule number.`,
+          n.data.label,
+          n.type
+        );
+      });
     }
   });
 
