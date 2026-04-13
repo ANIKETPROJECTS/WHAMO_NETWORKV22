@@ -258,6 +258,9 @@ export function PropertiesPanel() {
     area: 'area',
     pipeWT: 'diameter',   // wall thickness (ft or m)
     pipeE: 'pressure',    // modulus of elasticity (psi or Pa)
+    rq: 'flow',           // pump rated flow (m³/s or ft³/s)
+    rhead: 'elevation',   // pump rated head (m or ft)
+    valveDiam: 'diameter', // check valve diameter (m or ft)
   };
 
   const cacheableFields = Object.keys(fieldMapping);

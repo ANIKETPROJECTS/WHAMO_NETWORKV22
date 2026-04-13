@@ -234,7 +234,10 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       area: 'area',
       initialWaterLevel: 'elevation',
       riserDiameter: 'diameter',
-      riserTop: 'elevation'
+      riserTop: 'elevation',
+      rq: 'flow',
+      rhead: 'elevation',
+      valveDiam: 'diameter',
     };
 
     const cacheableFields = Object.keys(fieldMapping);
@@ -396,6 +399,9 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       initialWaterLevel: 'elevation',
       riserDiameter: 'diameter',
       riserTop: 'elevation',
+      rq: 'flow',
+      rhead: 'elevation',
+      valveDiam: 'diameter',
     };
 
     const cacheableFields = Object.keys(fieldMapping);
