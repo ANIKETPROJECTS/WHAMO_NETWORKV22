@@ -34,7 +34,7 @@ function buildCacheUpdate(
 }
 
 type FilterKey =
-  | 'all' | 'pipe' | 'conduit' | 'dummy'
+  | 'all' | 'conduit' | 'dummy'
   | 'node' | 'reservoir' | 'junction' | 'surgeTank' | 'flowBoundary' | 'pump' | 'checkValve';
 
 interface UnifiedRow {
@@ -64,7 +64,6 @@ const TYPE_BADGE: Record<string, string> = {
 
 const FILTER_CHIPS: { key: FilterKey; label: string }[] = [
   { key: 'all',         label: 'All'          },
-  { key: 'pipe',        label: 'Pipe'         },
   { key: 'conduit',     label: 'Conduit'      },
   { key: 'dummy',       label: 'Dummy Pipe'   },
   { key: 'node',        label: 'Node'         },
@@ -78,7 +77,6 @@ const FILTER_CHIPS: { key: FilterKey; label: string }[] = [
 
 function matchesFilter(row: UnifiedRow, filter: FilterKey): boolean {
   if (filter === 'all') return true;
-  if (filter === 'pipe') return row.kind === 'edge';
   if (filter === 'node') return row.kind === 'node';
   return row.subType === filter;
 }
@@ -87,7 +85,6 @@ type ColKey = string;
 
 const COLS: Record<FilterKey, ColKey[]> = {
   all:         ['rowNum','type','unitToggle','label','nodeNum','diameter','length','celerity','friction','elevation','comment'],
-  pipe:        ['rowNum','unitToggle','label','pipeType','diameter','length','celerity','friction','segments','comment'],
   conduit:     ['rowNum','unitToggle','label','length','diameter','celerity','friction','manningsN','segments','inclSegments',
                  'hasAddedLoss','cplus','cminus','pipeE','pipeWT','variable','distance','area','comment'],
   dummy:       ['rowNum','unitToggle','label','diameter','hasAddedLoss','cplus','cminus','comment'],
@@ -956,7 +953,6 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
 
   const counts = useMemo(() => ({
     all:          allRows.length,
-    pipe:         allRows.filter(r => r.kind === 'edge').length,
     conduit:      allRows.filter(r => r.subType === 'conduit').length,
     dummy:        allRows.filter(r => r.subType === 'dummy').length,
     node:         allRows.filter(r => r.kind === 'node').length,
