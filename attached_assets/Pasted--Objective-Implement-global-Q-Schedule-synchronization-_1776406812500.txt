@@ -1,0 +1,96 @@
+🎯 Objective
+
+Implement global Q-Schedule synchronization based on Schedule Number for all Flow Boundary (Flow BC) elements — without breaking existing logic or UI.
+
+🧩 Problem
+
+Currently, each Flow Boundary (FB1, FB2, FB3, FB4…) stores its own Q Schedule (Time vs Flow) independently.
+
+However:
+
+Multiple Flow Boundaries can share the same Schedule Number
+But their Q Schedule values are not synced
+This leads to inconsistency in Flex Table and simulation input
+✅ Required Behavior
+Global Schedule Mapping
+Treat Schedule Number as a shared reference key
+If multiple Flow BCs have the same scheduleNumber, they must use the same Q Schedule data
+Single Source of Truth
+
+Store Q Schedule in a centralized structure like:
+
+qSchedules: {
+  1: [{ time: 0, flow: 3802.9 }, { time: 6.4, flow: 3802.9 }, ...],
+  2: [...],
+  3: [...]
+}
+Auto Sync Logic
+When user edits Q Schedule for any Flow BC:
+Update the global qSchedules[scheduleNumber]
+Reflect changes automatically in all Flow BCs using same schedule
+UI Behavior
+In Properties Panel:
+Editing Q Schedule updates all linked nodes instantly
+In Flex Table:
+Show same Q Schedule preview for same Schedule Number
+Ensure consistency in “Q Schedule” column
+Schedule Number Change
+If user changes Schedule Number:
+Link to existing schedule if already present
+Otherwise create new empty/default schedule
+Backward Compatibility
+Do NOT break:
+Existing node structure
+.INP generation logic
+Existing save/load functionality
+Migrate old per-node schedules → global structure safely
+🛠️ Implementation Guidelines
+Frontend (React)
+
+Create global state (Context/Zustand/Redux):
+
+const [qSchedules, setQSchedules] = useState({});
+
+Flow BC structure:
+
+{
+  id: "FB1",
+  nodeNumber: 13,
+  scheduleNumber: 1
+}
+
+Selector:
+
+const schedule = qSchedules[flowBC.scheduleNumber];
+Backend (if applicable)
+
+Store schedules separately:
+
+{
+  "qSchedules": {
+    "1": [...],
+    "2": [...]
+  },
+  "flowBoundaries": [...]
+}
+Data Sync Logic
+
+On update:
+
+function updateSchedule(scheduleNumber, newData) {
+  setQSchedules(prev => ({
+    ...prev,
+    [scheduleNumber]: newData
+  }));
+}
+⚠️ Constraints
+❌ Do NOT duplicate Q Schedule per node
+❌ Do NOT break Flex Table behavior
+❌ Do NOT change unrelated modules
+✅ Keep UI responsive and reactive
+✅ Ensure real-time sync across components
+✨ Expected Outcome
+All Flow BCs with same Schedule Number share identical Q Schedule
+Editing one updates all
+Clean, scalable, and consistent data model
+Matches engineering software standards (like WHAMO/CWC tools)

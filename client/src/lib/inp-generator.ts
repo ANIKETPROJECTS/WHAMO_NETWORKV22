@@ -426,28 +426,34 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
 
   const flowBoundaries = nodes.filter(n => n.type === 'flowBoundary');
   if (flowBoundaries.length > 0) {
-    // Deduplicate QSCHEDULE entries by schedule number and values
-    const scheduleMap = new Map<string, string>();
-    
+    // Collect unique schedule numbers used by flowBoundary nodes
+    const qSchedules = state.qSchedules || {};
+    const usedScheduleNumbers = new Set<number>();
     flowBoundaries.forEach(n => {
-      const d = n.data;
-      const unit = d.unit || globalUnit;
+      const num = Number(n.data?.scheduleNumber);
+      if (!isNaN(num)) usedScheduleNumbers.add(num);
+    });
+
+    const scheduleLines: string[] = [];
+    usedScheduleNumbers.forEach(schedNum => {
+      // Prefer global qSchedules, fall back to per-node schedulePoints for backward compat
+      const pts: any[] =
+        (qSchedules[schedNum] as any[]) ||
+        (flowBoundaries.find(n => Number(n.data?.scheduleNumber) === schedNum)?.data?.schedulePoints as any[]) ||
+        [];
+      const unit = globalUnit;
       let schedule = '';
-      if (d.schedulePoints && Array.isArray(d.schedulePoints) && d.schedulePoints.length > 0) {
-        schedule = d.schedulePoints.map((p: any) => `T ${p.time} Q ${toFPS(Number(p.flow), unit, 'flow')}`).join(' ');
+      if (pts.length > 0) {
+        schedule = pts.map((p: any) => `T ${p.time} Q ${toFPS(Number(p.flow), unit, 'flow')}`).join(' ');
       } else {
         schedule = 'T 0 Q 3000 T 20 Q 0 T 3000 Q 0';
       }
-      
-      const scheduleKey = `${d.scheduleNumber}:${schedule}`;
-      scheduleMap.set(scheduleKey, ` QSCHEDULE ${d.scheduleNumber} ${schedule}`);
+      scheduleLines.push(` QSCHEDULE ${schedNum} ${schedule}`);
     });
-    
-    if (scheduleMap.size > 0) {
+
+    if (scheduleLines.length > 0) {
       addL('SCHEDULE');
-      scheduleMap.forEach(scheduleStr => {
-        addL(scheduleStr);
-      });
+      scheduleLines.forEach(line => addL(line));
       addL('FINISH');
       addL('');
     }

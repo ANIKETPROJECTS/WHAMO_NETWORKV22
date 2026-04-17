@@ -128,6 +128,8 @@ export function PropertiesPanel() {
     updatePcharData,
     addPcharType,
     deletePcharType,
+    qSchedules,
+    updateQSchedule,
   } = useNetworkStore();
 
   const { toast } = useToast();
@@ -173,6 +175,13 @@ export function PropertiesPanel() {
     });
 
     if (isNodeEl) {
+      // For flowBoundary nodes, link schedulePoints to the global qSchedules for the (possibly changed) scheduleNumber
+      if (element?.data?.type === 'flowBoundary' && processedData.scheduleNumber !== undefined) {
+        const newSchedNum = Number(processedData.scheduleNumber);
+        if (!isNaN(newSchedNum)) {
+          processedData.schedulePoints = qSchedules[newSchedNum] || [];
+        }
+      }
       updateNodeData(selectedElementId, processedData);
     } else {
       updateEdgeData(selectedElementId, processedData);
@@ -691,83 +700,101 @@ export function PropertiesPanel() {
                   </div>
                 </div>
               )}
-              {element.data?.type === 'flowBoundary' && (
-                <>
-                  <div className="grid gap-2">
-                    <Label htmlFor="scheduleNum">Schedule Number</Label>
-                    <Input 
-                      id="scheduleNum" 
-                      type="text" inputMode="decimal" 
-                      value={formData.scheduleNumber ?? ''} 
-                      onChange={(e) => handleChange('scheduleNumber', e.target.value)} 
-                    />
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm font-medium">Queue Schedule Points</Label>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="h-7 px-2"
-                        onClick={() => {
-                          const points = (formData.schedulePoints as any[]) || [];
-                          handleChange('schedulePoints', [...points, { time: 0, flow: 0 }]);
-                        }}
-                      >
-                        Add Point
-                      </Button>
+              {element.data?.type === 'flowBoundary' && (() => {
+                const activeSchedNum = Number(formData.scheduleNumber ?? element.data?.scheduleNumber ?? 1);
+                const activeQPoints: { time: number; flow: number | string }[] =
+                  (qSchedules[activeSchedNum] as any[]) || [];
+
+                const sharedCount = nodes.filter(
+                  n => n.type === 'flowBoundary' &&
+                       n.id !== selectedElementId &&
+                       Number(n.data?.scheduleNumber) === activeSchedNum
+                ).length;
+
+                return (
+                  <>
+                    <div className="grid gap-2">
+                      <Label htmlFor="scheduleNum">Schedule Number</Label>
+                      <Input 
+                        id="scheduleNum" 
+                        type="text" inputMode="decimal" 
+                        value={formData.scheduleNumber ?? ''} 
+                        onChange={(e) => handleChange('scheduleNumber', e.target.value)} 
+                      />
                     </div>
                     
-                    <div className="space-y-2">
-                      {((formData.schedulePoints as any[]) || []).map((point, index) => (
-                        <div key={index} className="flex items-end gap-2 p-2 border rounded-md bg-muted/30 relative group">
-                          <div className="grid gap-1 flex-1">
-                            <Label className="text-[10px]">Time (T)</Label>
-                            <Input 
-                              type="text" inputMode="decimal"
-                              className="h-7 text-xs"
-                              value={point.time}
-                              onChange={(e) => {
-                                const newPoints = [...(formData.schedulePoints as any[])];
-                                newPoints[index] = { ...newPoints[index], time: parseFloat(e.target.value) || 0 };
-                                handleChange('schedulePoints', newPoints);
-                              }}
-                            />
-                          </div>
-                          <div className="grid gap-1 flex-1">
-                            <Label className="text-[10px]">Flow (Q) ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
-                            <Input 
-                              type="text" inputMode="decimal"
-                              className="h-7 text-xs"
-                              value={point.flow}
-                              onChange={(e) => {
-                                const newPoints = [...(formData.schedulePoints as any[])];
-                                newPoints[index] = { ...newPoints[index], flow: parseFloat(e.target.value) || 0 };
-                                handleChange('schedulePoints', newPoints);
-                              }}
-                            />
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-7 w-7 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => {
-                              const newPoints = (formData.schedulePoints as any[]).filter((_, i) => i !== index);
-                              handleChange('schedulePoints', newPoints);
-                            }}
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium">Queue Schedule Points</Label>
+                          {sharedCount > 0 && (
+                            <p className="text-[10px] text-blue-600 mt-0.5">
+                              Shared with {sharedCount} other Flow BC{sharedCount !== 1 ? 's' : ''} — edits sync instantly
+                            </p>
+                          )}
                         </div>
-                      ))}
-                      {(!formData.schedulePoints || (formData.schedulePoints as any[]).length === 0) && (
-                        <p className="text-[10px] text-muted-foreground text-center py-2 italic">No schedule points added.</p>
-                      )}
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="h-7 px-2"
+                          onClick={() => {
+                            updateQSchedule(activeSchedNum, [...activeQPoints, { time: 0, flow: 0 }]);
+                          }}
+                        >
+                          Add Point
+                        </Button>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        {activeQPoints.map((point, index) => (
+                          <div key={index} className="flex items-end gap-2 p-2 border rounded-md bg-muted/30 relative group">
+                            <div className="grid gap-1 flex-1">
+                              <Label className="text-[10px]">Time (T)</Label>
+                              <Input 
+                                type="text" inputMode="decimal"
+                                className="h-7 text-xs"
+                                value={point.time}
+                                onChange={(e) => {
+                                  const newPoints = [...activeQPoints];
+                                  newPoints[index] = { ...newPoints[index], time: parseFloat(e.target.value) || 0 };
+                                  updateQSchedule(activeSchedNum, newPoints);
+                                }}
+                              />
+                            </div>
+                            <div className="grid gap-1 flex-1">
+                              <Label className="text-[10px]">Flow (Q) ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
+                              <Input 
+                                type="text" inputMode="decimal"
+                                className="h-7 text-xs"
+                                value={point.flow}
+                                onChange={(e) => {
+                                  const newPoints = [...activeQPoints];
+                                  newPoints[index] = { ...newPoints[index], flow: parseFloat(e.target.value) || 0 };
+                                  updateQSchedule(activeSchedNum, newPoints);
+                                }}
+                              />
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={() => {
+                                const newPoints = activeQPoints.filter((_, i) => i !== index);
+                                updateQSchedule(activeSchedNum, newPoints);
+                              }}
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                        {activeQPoints.length === 0 && (
+                          <p className="text-[10px] text-muted-foreground text-center py-2 italic">No schedule points added.</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
+                  </>
+                );
+              })()}
             </>
           )}
 

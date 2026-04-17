@@ -103,6 +103,7 @@ interface NetworkState {
   nodes: WhamoNode[];
   edges: WhamoEdge[];
   hSchedules: { number: number; points: { time: number; head: number | string }[] }[];
+  qSchedules: Record<number, { time: number; flow: number | string }[]>;
   selectedElementId: string | null;
   selectedElementType: 'node' | 'edge' | null;
   computationalParams: ComputationalParameters;
@@ -150,6 +151,7 @@ interface NetworkState {
   setElementUnit: (id: string, kind: 'node' | 'edge', newUnit: UnitSystem) => void;
   updateHSchedule: (number: number, points: { time: number; head: number | string }[]) => void;
   addHSchedule: (number: number) => void;
+  updateQSchedule: (scheduleNumber: number, points: { time: number; flow: number | string }[]) => void;
   toggleNodeSelection: (nodeId: string) => void;
   setAllNodesSelected: (selected: boolean) => void;
   undo: () => void;
@@ -164,6 +166,7 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
   nodes: [],
   edges: [],
   hSchedules: [],
+  qSchedules: {},
   selectedElementId: null,
   selectedElementType: null,
   computationalParams: {
@@ -354,10 +357,32 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       return { ...edge, data: { ...edge.data, ...dataUpdate } };
     });
 
+    // Convert qSchedules — take converted values from nodes (first match per scheduleNumber),
+    // then math-convert any scheduleNumbers not covered by any node.
+    const newQSchedules: Record<number, { time: number; flow: number | string }[]> = {};
+    newNodes.forEach((node: WhamoNode) => {
+      if (node.type === 'flowBoundary' && node.data?.scheduleNumber !== undefined && node.data?.schedulePoints) {
+        const num = Number(node.data.scheduleNumber);
+        if (!newQSchedules[num]) {
+          newQSchedules[num] = node.data.schedulePoints as { time: number; flow: number | string }[];
+        }
+      }
+    });
+    Object.entries(state.qSchedules).forEach(([numStr, points]) => {
+      const num = Number(numStr);
+      if (!newQSchedules[num]) {
+        newQSchedules[num] = (points as any[]).map(p => ({
+          ...p,
+          flow: convertValue(p.flow, oldUnit, unit, 'flow'),
+        }));
+      }
+    });
+
     set({ 
       globalUnit: unit,
       nodes: newNodes as WhamoNode[],
-      edges: newEdges as WhamoEdge[]
+      edges: newEdges as WhamoEdge[],
+      qSchedules: newQSchedules,
     });
   },
 
@@ -647,7 +672,8 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
           .filter(n => n.type === 'flowBoundary' && n.data?.scheduleNumber !== undefined && n.data?.scheduleNumber !== '')
           .map(n => n.data.scheduleNumber as number);
         const scheduleNumber = existingFBNums.length > 0 ? Math.max(...existingFBNums) + 1 : 1;
-        initialData = { ...initialData, label: `FB${id}`, nodeNumber, scheduleNumber };
+        const existingQPoints = get().qSchedules[scheduleNumber] || [];
+        initialData = { ...initialData, label: `FB${id}`, nodeNumber, scheduleNumber, schedulePoints: existingQPoints };
         break;
       }
       case 'pump': {
@@ -877,10 +903,30 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       }
     });
     
+    // Extract qSchedules from saved params or migrate from per-node schedulePoints
+    const savedQSchedules: Record<number, { time: number; flow: number | string }[]> =
+      (params as any)?.qSchedules || {};
+    const extractedQSchedules: Record<number, { time: number; flow: number | string }[]> = { ...savedQSchedules };
+    nodes.forEach(node => {
+      if (
+        node.type === 'flowBoundary' &&
+        node.data?.schedulePoints &&
+        Array.isArray(node.data.schedulePoints) &&
+        (node.data.schedulePoints as any[]).length > 0 &&
+        node.data?.scheduleNumber !== undefined
+      ) {
+        const num = Number(node.data.scheduleNumber);
+        if (!extractedQSchedules[num]) {
+          extractedQSchedules[num] = node.data.schedulePoints as { time: number; flow: number | string }[];
+        }
+      }
+    });
+
     set({ 
       nodes: processedNodes, 
       edges: processedEdges, 
       hSchedules: extractedHSchedules,
+      qSchedules: extractedQSchedules,
       computationalParams: params || get().computationalParams,
       outputRequests: requests || [],
       snapshotTimes: snapshotTimes || [],
@@ -899,6 +945,7 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
       nodes: [], 
       edges: [], 
       hSchedules: [],
+      qSchedules: {},
       pcharData: {},
       selectedElementId: null, 
       selectedElementType: null, 
@@ -973,6 +1020,20 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
     if (!hSchedules.find(s => s.number === number)) {
       set({ hSchedules: [...hSchedules, { number, points: [] }] });
     }
+  },
+
+  updateQSchedule: (scheduleNumber, points) => {
+    get().saveToHistory();
+    const state = get();
+    const newQSchedules = { ...state.qSchedules, [scheduleNumber]: points };
+    // Sync schedulePoints on every flowBoundary node that shares this scheduleNumber
+    const newNodes = state.nodes.map(node => {
+      if (node.type === 'flowBoundary' && Number(node.data?.scheduleNumber) === Number(scheduleNumber)) {
+        return { ...node, data: { ...node.data, schedulePoints: points } } as WhamoNode;
+      }
+      return node;
+    });
+    set({ qSchedules: newQSchedules, nodes: newNodes });
   },
 
   toggleNodeSelection: (nodeId: string) => {

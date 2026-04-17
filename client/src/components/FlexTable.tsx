@@ -486,7 +486,7 @@ function ColHeader({ col, unit }: { col: ColKey; unit: UnitSystem }) {
 
 // ─── Row cell renderer ────────────────────────────────────────────────────────
 function RowCells({
-  col, row, idx, unit, globalUnit, changeEdge, changeNode, hSchedules, onOpenPairsEditor, onSetUnit,
+  col, row, idx, unit, globalUnit, changeEdge, changeNode, hSchedules, qSchedules, onOpenPairsEditor, onSetUnit,
   isHighlighted, onHighlightRow, pcharData,
 }: {
   col: ColKey;
@@ -497,6 +497,7 @@ function RowCells({
   changeEdge: (f: string, v: string) => void;
   changeNode: (f: string, v: string) => void;
   hSchedules: any[];
+  qSchedules: Record<number, { time: number; flow: number | string }[]>;
   onOpenPairsEditor: (rowId: string, rowKind: 'node' | 'edge', pairsType: 'qSchedule' | 'hSchedule' | 'shapePairs', scheduleNumber?: number) => void;
   onSetUnit: (id: string, kind: 'node' | 'edge', unit: UnitSystem) => void;
   isHighlighted: boolean;
@@ -522,7 +523,9 @@ function RowCells({
   const hSchedNum = d.hScheduleNumber || 1;
   const hSched = hSchedules.find((s: any) => s.number === hSchedNum);
   const thPairs: PairPreview[] = (hSched?.points || []).map((p: any) => ({ time: p.time, value: p.head }));
-  const qPairs: PairPreview[] = (d.schedulePoints as any[] || []).map((p: any) => ({ time: p.time, value: p.flow }));
+  const qSchedNum = Number(d.scheduleNumber || 1);
+  const qSchedPoints = (qSchedules[qSchedNum] as any[]) || (d.schedulePoints as any[]) || [];
+  const qPairs: PairPreview[] = qSchedPoints.map((p: any) => ({ time: p.time, value: p.flow }));
   const shapePairs: PairPreview[] = (d.shape as any[] || []).map((p: any) => ({ time: p.e, value: p.a }));
 
   switch (col) {
@@ -827,13 +830,14 @@ function RowCells({
 
 // ─── Main table ───────────────────────────────────────────────────────────────
 function UnifiedTable({
-  rows, filter, unit, hSchedules, pcharData,
+  rows, filter, unit, hSchedules, qSchedules, pcharData,
   onChangeEdge, onChangeNode, onSelectEdge, onSelectNode, onOpenPairsEditor, onSetUnit,
 }: {
   rows: UnifiedRow[];
   filter: FilterKey;
   unit: UnitSystem;
   hSchedules: any[];
+  qSchedules: Record<number, { time: number; flow: number | string }[]>;
   pcharData: Record<number, PcharType>;
   onChangeEdge: (id: string, field: string, val: string, data: any) => void;
   onChangeNode: (id: string, field: string, val: string, data: any) => void;
@@ -890,6 +894,7 @@ function UnifiedTable({
                     key={col} col={col} row={row} idx={idx} unit={unit} globalUnit={unit}
                     changeEdge={changeEdge} changeNode={changeNode}
                     hSchedules={hSchedules}
+                    qSchedules={qSchedules}
                     onOpenPairsEditor={onOpenPairsEditor}
                     onSetUnit={onSetUnit}
                     isHighlighted={isHighlighted}
@@ -913,6 +918,7 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
     updateEdgeData, updateNodeData, selectElement,
     hSchedules, updateHSchedule, addHSchedule,
     pcharData,
+    qSchedules, updateQSchedule,
   } = useNetworkStore();
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const [pairsEditor, setPairsEditor] = useState<PairsEditorState | null>(null);
@@ -1033,7 +1039,8 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
     if (!pairsEditor) return [];
     if (pairsEditor.pairsType === 'qSchedule') {
       const row = allRows.find(r => r.id === pairsEditor.rowId);
-      const pts = (row?.data?.schedulePoints as any[]) || [];
+      const schedNum = Number(row?.data?.scheduleNumber || 1);
+      const pts = (qSchedules[schedNum] as any[]) || (row?.data?.schedulePoints as any[]) || [];
       return pts.map((p: any) => ({ time: String(p.time ?? 0), value: String(p.flow ?? 0) }));
     } else if (pairsEditor.pairsType === 'shapePairs') {
       const row = allRows.find(r => r.id === pairsEditor.rowId);
@@ -1045,16 +1052,18 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
       const pts = sched?.points || [];
       return pts.map((p: any) => ({ time: String(p.time ?? 0), value: String(p.head ?? 0) }));
     }
-  }, [pairsEditor, allRows, hSchedules]);
+  }, [pairsEditor, allRows, hSchedules, qSchedules]);
 
   const handleSavePairs = useCallback((rows: PairRow[]) => {
     if (!pairsEditor) return;
     if (pairsEditor.pairsType === 'qSchedule') {
+      const row = allRows.find(r => r.id === pairsEditor.rowId);
+      const schedNum = Number(row?.data?.scheduleNumber || 1);
       const schedulePoints = rows.map(r => ({
         time: parseFloat(r.time) || 0,
         flow: parseFloat(r.value) || 0,
       }));
-      updateNodeData(pairsEditor.rowId, { schedulePoints });
+      updateQSchedule(schedNum, schedulePoints);
     } else if (pairsEditor.pairsType === 'shapePairs') {
       const shape = rows.map(r => ({
         e: parseFloat(r.time) || 0,
@@ -1070,7 +1079,7 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
       addHSchedule(schedNum);
       updateHSchedule(schedNum, points);
     }
-  }, [pairsEditor, updateNodeData, updateHSchedule, addHSchedule]);
+  }, [pairsEditor, allRows, updateNodeData, updateQSchedule, updateHSchedule, addHSchedule]);
 
   const visibleChips = FILTER_CHIPS.filter(c => counts[c.key as keyof typeof counts] > 0 || c.key === 'all');
 
@@ -1164,6 +1173,7 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
           <div className="flex-1 overflow-hidden flex flex-col px-4 py-3 gap-2 bg-slate-50/70">
             <UnifiedTable
               rows={filteredRows} filter={activeFilter} unit={globalUnit} hSchedules={hSchedules ?? []}
+              qSchedules={qSchedules ?? {}}
               pcharData={pcharData ?? {}}
               onChangeEdge={handleChangeEdge} onChangeNode={handleChangeNode}
               onSelectEdge={handleSelectEdge} onSelectNode={handleSelectNode}

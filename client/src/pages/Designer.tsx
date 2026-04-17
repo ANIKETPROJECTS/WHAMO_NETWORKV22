@@ -103,6 +103,8 @@ function DesignerInner() {
     outputRequests,
     pcharData,
     snapshotTimes,
+    hSchedules,
+    qSchedules,
     onNodesChange: storeOnNodesChange, 
     onEdgesChange: storeOnEdgesChange,
     onConnect: storeOnConnect, 
@@ -176,6 +178,8 @@ function DesignerInner() {
       outputRequests,
       pcharData,
       snapshotTimes,
+      hSchedules,
+      qSchedules,
     };
 
     try {
@@ -446,7 +450,7 @@ function DesignerInner() {
           if (json.nodes && json.edges) {
             const loadedProjectName = json.projectName || file.name.replace(/\.json$/i, '');
             const expandedEdges = expandEdges(json.edges, json.pipeProfiles);
-            loadNetwork(json.nodes, expandedEdges, json.computationalParams, json.outputRequests, loadedProjectName, handle, json.pcharData, json.snapshotTimes);
+            loadNetwork(json.nodes, expandedEdges, { ...json.computationalParams, qSchedules: json.qSchedules, hSchedules: json.hSchedules }, json.outputRequests, loadedProjectName, handle, json.pcharData, json.snapshotTimes);
             setProjectState("active");
             toast({ title: "Project Loaded", description: `Network topology "${loadedProjectName}" restored from JSON.` });
           } else {
@@ -488,7 +492,7 @@ function DesignerInner() {
             // Use project name from file or fallback to filename
             const loadedProjectName = json.projectName || file.name.replace(/\.json$/i, '');
             const expandedEdges = expandEdges(json.edges, json.pipeProfiles);
-            loadNetwork(json.nodes, expandedEdges, json.computationalParams, json.outputRequests, loadedProjectName, undefined, json.pcharData, json.snapshotTimes);
+            loadNetwork(json.nodes, expandedEdges, { ...json.computationalParams, qSchedules: json.qSchedules, hSchedules: json.hSchedules }, json.outputRequests, loadedProjectName, undefined, json.pcharData, json.snapshotTimes);
             setProjectState("active");
             toast({ title: "Project Loaded", description: `Network topology "${loadedProjectName}" restored from JSON.` });
           } else {
