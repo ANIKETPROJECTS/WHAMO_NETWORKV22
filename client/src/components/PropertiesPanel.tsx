@@ -414,8 +414,8 @@ export function PropertiesPanel() {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-card border-l border-border">
-      <CardHeader className="pb-3 border-b border-border/50 bg-muted/20">
+    <div className="h-full flex flex-col bg-card border-l border-border">
+      <CardHeader className="pb-3 border-b border-border/50 bg-muted/20 shrink-0">
         <CardTitle className="text-lg flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <span className="capitalize truncate">{element.data?.type || element.type}</span>
@@ -442,7 +442,7 @@ export function PropertiesPanel() {
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="space-y-6 pt-6">
+      <CardContent className="flex-1 overflow-y-auto space-y-6 pt-6 pb-4 min-h-0">
 
         {/* Common Properties */}
         <div className="space-y-4">
@@ -1563,10 +1563,11 @@ export function PropertiesPanel() {
           )}
         </div>
 
-        <Separator />
+      </CardContent>
 
+      {/* Fixed footer with Save/Delete */}
+      <div className="shrink-0 border-t border-border/50 bg-card px-6 py-4">
         <div className="flex gap-2">
-          {/* Save Button */}
           <Button
             variant="default"
             className="flex-1 gap-2"
@@ -1577,8 +1578,6 @@ export function PropertiesPanel() {
             <Save className="h-4 w-4" />
             Save
           </Button>
-
-          {/* Delete Button */}
           <Button 
             variant="destructive" 
             className="flex-1 gap-2" 
@@ -1589,7 +1588,7 @@ export function PropertiesPanel() {
             Delete
           </Button>
         </div>
-      </CardContent>
+      </div>
     </div>
   );
 }

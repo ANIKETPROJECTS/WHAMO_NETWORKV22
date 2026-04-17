@@ -84,10 +84,10 @@ function matchesFilter(row: UnifiedRow, filter: FilterKey): boolean {
 type ColKey = string;
 
 const COLS: Record<FilterKey, ColKey[]> = {
-  all:         ['rowNum','type','unitToggle','label','nodeNum','diameter','length','celerity','friction','elevation','comment'],
-  conduit:     ['rowNum','unitToggle','label','length','diameter','celerity','friction','manningsN','segments','inclSegments',
+  all:         ['rowNum','type','unitToggle','label','pipeType','nodeNum','diameter','length','celerity','friction','elevation','comment'],
+  conduit:     ['rowNum','unitToggle','label','pipeType','length','diameter','celerity','friction','manningsN','segments','inclSegments',
                  'hasAddedLoss','cplus','cminus','pipeE','pipeWT','variable','distance','area','comment'],
-  dummy:       ['rowNum','unitToggle','label','diameter','hasAddedLoss','cplus','cminus','comment'],
+  dummy:       ['rowNum','unitToggle','label','pipeType','diameter','hasAddedLoss','cplus','cminus','comment'],
   node:        ['rowNum','type','unitToggle','label','nodeNum','elevation','comment'],
   reservoir:   ['rowNum','unitToggle','label','nodeNum','elevation','mode','resElev','hSchedNum','thPairs','comment'],
   junction:    ['rowNum','unitToggle','label','nodeNum','elevation','comment'],
@@ -564,10 +564,13 @@ function RowCells({
     case 'label': return (
       <EditableCell key={col} value={d.label} onChange={v => change('label', v)} testId={`cell-label-${row.id}`} />
     );
-    case 'pipeType': return (
-      <SelectCell key={col} value={d.type || 'conduit'} options={[{label:'Conduit',value:'conduit'},{label:'Dummy Pipe',value:'dummy'}]}
-        onChange={isEdge ? v => changeEdge('type', v) : undefined} testId={`cell-ptype-${row.id}`} />
-    );
+    case 'pipeType': {
+      if (!isEdge) return <NACell key={col} />;
+      return (
+        <SelectCell key={col} value={d.type || 'conduit'} options={[{label:'Conduit',value:'conduit'},{label:'Dummy Pipe',value:'dummy'}]}
+          onChange={v => changeEdge('type', v)} testId={`cell-ptype-${row.id}`} />
+      );
+    }
     case 'nodeNum': return (
       <EditableCell key={col} value={!isEdge ? (d.nodeNumber ?? '') : ''} type="text" inputMode="decimal"
         readOnly={isEdge} dimmed={isEdge} onChange={v => changeNode('nodeNumber', v)} testId={`cell-nodenum-${row.id}`} />
