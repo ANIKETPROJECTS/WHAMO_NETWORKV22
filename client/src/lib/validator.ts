@@ -280,11 +280,14 @@ export function validateNetwork(nodes: WhamoNode[], edges: WhamoEdge[]): { error
   });
 
   // 5. Node ascending order check: for each pipe, source nodeNumber must be < target nodeNumber
+  // Pumps and check valves are hydraulic elements, not topological nodes, so skip them.
   const _nodeById = new Map(nodes.map(n => [n.id, n]));
+  const elementTypes = new Set(['pump', 'checkValve']);
   edges.forEach(e => {
     const src = _nodeById.get(e.source);
     const tgt = _nodeById.get(e.target);
     if (!src || !tgt) return;
+    if (elementTypes.has(src.type!) || elementTypes.has(tgt.type!)) return;
     const srcNum = src.data?.nodeNumber !== undefined ? Number(src.data.nodeNumber) : NaN;
     const tgtNum = tgt.data?.nodeNumber !== undefined ? Number(tgt.data.nodeNumber) : NaN;
     if (!isNaN(srcNum) && !isNaN(tgtNum) && srcNum > tgtNum) {
