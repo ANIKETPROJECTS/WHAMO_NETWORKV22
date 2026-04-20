@@ -559,7 +559,7 @@ function DesignerInner() {
       
       const { nodeOrderErrorIds } = useNetworkStore.getState();
       if (nodeOrderErrorIds.length > 0) {
-        toast({ variant: "warning", title: "Files Generated with Warnings", description: `${nodeOrderErrorIds.length} node(s) have ascending-order violations. Check node numbers before running WHAMO.` });
+        toast({ variant: "destructive", title: "Files Generated with Errors", description: `${nodeOrderErrorIds.length} node(s) have ascending-order violations. Correct node numbers before running WHAMO.` });
       } else {
         toast({ variant: "success", title: "Files Generated", description: "WHAMO input file and System Diagram downloaded successfully." });
       }

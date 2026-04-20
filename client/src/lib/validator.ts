@@ -291,7 +291,7 @@ export function validateNetwork(nodes: WhamoNode[], edges: WhamoEdge[]): { error
     const srcNum = src.data?.nodeNumber !== undefined ? Number(src.data.nodeNumber) : NaN;
     const tgtNum = tgt.data?.nodeNumber !== undefined ? Number(tgt.data.nodeNumber) : NaN;
     if (!isNaN(srcNum) && !isNaN(tgtNum) && srcNum > tgtNum) {
-      addWarning(
+      addError(
         tgt.id,
         `Node order must be ascending. Node ${tgtNum} (${tgt.data.label}) cannot come after Node ${srcNum} (${src.data.label}) in pipe ${e.data?.label || e.id}.`,
         tgt.data.label,
