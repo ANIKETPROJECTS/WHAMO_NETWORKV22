@@ -14,6 +14,7 @@ import {
   applyEdgeChanges,
 } from '@xyflow/react';
 import { NodeType, LinkType } from '@shared/schema';
+import { getNodeSequenceViolations } from './validator';
 
 export type UnitSystem = 'SI' | 'FPS';
 
@@ -1070,20 +1071,7 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
   recomputeNodeOrderErrors: () => {
     const { nodes, edges } = get();
-    const errorIds = new Set<string>();
-    const nodeById = new Map(nodes.map(n => [n.id, n]));
-    const elementTypes = new Set(['pump', 'checkValve']);
-    edges.forEach(e => {
-      const src = nodeById.get(e.source);
-      const tgt = nodeById.get(e.target);
-      if (!src || !tgt) return;
-      if (elementTypes.has(src.type!) || elementTypes.has(tgt.type!)) return;
-      const srcNum = src.data?.nodeNumber !== undefined ? Number(src.data.nodeNumber) : NaN;
-      const tgtNum = tgt.data?.nodeNumber !== undefined ? Number(tgt.data.nodeNumber) : NaN;
-      if (!isNaN(srcNum) && !isNaN(tgtNum) && srcNum > tgtNum) {
-        errorIds.add(tgt.id);
-      }
-    });
+    const errorIds = new Set(getNodeSequenceViolations(nodes, edges).map(violation => violation.id));
     set({ nodeOrderErrorIds: [...errorIds] });
   },
 

@@ -1,4 +1,4 @@
-import { WhamoNode, WhamoEdge } from './store';
+import type { WhamoNode, WhamoEdge } from './store';
 
 export interface ValidationError {
   id: string;
@@ -6,6 +6,67 @@ export interface ValidationError {
   type: 'error' | 'warning';
   elementLabel?: string;
   elementType?: string;
+}
+
+export interface NodeSequenceViolation {
+  id: string;
+  message: string;
+  elementLabel?: string;
+  elementType?: string;
+}
+
+const elementTypes = new Set(['pump', 'checkValve']);
+
+function isBranchingJunction(node: WhamoNode, connectionCount: number): boolean {
+  return node.type === 'junction' && connectionCount > 2;
+}
+
+export function getNodeSequenceViolations(nodes: WhamoNode[], edges: WhamoEdge[]): NodeSequenceViolation[] {
+  const violations: NodeSequenceViolation[] = [];
+  const nodeById = new Map(nodes.map(n => [n.id, n]));
+  const connectionCounts = new Map<string, number>();
+
+  edges.forEach(e => {
+    connectionCounts.set(e.source, (connectionCounts.get(e.source) || 0) + 1);
+    connectionCounts.set(e.target, (connectionCounts.get(e.target) || 0) + 1);
+  });
+
+  edges.forEach(e => {
+    const src = nodeById.get(e.source);
+    const tgt = nodeById.get(e.target);
+    if (!src || !tgt) return;
+    if (elementTypes.has(src.type!) || elementTypes.has(tgt.type!)) return;
+
+    const srcNum = src.data?.nodeNumber !== undefined ? Number(src.data.nodeNumber) : NaN;
+    const tgtNum = tgt.data?.nodeNumber !== undefined ? Number(tgt.data.nodeNumber) : NaN;
+    if (isNaN(srcNum) || isNaN(tgtNum)) return;
+
+    if (srcNum > tgtNum) {
+      violations.push({
+        id: tgt.id,
+        message: `Node order must be ascending. Node ${tgtNum} (${tgt.data.label}) cannot come after Node ${srcNum} (${src.data.label}) in pipe ${e.data?.label || e.id}.`,
+        elementLabel: tgt.data.label,
+        elementType: tgt.type,
+      });
+      return;
+    }
+
+    const gap = tgtNum - srcNum;
+    const gapAllowedByJunction =
+      isBranchingJunction(src, connectionCounts.get(src.id) || 0) ||
+      isBranchingJunction(tgt, connectionCounts.get(tgt.id) || 0);
+
+    if (gap > 1 && !gapAllowedByJunction) {
+      violations.push({
+        id: tgt.id,
+        message: `Node numbers must be sequential without gaps. Node ${tgtNum} (${tgt.data.label}) follows Node ${srcNum} (${src.data.label}) in pipe ${e.data?.label || e.id}; use Node ${srcNum + 1} unless this is a multi-conduit junction branch.`,
+        elementLabel: tgt.data.label,
+        elementType: tgt.type,
+      });
+    }
+  });
+
+  return violations;
 }
 
 /**
@@ -281,23 +342,8 @@ export function validateNetwork(nodes: WhamoNode[], edges: WhamoEdge[]): { error
 
   // 5. Node ascending order check: for each pipe, source nodeNumber must be < target nodeNumber
   // Pumps and check valves are hydraulic elements, not topological nodes, so skip them.
-  const _nodeById = new Map(nodes.map(n => [n.id, n]));
-  const elementTypes = new Set(['pump', 'checkValve']);
-  edges.forEach(e => {
-    const src = _nodeById.get(e.source);
-    const tgt = _nodeById.get(e.target);
-    if (!src || !tgt) return;
-    if (elementTypes.has(src.type!) || elementTypes.has(tgt.type!)) return;
-    const srcNum = src.data?.nodeNumber !== undefined ? Number(src.data.nodeNumber) : NaN;
-    const tgtNum = tgt.data?.nodeNumber !== undefined ? Number(tgt.data.nodeNumber) : NaN;
-    if (!isNaN(srcNum) && !isNaN(tgtNum) && srcNum > tgtNum) {
-      addError(
-        tgt.id,
-        `Node order must be ascending. Node ${tgtNum} (${tgt.data.label}) cannot come after Node ${srcNum} (${src.data.label}) in pipe ${e.data?.label || e.id}.`,
-        tgt.data.label,
-        tgt.type
-      );
-    }
+  getNodeSequenceViolations(nodes, edges).forEach(violation => {
+    addError(violation.id, violation.message, violation.elementLabel, violation.elementType);
   });
 
   // 4. Closed-loop detection between Reservoir and Surge Tank

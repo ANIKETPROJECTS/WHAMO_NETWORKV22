@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, ChevronDown, ChevronRight, Plus, CheckCircle2, Save } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { getNodeSequenceViolations } from '@/lib/validator';
 
 function PcharEditor({ pType, activePc, updatePcharData }: {
   pType: number;
@@ -182,30 +183,31 @@ export function PropertiesPanel() {
       if (thisNode && !elementTypes.has(thisNode.type!)) {
         const newNum = processedData.nodeNumber !== undefined ? Number(processedData.nodeNumber) : NaN;
         if (!isNaN(newNum)) {
-          const violations: string[] = [];
-          edges.forEach(e => {
-            if (e.source === selectedElementId) {
-              const tgt = nodes.find(n => n.id === e.target);
-              if (!tgt || elementTypes.has(tgt.type!)) return;
-              const tgtNum = tgt.data?.nodeNumber !== undefined ? Number(tgt.data.nodeNumber) : NaN;
-              if (!isNaN(tgtNum) && newNum > tgtNum) {
-                violations.push(`Node ${tgtNum} (${tgt.data.label}) comes after but has a lower number.`);
-              }
-            }
-            if (e.target === selectedElementId) {
-              const src = nodes.find(n => n.id === e.source);
-              if (!src || elementTypes.has(src.type!)) return;
-              const srcNum = src.data?.nodeNumber !== undefined ? Number(src.data.nodeNumber) : NaN;
-              if (!isNaN(srcNum) && srcNum > newNum) {
-                violations.push(`Node ${srcNum} (${src.data.label}) comes before but has a higher number.`);
-              }
-            }
-          });
+          const duplicate = nodes.find(
+            n => n.id !== selectedElementId && n.data?.nodeNumber === newNum
+          );
+          if (duplicate) {
+            toast({
+              variant: "destructive",
+              title: "Duplicate Node Number",
+              description: `Node number ${newNum} is already used by another node. Please choose a unique number.`,
+            });
+            return;
+          }
+
+          const nextNodes = nodes.map(n =>
+            n.id === selectedElementId ? { ...n, data: { ...n.data, ...processedData } } : n
+          );
+          const violations = getNodeSequenceViolations(nextNodes, edges).filter(
+            violation => violation.id === selectedElementId ||
+              edges.some(e => (e.source === selectedElementId && e.target === violation.id) || (e.target === selectedElementId && e.source === violation.id))
+          );
+
           if (violations.length > 0) {
             toast({
               variant: "destructive",
               title: "Invalid Node Number",
-              description: `Node number ${newNum} violates ascending order: ${violations[0]} Node numbers must increase along the flow direction.`,
+              description: violations[0].message,
             });
             return;
           }
