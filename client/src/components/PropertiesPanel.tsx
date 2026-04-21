@@ -1388,6 +1388,17 @@ export function PropertiesPanel() {
                 const applyMaterial = (idStr: string) => {
                   if (idStr === '__none__') {
                     handleChange('materialId', '');
+                    // Propagate "clear" to siblings with the same label
+                    const lbl = (formData.label as string) || '';
+                    if (lbl) {
+                      edges
+                        .filter(e =>
+                          e.id !== selectedElementId &&
+                          (e.data?.label as string) === lbl &&
+                          e.data?.type === 'conduit'
+                        )
+                        .forEach(e => updateEdgeData(e.id, { materialId: '' } as any));
+                    }
                     return;
                   }
                   const id = parseInt(idStr, 10);
@@ -1416,6 +1427,43 @@ export function PropertiesPanel() {
                     const Kw = currentUnit === 'SI' ? 2.07e9 : 3e5;
                     const c = C0 / Math.sqrt(1 + (Kw / eVal) * (D / WT));
                     handleChange('celerity', parseFloat(c.toFixed(4)).toString());
+                  }
+
+                  // Propagate to all other conduits sharing the same label
+                  const lbl = (formData.label as string) || '';
+                  if (lbl) {
+                    const siblings = edges.filter(e =>
+                      e.id !== selectedElementId &&
+                      (e.data?.label as string) === lbl &&
+                      e.data?.type === 'conduit'
+                    );
+                    siblings.forEach(e => {
+                      const eUnit: UnitSystem = (e.data?.unit as UnitSystem) || currentUnit;
+                      const eEval = eUnit === 'SI' ? m.youngsModulus_Pa : m.youngsModulus_psi;
+                      const sibUpdate: any = {
+                        materialId: String(id),
+                        manningsN: n,
+                      };
+                      if (eEval > 0) sibUpdate.pipeE = eEval;
+                      const eD = parseFloat(String((e.data as any)?.diameter)) || 0;
+                      if (eD > 0 && n > 0) {
+                        const K = eUnit === 'SI' ? 124.58 : 185;
+                        sibUpdate.friction = parseFloat(((K * n * n) / Math.pow(eD, 1 / 3)).toFixed(6));
+                      }
+                      const eWT = parseFloat(String((e.data as any)?.pipeWT)) || 0;
+                      if (eEval > 0 && eWT > 0 && eD > 0) {
+                        const C0 = eUnit === 'SI' ? 1440 : 4720;
+                        const Kw = eUnit === 'SI' ? 2.07e9 : 3e5;
+                        sibUpdate.celerity = parseFloat((C0 / Math.sqrt(1 + (Kw / eEval) * (eD / eWT))).toFixed(4));
+                      }
+                      updateEdgeData(e.id, sibUpdate);
+                    });
+                    if (siblings.length > 0) {
+                      toast({
+                        title: 'Material applied to group',
+                        description: `${m.label} also applied to ${siblings.length} other "${lbl}" conduit${siblings.length > 1 ? 's' : ''}.`,
+                      });
+                    }
                   }
                 };
                 return (

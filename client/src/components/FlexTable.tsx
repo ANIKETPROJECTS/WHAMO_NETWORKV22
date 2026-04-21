@@ -635,9 +635,26 @@ function RowCells({
         { label: '-- None --', value: '__none__' },
         ...PIPE_MATERIALS.map(m => ({ label: m.label, value: String(m.id) })),
       ];
+      const propagateToSiblings = (updater: (e: any, eUnit: UnitSystem) => any) => {
+        const lbl = (d.label as string) || '';
+        if (!lbl) return;
+        const { edges: allEdges, updateEdgeData: upd } = useNetworkStore.getState();
+        allEdges
+          .filter(e =>
+            e.id !== row.id &&
+            (e.data?.label as string) === lbl &&
+            e.data?.type === 'conduit'
+          )
+          .forEach(e => {
+            const eUnit: UnitSystem = (e.data?.unit as UnitSystem) || globalUnit;
+            const update = updater(e, eUnit);
+            if (update) upd(e.id, update);
+          });
+      };
       const onChange = (idStr: string) => {
         if (idStr === '__none__') {
           changeEdge('materialId', '');
+          propagateToSiblings(() => ({ materialId: '' }));
           return;
         }
         const id = parseInt(idStr, 10);
@@ -661,6 +678,24 @@ function RowCells({
           const c = C0 / Math.sqrt(1 + (Kw / eVal) * (D / WT));
           changeEdge('celerity', parseFloat(c.toFixed(4)).toString());
         }
+        // Propagate to all conduits with the same label
+        propagateToSiblings((e, eUnit) => {
+          const eEval = eUnit === 'SI' ? m.youngsModulus_Pa : m.youngsModulus_psi;
+          const upd: any = { materialId: String(id), manningsN: n };
+          if (eEval > 0) upd.pipeE = eEval;
+          const eD = parseFloat(String((e.data as any)?.diameter)) || 0;
+          if (eD > 0 && n > 0) {
+            const K = eUnit === 'SI' ? 124.58 : 185;
+            upd.friction = parseFloat(((K * n * n) / Math.pow(eD, 1 / 3)).toFixed(6));
+          }
+          const eWT = parseFloat(String((e.data as any)?.pipeWT)) || 0;
+          if (eEval > 0 && eWT > 0 && eD > 0) {
+            const C0 = eUnit === 'SI' ? 1440 : 4720;
+            const Kw = eUnit === 'SI' ? 2.07e9 : 3e5;
+            upd.celerity = parseFloat((C0 / Math.sqrt(1 + (Kw / eEval) * (eD / eWT))).toFixed(4));
+          }
+          return upd;
+        });
       };
       return (
         <SelectCell
