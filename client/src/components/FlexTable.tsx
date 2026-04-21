@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import { useNetworkStore, type UnitSystem, type PcharType } from '@/lib/store';
+import { PIPE_MATERIALS, PIPE_MATERIALS_BY_ID } from '@/lib/pipe-materials';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -85,7 +86,7 @@ type ColKey = string;
 
 const COLS: Record<FilterKey, ColKey[]> = {
   all:         ['rowNum','type','unitToggle','label','pipeType','nodeNum','diameter','length','celerity','friction','elevation','comment'],
-  conduit:     ['rowNum','unitToggle','label','pipeType','length','diameter','celerity','friction','manningsN','segments','inclSegments',
+  conduit:     ['rowNum','unitToggle','label','pipeType','material','length','diameter','celerity','friction','manningsN','segments','inclSegments',
                  'hasAddedLoss','cplus','cminus','pipeE','pipeWT','variable','distance','area','comment'],
   dummy:       ['rowNum','unitToggle','label','pipeType','diameter','hasAddedLoss','cplus','cminus','comment'],
   node:        ['rowNum','type','unitToggle','label','nodeNum','elevation','comment'],
@@ -465,6 +466,7 @@ function ColHeader({ col, unit }: { col: ColKey; unit: UnitSystem }) {
     cplus: 'CPLUS', cminus: 'CMINUS',
     pipeE: `E (${P})`, pipeWT: `WT (${L})`,
     manningsN: "Manning's n", variable: 'VARIABLE',
+    material: 'Pipe Material',
     distance: `Distance (${L})`, area: `Area (${A})`,
     elevation: `Elevation (${L})`, resElev: `Res. Elev. (${L})`,
     mode: 'BC Mode', hSchedNum: 'H Sched #', thPairs: 'T/H Pairs',
@@ -626,6 +628,51 @@ function RowCells({
         readOnly={!isEdge && !isSurge} dimmed={!isEdge && !isSurge}
         onChange={v => change('friction', v)} testId={`cell-friction-${row.id}`} />
     );
+    case 'material': {
+      if (!isConduit) return <NACell key={col} />;
+      const currentId = d.materialId ? String(d.materialId) : '__none__';
+      const options = [
+        { label: '-- None --', value: '__none__' },
+        ...PIPE_MATERIALS.map(m => ({ label: m.label, value: String(m.id) })),
+      ];
+      const onChange = (idStr: string) => {
+        if (idStr === '__none__') {
+          changeEdge('materialId', '');
+          return;
+        }
+        const id = parseInt(idStr, 10);
+        const m = PIPE_MATERIALS_BY_ID[id];
+        if (!m) return;
+        changeEdge('materialId', String(id));
+        const n = m.manningsN;
+        changeEdge('manningsN', String(n));
+        const eVal = rowUnit === 'SI' ? m.youngsModulus_Pa : m.youngsModulus_psi;
+        if (eVal > 0) changeEdge('pipeE', String(eVal));
+        const D = parseFloat(d.diameter) || 0;
+        if (D > 0 && n > 0) {
+          const K = rowUnit === 'SI' ? 124.58 : 185;
+          const f = (K * n * n) / Math.pow(D, 1 / 3);
+          changeEdge('friction', parseFloat(f.toFixed(6)).toString());
+        }
+        const WT = parseFloat(d.pipeWT) || 0;
+        if (eVal > 0 && WT > 0 && D > 0) {
+          const C0 = rowUnit === 'SI' ? 1440 : 4720;
+          const Kw = rowUnit === 'SI' ? 2.07e9 : 3e5;
+          const c = C0 / Math.sqrt(1 + (Kw / eVal) * (D / WT));
+          changeEdge('celerity', parseFloat(c.toFixed(4)).toString());
+        }
+      };
+      return (
+        <SelectCell
+          key={col}
+          value={currentId}
+          options={options}
+          onChange={onChange}
+          minW="min-w-[180px]"
+          testId={`cell-material-${row.id}`}
+        />
+      );
+    }
     case 'manningsN': {
       const mN = (() => {
         if (d.manningsN != null && d.manningsN !== '') return String(d.manningsN);
