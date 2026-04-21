@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNetworkStore, type UnitSystem, type PcharType } from '@/lib/store';
+import { PIPE_MATERIALS, PIPE_MATERIALS_BY_ID } from '@/lib/pipe-materials';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -1376,6 +1377,129 @@ export function PropertiesPanel() {
                   />
                 </div>
               </div>
+
+              {(() => {
+                const matId = formData.materialId ? Number(formData.materialId) : null;
+                const mat = matId != null ? PIPE_MATERIALS_BY_ID[matId] : null;
+                const applyMaterial = (idStr: string) => {
+                  if (idStr === '__none__') {
+                    handleChange('materialId', '');
+                    return;
+                  }
+                  const id = parseInt(idStr, 10);
+                  const m = PIPE_MATERIALS_BY_ID[id];
+                  if (!m) return;
+                  handleChange('materialId', String(id));
+                  // Manning's n
+                  const n = m.manningsN;
+                  handleChange('manningsN', String(n));
+                  // Young's Modulus (E) — pick unit
+                  const eVal = currentUnit === 'SI' ? m.youngsModulus_Pa : m.youngsModulus_psi;
+                  if (eVal > 0) {
+                    handleChange('pipeE', String(eVal));
+                  }
+                  // Recompute friction f from Manning's n if diameter present
+                  const D = parseFloat(formData.diameter) || 0;
+                  if (D > 0 && n > 0) {
+                    const K = currentUnit === 'SI' ? 124.58 : 185;
+                    const f = (K * n * n) / Math.pow(D, 1 / 3);
+                    handleChange('friction', parseFloat(f.toFixed(6)).toString());
+                  }
+                  // Recompute wave speed (celerity) if E, WT, D all present
+                  const WT = parseFloat(formData.pipeWT) || 0;
+                  if (eVal > 0 && WT > 0 && D > 0) {
+                    const C0 = currentUnit === 'SI' ? 1440 : 4720;
+                    const Kw = currentUnit === 'SI' ? 2.07e9 : 3e5;
+                    const c = C0 / Math.sqrt(1 + (Kw / eVal) * (D / WT));
+                    handleChange('celerity', parseFloat(c.toFixed(4)).toString());
+                  }
+                };
+                return (
+                  <div className="space-y-3 rounded-md border border-dashed p-3 bg-blue-50/30">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <Label htmlFor="pipe-material" className="font-medium">Pipe Material</Label>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          Select a material to auto-fill Manning's n and Young's Modulus (E).
+                        </p>
+                      </div>
+                    </div>
+                    <Select
+                      value={matId != null ? String(matId) : '__none__'}
+                      onValueChange={applyMaterial}
+                    >
+                      <SelectTrigger
+                        id="pipe-material"
+                        data-testid="select-pipe-material"
+                        className="bg-white"
+                      >
+                        <SelectValue placeholder="-- Select pipe material --" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-72">
+                        <SelectItem value="__none__">-- None (manual entry) --</SelectItem>
+                        {PIPE_MATERIALS.map(m => (
+                          <SelectItem
+                            key={m.id}
+                            value={String(m.id)}
+                            data-testid={`material-option-${m.id}`}
+                          >
+                            {m.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {mat && (
+                      <div
+                        data-testid="material-properties-summary"
+                        className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs rounded bg-white border px-3 py-2.5"
+                      >
+                        <div className="col-span-2 font-semibold text-foreground border-b pb-1 mb-1">
+                          {mat.label} — properties
+                        </div>
+                        <div className="text-muted-foreground">Manning's n</div>
+                        <div className="font-mono text-right" data-testid="mat-prop-mannings">{mat.manningsN}</div>
+
+                        <div className="text-muted-foreground">Kutter's n</div>
+                        <div className="font-mono text-right">{mat.kuttersN}</div>
+
+                        <div className="text-muted-foreground">Hazen-Williams C</div>
+                        <div className="font-mono text-right">{mat.hazenWilliamsC}</div>
+
+                        <div className="text-muted-foreground">Modified H-W CR</div>
+                        <div className="font-mono text-right">{mat.modifiedHWCR}</div>
+
+                        <div className="text-muted-foreground">
+                          Roughness ε ({currentUnit === 'SI' ? 'm' : 'ft'})
+                        </div>
+                        <div className="font-mono text-right">
+                          {currentUnit === 'SI' ? mat.roughnessHeight_m : mat.roughnessHeight_ft}
+                        </div>
+
+                        <div className="text-muted-foreground">
+                          Young's Modulus E ({currentUnit === 'SI' ? 'Pa' : 'psi'})
+                        </div>
+                        <div className="font-mono text-right" data-testid="mat-prop-e">
+                          {(() => {
+                            const v = currentUnit === 'SI' ? mat.youngsModulus_Pa : mat.youngsModulus_psi;
+                            if (!v) return <span className="text-amber-600">n/a</span>;
+                            return v.toLocaleString(undefined, { maximumFractionDigits: 2 });
+                          })()}
+                        </div>
+
+                        <div className="text-muted-foreground">Poisson's Ratio</div>
+                        <div className="font-mono text-right">
+                          {mat.poissonsRatio || <span className="text-amber-600">n/a</span>}
+                        </div>
+
+                        <div className="col-span-2 text-[10px] text-muted-foreground italic mt-1 pt-1 border-t">
+                          Manning's n and E have been auto-filled below. Wall thickness (WT) still needs to be entered to compute wave speed.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               <div className="space-y-3 rounded-md border border-dashed p-3">
                 <div>

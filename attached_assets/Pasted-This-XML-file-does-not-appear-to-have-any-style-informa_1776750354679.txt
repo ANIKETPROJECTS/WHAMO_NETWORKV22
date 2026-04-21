@@ -1,0 +1,1201 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<NewDataSet>
+<HMIModelingElement>
+<Id>1</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>2</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>3</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>4</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>5</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>6</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>7</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>8</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>9</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>10</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>11</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>12</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>13</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>14</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>15</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>16</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>17</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>18</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>19</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>20</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>21</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>22</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>23</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>24</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>25</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>26</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>27</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>28</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>29</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>30</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>31</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>32</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>33</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>35</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>36</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>37</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>38</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>39</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>40</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>41</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>42</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>43</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>44</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>45</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>46</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>47</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>48</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>49</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>50</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>51</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>52</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>53</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>54</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>55</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>56</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>57</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>58</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>59</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>60</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>61</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>62</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>63</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<HMIModelingElement>
+<Id>64</Id>
+<LibraryElementType>1</LibraryElementType>
+</HMIModelingElement>
+<MaterialLibrary>
+<Id>1</Id>
+<Guid>8afa0ad2-6f17-4d6a-aa7e-0627343c2ee9</Guid>
+<DateModified>2008-09-09T23:11:45.0311196+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Aluminum</Label>
+<Notes>Young's moduls and Poisson's Ratio: http://fixedreference.org/2006-Wikipedia-CD-Selection/wp/a/Aluminium.htm</Notes>
+<MaterialLibraryManningsCoefficient>0.024</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.001</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.024</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>100</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.6713</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>1461978000</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.35</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>2</Id>
+<Guid>f7fcf3f8-4dc5-4e1f-afdc-28f0392de86f</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Aluminum structural plate 32 in CR</Label>
+<Notes>Aluminum structural plate 32 in CR notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.035</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>3</Id>
+<Guid>fe3a274c-431d-4f63-9f7e-bcfee71afec4</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Aluminum structural plate 32 in CR Historic</Label>
+<Notes>Aluminum structural plate 32 in CR Historic notes</Notes>
+<MaterialLibraryManningsCoefficient>0.036</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.036</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>4</Id>
+<Guid>05daf1b4-e4fb-470f-9339-2aa48bef0053</Guid>
+<DateModified>2007-09-19T13:50:48.046875+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Asbestos Cement</Label>
+<Notes>Young's Modulus, Poisson's Ratio: Haestad, Walski, Chase, Savic, Grayman, Beckwith and Koelle, "Advanced Water Distribution Modeling and Management", Haestad Press, Waterbury CT USA, 2003.</Notes>
+<MaterialLibraryManningsCoefficient>0.011</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>5E-06</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.011</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>140</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.9520</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>501249600</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.3</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>5</Id>
+<Guid>446c5b4a-6ac1-4636-b1f5-ddede6a6f35b</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Asphalt ditch</Label>
+<Notes>Asphalt ditch notes</Notes>
+<MaterialLibraryManningsCoefficient>0.016</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>140</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.9520</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>6</Id>
+<Guid>b98c3cd8-936a-43e8-b664-e7052f3ba003</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Asphalt pavement (rough)</Label>
+<Notes>Asphalt pavement (rough) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.016</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>7</Id>
+<Guid>b98fdb96-9a88-4594-80f1-7e64df39bb53</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Asphalt pavement (smooth)</Label>
+<Notes>Asphalt pavement (smooth) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.013</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>8</Id>
+<Guid>897f609d-2091-4ba8-851a-7c18ccae58bd</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Asphalted cast iron (new)</Label>
+<Notes>Asphalted cast iron (new) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.012</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.0004</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>9</Id>
+<Guid>180e18bf-9b7d-48ed-b5ba-23aba01d7f2c</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Bare soil</Label>
+<Notes>Bare soil notes</Notes>
+<MaterialLibraryManningsCoefficient>0.02</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>10</Id>
+<Guid>95acc502-8929-4138-ba16-9f0960d3aa32</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Best concrete</Label>
+<Notes>Best concrete notes</Notes>
+<MaterialLibraryManningsCoefficient>0.01</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.0012</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>150</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>1.000</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>11</Id>
+<Guid>a5683067-3dd6-4030-9270-7a4d7116cb82</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Brick in mortar</Label>
+<Notes>Brick in mortar notes</Notes>
+<MaterialLibraryManningsCoefficient>0.015</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.002</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.015</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>100</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.6713</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>12</Id>
+<Guid>65bfb005-030c-4b62-8ecd-0815758c430e</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Brick sewer</Label>
+<Notes>Brick sewer notes</Notes>
+<MaterialLibraryManningsCoefficient>0.015</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.002</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.015</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>100</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.6713</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>13</Id>
+<Guid>763bd167-ef39-4900-8f48-b49c2c9f4eeb</Guid>
+<DateModified>2007-09-19T13:49:53.421875+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Cast iron</Label>
+<Notes>Young's Modulus, Poisson's Ratio: Haestad, Walski, Chase, Savic, Grayman, Beckwith and Koelle, "Advanced Water Distribution Modeling and Management", Haestad Press, Waterbury CT USA, 2003.</Notes>
+<MaterialLibraryManningsCoefficient>0.012</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>1879686000</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.25</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>14</Id>
+<Guid>c5852f19-8249-47d8-a9db-63edb57928e3</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>CMP</Label>
+<Notes>CMP notes</Notes>
+<MaterialLibraryManningsCoefficient>0.024</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.001</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.024</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>100</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.6713</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>15</Id>
+<Guid>005c9ae5-ed23-4279-864b-b068bd54cb7c</Guid>
+<DateModified>2007-09-19T13:50:21.390625+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete</Label>
+<Notes>Young's Modulus, Poisson's Ratio: Haestad, Walski, Chase, Savic, Grayman, Beckwith and Koelle, "Advanced Water Distribution Modeling and Management", Haestad Press, Waterbury CT USA, 2003.</Notes>
+<MaterialLibraryManningsCoefficient>0.013</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.0004</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.013</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>110</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.7401</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>417708000</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.15</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>16</Id>
+<Guid>9941f3e0-9941-4cff-a53a-87b9dce119e8</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete (centrif. spun)</Label>
+<Notes>Concrete (centrif. spun) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.013</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.0012</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.013</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>135</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.914</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>17</Id>
+<Guid>c994cf74-4cf9-4679-b50a-cd94ee7390aa</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete (steel forms)</Label>
+<Notes>Concrete (steel forms) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.011</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.006</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.011</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>140</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.9520</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>18</Id>
+<Guid>6776255c-9be2-4662-897d-40b0859d6971</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete (wood forms)</Label>
+<Notes>Concrete (wood forms) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.015</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.002</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.015</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>120</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8090</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>19</Id>
+<Guid>ec196689-a3c2-4e00-9c2a-dae932e1f7f7</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete gutter (broom finish)</Label>
+<Notes>Concrete gutter (broom finish) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.016</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>20</Id>
+<Guid>610c1397-c04e-4873-a55e-bf51478e1ab3</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete gutter (troweled finish)</Label>
+<Notes>Concrete gutter (troweled finish) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.012</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>21</Id>
+<Guid>96c7e66f-0388-4160-9b62-03896f995ea9</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete gutter, asphalt pavement (rough)</Label>
+<Notes>Concrete gutter, asphalt pavement (rough) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.015</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>22</Id>
+<Guid>3ccec47d-b966-478c-bd27-4a44ddd3a682</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete gutter, asphalt pavement (smooth)</Label>
+<Notes>Concrete gutter, asphalt pavement (smooth) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.013</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>23</Id>
+<Guid>d068ad6c-fba3-464f-a8ce-d7fe4db69836</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Concrete pavement (float finish)</Label>
+<Notes>Concrete pavement (float finish) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.014</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>24</Id>
+<Guid>91a851cb-4572-40e9-a290-89ec4d449e02</Guid>
+<DateModified>2008-09-09T23:12:04.5941204+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Copper</Label>
+<Notes>Young's modulus, Poisson's Ratio: A.J.Munday & R.A. Farrar, "An Engineering Data Book", Macmillan Education Limited, Basingsstoke and London, 1988.</Notes>
+<MaterialLibraryManningsCoefficient>0.011</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>5E-06</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.011</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>135</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.914</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>2172081600</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.35</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>25</Id>
+<Guid>efebde44-a444-49b6-8748-e4a13b3e1c28</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Curled wood mat</Label>
+<Notes>Curled wood mat notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>26</Id>
+<Guid>8b50b7ba-c842-42e3-89c4-b421a75b87b3</Guid>
+<DateModified>2007-09-19T13:50:10.03125+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Ductile Iron</Label>
+<Notes>Young's Modulus, Poisson's Ratio: Haestad, Walski, Chase, Savic, Grayman, Beckwith and Koelle, "Advanced Water Distribution Modeling and Management", Haestad Press, Waterbury CT USA, 2003.</Notes>
+<MaterialLibraryManningsCoefficient>0.012</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>3592288800</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.28</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>27</Id>
+<Guid>f1fad5aa-c0f6-467a-b1d8-74f57ea159c4</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Fiberglass roving</Label>
+<Notes>Fiberglass roving notes</Notes>
+<MaterialLibraryManningsCoefficient>0.021</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>28</Id>
+<Guid>ea514fb8-0b41-4b11-9e1b-c4c79d213383</Guid>
+<DateModified>2003-11-11T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Flood plain, brush</Label>
+<Notes>Flood plain, brush notes</Notes>
+<MaterialLibraryManningsCoefficient>0.06</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.06</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>29</Id>
+<Guid>79d9e687-b02f-4cc1-a856-b63b858ba1ac</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Flood plain, cultivated</Label>
+<Notes>Flood plain, cultivated notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.035</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>30</Id>
+<Guid>2ff229a6-a214-40ae-968b-5342c97ce3b0</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Galvanized iron</Label>
+<Notes>Galvanized iron notes</Notes>
+<MaterialLibraryManningsCoefficient>0.016</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.005</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.016</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>120</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8090</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>31</Id>
+<Guid>30b1903f-352e-4439-a647-8265f38b1886</Guid>
+<DateModified>2008-09-09T23:12:14.7037542+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Glass</Label>
+<Notes>Young's modulus: http://en.wikipedia.org/wiki/Young's_modulus</Notes>
+<MaterialLibraryManningsCoefficient>0.011</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>5E-06</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.011</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>140</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.9520</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>1503748800</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>32</Id>
+<Guid>71999931-0adb-4371-87ca-0aba1b380972</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Gravel riprap, 25 mm (1 in) D50</Label>
+<Notes>Gravel riprap, 25 mm (1 in) D50 notes</Notes>
+<MaterialLibraryManningsCoefficient>0.033</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>33</Id>
+<Guid>9812e773-52e8-40aa-94c0-afc6769d2e69</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Gravel riprap, 50 mm (2 in) D50</Label>
+<Notes>Gravel riprap, 50 mm (2 in) D50 notes</Notes>
+<MaterialLibraryManningsCoefficient>0.041</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>35</Id>
+<Guid>6e59a637-c183-40fa-96b1-4686477649b5</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Grouted riprap</Label>
+<Notes>Grouted riprap notes</Notes>
+<MaterialLibraryManningsCoefficient>0.03</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>36</Id>
+<Guid>fed9ca9d-e77a-4850-a9b0-d2fe7adeb755</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Jute net</Label>
+<Notes>Jute net notes</Notes>
+<MaterialLibraryManningsCoefficient>0.022</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>37</Id>
+<Guid>f17408ca-0eaa-412c-bd0e-582415ce08f5</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Natural stream, clean</Label>
+<Notes>Natural stream, clean notes</Notes>
+<MaterialLibraryManningsCoefficient>0.03</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.03</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>38</Id>
+<Guid>3a712e23-ab4b-46e2-a750-9b948e82a70c</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Natural stream, stony notes</Label>
+<Notes>Natural stream, stony notes</Notes>
+<MaterialLibraryManningsCoefficient>0.05</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.05</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>39</Id>
+<Guid>41bf26b1-009b-49ff-b692-9ce616756027</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Natural stream, weedy</Label>
+<Notes>Natural stream, weedy notes</Notes>
+<MaterialLibraryManningsCoefficient>0.045</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.045</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>40</Id>
+<Guid>09620f57-afe6-4c3d-beda-63f944bbc80c</Guid>
+<DateModified>2007-09-19T13:51:24.125+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>PVC</Label>
+<Notes>Young's Modulus, Poisson's Ratio: Haestad, Walski, Chase, Savic, Grayman, Beckwith and Koelle, "Advanced Water Distribution Modeling and Management", Haestad Press, Waterbury CT USA, 2003.</Notes>
+<MaterialLibraryManningsCoefficient>0.01</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>5E-06</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.01</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>150</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>1.000</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>68921820</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.45</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>41</Id>
+<Guid>d63d9ca3-7957-462d-aca4-5c86993beb0e</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Riveted steel (new, rough)</Label>
+<Notes>Riveted steel (new, rough) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.021</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.03</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.021</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>80</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.536</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>42</Id>
+<Guid>5fcb7b46-b389-457c-a8c9-db36c49c66eb</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Riveted steel (new, smooth)</Label>
+<Notes>Riveted steel (new, smooth) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.019</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.003</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.019</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>110</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.7401</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>43</Id>
+<Guid>8a5c88b6-34e0-4b8e-b5b8-a77a38682788</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Rock cut</Label>
+<Notes>Rock cut notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>44</Id>
+<Guid>1c2034da-8fcb-4202-91a1-67e366887d65</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Rock riprap, 150 mm (6 in) D50</Label>
+<Notes>Rock riprap, 150 mm (6 in) D50 notes</Notes>
+<MaterialLibraryManningsCoefficient>0.069</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.069</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>45</Id>
+<Guid>33ca18ae-b948-446c-848c-311438f812d4</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Rock riprap, 300 mm (12 in) D50</Label>
+<Notes>Rock riprap, 300 mm (12 in) D50 notes</Notes>
+<MaterialLibraryManningsCoefficient>0.078</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.078</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>46</Id>
+<Guid>59cbc0e4-4b69-4fb5-ae2d-f15ab1463a57</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Rough channel, with grass</Label>
+<Notes>Rough channel, with grass notes</Notes>
+<MaterialLibraryManningsCoefficient>0.03</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.03</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>47</Id>
+<Guid>7c8d2adc-23a8-4ca5-b98c-f046f8a632dd</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Rough earth</Label>
+<Notes>Rough earth notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.035</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>48</Id>
+<Guid>334bedef-26d7-4aa6-936f-9f2f4baa06c8</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Rough rocks</Label>
+<Notes>Rough rocks notes</Notes>
+<MaterialLibraryManningsCoefficient>0.04</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.04</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>49</Id>
+<Guid>e42ddeff-79d5-4bc3-802a-6288803fbf08</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Soil cement</Label>
+<Notes>Soil cement notes</Notes>
+<MaterialLibraryManningsCoefficient>0.022</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>50</Id>
+<Guid>6148d8a9-6289-4070-bfda-e5bfced0c6e1</Guid>
+<DateModified>2007-09-19T13:49:36.296875+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel</Label>
+<Notes>Young's Modulus, Poisson's Ratio: Haestad, Walski, Chase, Savic, Grayman, Beckwith and Koelle, "Advanced Water Distribution Modeling and Management", Haestad Press, Waterbury CT USA, 2003.</Notes>
+<MaterialLibraryManningsCoefficient>0.013</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>9.84252E-05</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.013</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>140</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.9520</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>4323277800</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0.3</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>51</Id>
+<Guid>d831cdb7-b21a-42ff-a5f2-7aa68bcaa85a</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel and Aluminum 18 In or less CR 3x1 Corrugations Historic</Label>
+<Notes>Steel and Aluminum 18 In or less CR 3x1 Corrugations Historic notes</Notes>
+<MaterialLibraryManningsCoefficient>0.028</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.028</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>52</Id>
+<Guid>2eb4f6c7-f5ae-49f8-be5c-5803b4677d68</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel and Aluminum 5x1 and 3x1 Corrugations</Label>
+<Notes>Steel and Aluminum 5x1 and 3x1 Corrugations notes</Notes>
+<MaterialLibraryManningsCoefficient>0.028</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.028</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>53</Id>
+<Guid>40e53185-2c96-479a-a005-6aa50bbb5433</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel and Aluminum Var CR</Label>
+<Notes>Steel and Aluminum Var CR notes</Notes>
+<MaterialLibraryManningsCoefficient>0.025</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.001</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.025</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>54</Id>
+<Guid>dbd7ca22-36a3-4a2c-ac3e-268544240ca2</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel and Aluminum Var CR Historic</Label>
+<Notes>Steel and Aluminum Var CR Historic notes</Notes>
+<MaterialLibraryManningsCoefficient>0.025</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.025</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>55</Id>
+<Guid>923a89dc-4660-494a-90e4-85222be541ca</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel structural plate 18 In CR</Label>
+<Notes>Steel structural plate 18 In CR notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.035</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>56</Id>
+<Guid>a8cd4c69-65ff-4c16-a0f1-ad7cc52d2826</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel structural plate 31 In CR</Label>
+<Notes>Steel structural plate 31 In CR notes</Notes>
+<MaterialLibraryManningsCoefficient>0.034</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.034</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>57</Id>
+<Guid>609174bc-ab3b-4f9b-850d-823c967fa5c2</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Steel structural plate 47 In CR</Label>
+<Notes>Steel structural plate 47 In CR notes</Notes>
+<MaterialLibraryManningsCoefficient>0.033</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.165</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.033</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>70</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.4670</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>58</Id>
+<Guid>f8d06f20-842f-4d6d-9e30-8ebe5b94e153</Guid>
+<DateModified>2007-09-11T02:21:10.9458207+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Stone masonry</Label>
+<Notes>Young's Modulus (Low): http://www.staff.city.ac.uk/earthquakes/Repairstrengthening/RSStoneMasonry.htm</Notes>
+<MaterialLibraryManningsCoefficient>0.032</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>4177080</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>59</Id>
+<Guid>f9a60baf-b23c-4d7c-9a22-199b4622e116</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Stony bottom</Label>
+<Notes>Stony bottom notes</Notes>
+<MaterialLibraryManningsCoefficient>0.035</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.035</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>60</Id>
+<Guid>3d8d56fb-da05-4753-88fe-da460715dbdd</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Straw with net</Label>
+<Notes>Straw with net notes</Notes>
+<MaterialLibraryManningsCoefficient>0.033</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>61</Id>
+<Guid>35aad071-9c23-450a-a9d1-c62dbfab0676</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Synthetic mat</Label>
+<Notes>Synthetic mat notes</Notes>
+<MaterialLibraryManningsCoefficient>0.025</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>62</Id>
+<Guid>b3effccd-dfa0-4b55-a494-febe6d6c1a59</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Very rough channel, with grass</Label>
+<Notes>Very rough channel, with grass notes</Notes>
+<MaterialLibraryManningsCoefficient>0.05</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.05</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>63</Id>
+<Guid>91d847e8-091c-4fa9-8f0b-3d5249ab5565</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Wood Stave (new, smooth)</Label>
+<Notes>Wood Stave (new, smooth) notes</Notes>
+<MaterialLibraryManningsCoefficient>0.012</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.0006</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>120</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8090</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<MaterialLibrary>
+<Id>64</Id>
+<Guid>8520210c-a7b0-4730-a928-5034f46c2ffe</Guid>
+<DateModified>2003-11-12T10:00:00+05:00</DateModified>
+<ElementID>0</ElementID>
+<Label>Woven paper net</Label>
+<Notes>Woven paper net notes</Notes>
+<MaterialLibraryManningsCoefficient>0.015</MaterialLibraryManningsCoefficient>
+<MaterialLibraryRoughnessHeight>0.00085</MaterialLibraryRoughnessHeight>
+<MaterialLibraryKuttersNCoefficient>0.012</MaterialLibraryKuttersNCoefficient>
+<MaterialLibraryHazenWilliamsCCoefficient>130</MaterialLibraryHazenWilliamsCCoefficient>
+<MaterialLibraryPhysical_ModifiedHazenWilliamsCR>0.8780</MaterialLibraryPhysical_ModifiedHazenWilliamsCR>
+<MaterialLibraryYoungsModulus>0</MaterialLibraryYoungsModulus>
+<MaterialLibraryPoissonsRatio>0</MaterialLibraryPoissonsRatio>
+</MaterialLibrary>
+<HMIMetaData Guid="DC81829E-244D-4d25-9315-99C048774F69" DateModified="2008-09-09T23:12:14.7037542+05:00" SchemaVersion="5.0.0.1" EngineeringLibraryType="MaterialLibrary"/>
+</NewDataSet>
