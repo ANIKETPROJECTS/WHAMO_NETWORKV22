@@ -5,6 +5,8 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
@@ -140,6 +142,8 @@ export function PropertiesPanel() {
   const [nodeNumInput, setNodeNumInput] = useState<string>("");
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [isDirty, setIsDirty] = useState(false);
+  const [materialPickerOpen, setMaterialPickerOpen] = useState(false);
+  const [showMaterialProps, setShowMaterialProps] = useState(false);
 
   useEffect(() => {
     const el = selectedElementId
@@ -1424,35 +1428,81 @@ export function PropertiesPanel() {
                         </p>
                       </div>
                     </div>
-                    <Select
-                      value={matId != null ? String(matId) : '__none__'}
-                      onValueChange={applyMaterial}
-                    >
-                      <SelectTrigger
-                        id="pipe-material"
-                        data-testid="select-pipe-material"
-                        className="bg-white"
-                      >
-                        <SelectValue placeholder="-- Select pipe material --" />
-                      </SelectTrigger>
-                      <SelectContent className="max-h-72">
-                        <SelectItem value="__none__">-- None (manual entry) --</SelectItem>
-                        {PIPE_MATERIALS.map(m => (
-                          <SelectItem
-                            key={m.id}
-                            value={String(m.id)}
-                            data-testid={`material-option-${m.id}`}
-                          >
-                            {m.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Popover open={materialPickerOpen} onOpenChange={setMaterialPickerOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          id="pipe-material"
+                          data-testid="select-pipe-material"
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={materialPickerOpen}
+                          className="w-full justify-between bg-white font-normal"
+                        >
+                          <span className={mat ? '' : 'text-muted-foreground'}>
+                            {mat ? mat.label : '-- Select pipe material --'}
+                          </span>
+                          <ChevronDown className="h-4 w-4 opacity-50 shrink-0 ml-2" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-0 w-[--radix-popover-trigger-width]" align="start">
+                        <Command
+                          filter={(value, search) => {
+                            return value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+                          }}
+                        >
+                          <CommandInput
+                            placeholder="Search material..."
+                            data-testid="input-material-search"
+                          />
+                          <CommandList className="max-h-64">
+                            <CommandEmpty>No material found.</CommandEmpty>
+                            <CommandGroup>
+                              <CommandItem
+                                value="-- None (manual entry) --"
+                                onSelect={() => {
+                                  applyMaterial('__none__');
+                                  setMaterialPickerOpen(false);
+                                }}
+                                data-testid="material-option-none"
+                              >
+                                -- None (manual entry) --
+                              </CommandItem>
+                              {PIPE_MATERIALS.map(m => (
+                                <CommandItem
+                                  key={m.id}
+                                  value={m.label}
+                                  onSelect={() => {
+                                    applyMaterial(String(m.id));
+                                    setMaterialPickerOpen(false);
+                                  }}
+                                  data-testid={`material-option-${m.id}`}
+                                >
+                                  {m.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
 
                     {mat && (
+                      <div className="rounded bg-white border overflow-hidden">
+                        <button
+                          type="button"
+                          data-testid="btn-toggle-material-properties"
+                          onClick={() => setShowMaterialProps(v => !v)}
+                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted/50 transition-colors"
+                        >
+                          <span>{mat.label} — properties</span>
+                          {showMaterialProps
+                            ? <ChevronDown className="h-3.5 w-3.5" />
+                            : <ChevronRight className="h-3.5 w-3.5" />}
+                        </button>
+                        {showMaterialProps && (
                       <div
                         data-testid="material-properties-summary"
-                        className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs rounded bg-white border px-3 py-2.5"
+                        className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs px-3 pb-2.5 pt-1 border-t"
                       >
                         <div className="col-span-2 font-semibold text-foreground border-b pb-1 mb-1">
                           {mat.label} — properties
@@ -1495,6 +1545,8 @@ export function PropertiesPanel() {
                         <div className="col-span-2 text-[10px] text-muted-foreground italic mt-1 pt-1 border-t">
                           Manning's n and E have been auto-filled below. Wall thickness (WT) still needs to be entered to compute wave speed.
                         </div>
+                      </div>
+                        )}
                       </div>
                     )}
                   </div>
