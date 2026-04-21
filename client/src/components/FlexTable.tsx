@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { X, Filter, Check, Plus, Trash2 } from 'lucide-react';
 
@@ -1009,6 +1010,7 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
     qSchedules, updateQSchedule,
     applyMaterialToAllConduits, setApplyMaterialToAllConduits,
   } = useNetworkStore();
+  const { toast } = useToast();
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const [pairsEditor, setPairsEditor] = useState<PairsEditorState | null>(null);
 
@@ -1224,7 +1226,51 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
                     id="flextable-apply-mat-all"
                     data-testid="checkbox-flextable-apply-material-all"
                     checked={applyMaterialToAllConduits}
-                    onCheckedChange={(c) => setApplyMaterialToAllConduits(!!c)}
+                    onCheckedChange={(c) => {
+                      const checked = !!c;
+                      setApplyMaterialToAllConduits(checked);
+                      if (!checked) return;
+                      // Find a "source" material: prefer the currently-selected conduit,
+                      // otherwise use the first conduit in the network that has a material.
+                      const conduits = edges.filter(e => e.data?.type === 'conduit');
+                      const sel = conduits.find(e => e.id === useNetworkStore.getState().selectedElementId);
+                      const source =
+                        (sel && (sel.data as any)?.materialId)
+                          ? sel
+                          : conduits.find(e => (e.data as any)?.materialId);
+                      if (!source) return;
+                      const matIdStr = String((source.data as any).materialId);
+                      const id = parseInt(matIdStr, 10);
+                      const m = PIPE_MATERIALS_BY_ID[id];
+                      if (!m) return;
+                      const n = m.manningsN;
+                      let count = 0;
+                      conduits.forEach(e => {
+                        const eUnit: UnitSystem = ((e.data as any)?.unit as UnitSystem) || globalUnit;
+                        const eEval = eUnit === 'SI' ? m.youngsModulus_Pa : m.youngsModulus_psi;
+                        const upd: any = { materialId: matIdStr, manningsN: n };
+                        if (eEval > 0) upd.pipeE = eEval;
+                        const eD = parseFloat(String((e.data as any)?.diameter)) || 0;
+                        if (eD > 0 && n > 0) {
+                          const K = eUnit === 'SI' ? 124.58 : 185;
+                          upd.friction = parseFloat(((K * n * n) / Math.pow(eD, 1 / 3)).toFixed(6));
+                        }
+                        const eWT = parseFloat(String((e.data as any)?.pipeWT)) || 0;
+                        if (eEval > 0 && eWT > 0 && eD > 0) {
+                          const C0 = eUnit === 'SI' ? 1440 : 4720;
+                          const Kw = eUnit === 'SI' ? 2.07e9 : 3e5;
+                          upd.celerity = parseFloat((C0 / Math.sqrt(1 + (Kw / eEval) * (eD / eWT))).toFixed(4));
+                        }
+                        updateEdgeData(e.id, upd);
+                        count++;
+                      });
+                      if (count > 0) {
+                        toast({
+                          title: 'Material applied to all conduits',
+                          description: `${m.label} applied to ${count} conduit${count > 1 ? 's' : ''}.`,
+                        });
+                      }
+                    }}
                     className="h-3.5 w-3.5"
                   />
                   <Label

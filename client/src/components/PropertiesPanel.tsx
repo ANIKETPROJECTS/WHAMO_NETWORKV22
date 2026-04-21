@@ -1387,12 +1387,12 @@ export function PropertiesPanel() {
               {(() => {
                 const matId = formData.materialId ? Number(formData.materialId) : null;
                 const mat = matId != null ? PIPE_MATERIALS_BY_ID[matId] : null;
-                const applyMaterial = (idStr: string) => {
+                const applyMaterial = (idStr: string, forceAll: boolean = false) => {
+                  const all = forceAll || applyMaterialToAllConduits;
                   if (idStr === '__none__') {
                     handleChange('materialId', '');
                     // Propagate "clear" to siblings (same label) or all conduits when toggle is on
                     const lbl = (formData.label as string) || '';
-                    const all = applyMaterialToAllConduits;
                     if (all || lbl) {
                       edges
                         .filter(e =>
@@ -1435,12 +1435,11 @@ export function PropertiesPanel() {
                   // Propagate: by default to siblings sharing the same label;
                   // when "Apply to all conduits" is checked, propagate to every conduit.
                   const lbl = (formData.label as string) || '';
-                  const applyToAll = applyMaterialToAllConduits;
-                  if (applyToAll || lbl) {
+                  if (all || lbl) {
                     const siblings = edges.filter(e =>
                       e.id !== selectedElementId &&
                       e.data?.type === 'conduit' &&
-                      (applyToAll || (e.data?.label as string) === lbl)
+                      (all || (e.data?.label as string) === lbl)
                     );
                     siblings.forEach(e => {
                       const eUnit: UnitSystem = (e.data?.unit as UnitSystem) || currentUnit;
@@ -1465,8 +1464,8 @@ export function PropertiesPanel() {
                     });
                     if (siblings.length > 0) {
                       toast({
-                        title: applyToAll ? 'Material applied to all conduits' : 'Material applied to group',
-                        description: applyToAll
+                        title: all ? 'Material applied to all conduits' : 'Material applied to group',
+                        description: all
                           ? `${m.label} applied to ${siblings.length + 1} conduit${siblings.length + 1 > 1 ? 's' : ''}.`
                           : `${m.label} also applied to ${siblings.length} other "${lbl}" conduit${siblings.length > 1 ? 's' : ''}.`,
                       });
@@ -1546,7 +1545,15 @@ export function PropertiesPanel() {
                         id="apply-mat-all"
                         data-testid="checkbox-apply-material-all"
                         checked={applyMaterialToAllConduits}
-                        onCheckedChange={(c) => setApplyMaterialToAllConduits(!!c)}
+                        onCheckedChange={(c) => {
+                          const checked = !!c;
+                          setApplyMaterialToAllConduits(checked);
+                          // If turning ON and the current conduit already has a material,
+                          // immediately push it to every conduit in the network.
+                          if (checked && formData.materialId) {
+                            applyMaterial(String(formData.materialId), true);
+                          }
+                        }}
                       />
                       <Label
                         htmlFor="apply-mat-all"
