@@ -134,6 +134,8 @@ export function PropertiesPanel() {
     deletePcharType,
     qSchedules,
     updateQSchedule,
+    applyMaterialToAllConduits,
+    setApplyMaterialToAllConduits,
   } = useNetworkStore();
 
   const { toast } = useToast();
@@ -1388,14 +1390,15 @@ export function PropertiesPanel() {
                 const applyMaterial = (idStr: string) => {
                   if (idStr === '__none__') {
                     handleChange('materialId', '');
-                    // Propagate "clear" to siblings with the same label
+                    // Propagate "clear" to siblings (same label) or all conduits when toggle is on
                     const lbl = (formData.label as string) || '';
-                    if (lbl) {
+                    const all = applyMaterialToAllConduits;
+                    if (all || lbl) {
                       edges
                         .filter(e =>
                           e.id !== selectedElementId &&
-                          (e.data?.label as string) === lbl &&
-                          e.data?.type === 'conduit'
+                          e.data?.type === 'conduit' &&
+                          (all || (e.data?.label as string) === lbl)
                         )
                         .forEach(e => updateEdgeData(e.id, { materialId: '' } as any));
                     }
@@ -1429,13 +1432,15 @@ export function PropertiesPanel() {
                     handleChange('celerity', parseFloat(c.toFixed(4)).toString());
                   }
 
-                  // Propagate to all other conduits sharing the same label
+                  // Propagate: by default to siblings sharing the same label;
+                  // when "Apply to all conduits" is checked, propagate to every conduit.
                   const lbl = (formData.label as string) || '';
-                  if (lbl) {
+                  const applyToAll = applyMaterialToAllConduits;
+                  if (applyToAll || lbl) {
                     const siblings = edges.filter(e =>
                       e.id !== selectedElementId &&
-                      (e.data?.label as string) === lbl &&
-                      e.data?.type === 'conduit'
+                      e.data?.type === 'conduit' &&
+                      (applyToAll || (e.data?.label as string) === lbl)
                     );
                     siblings.forEach(e => {
                       const eUnit: UnitSystem = (e.data?.unit as UnitSystem) || currentUnit;
@@ -1460,8 +1465,10 @@ export function PropertiesPanel() {
                     });
                     if (siblings.length > 0) {
                       toast({
-                        title: 'Material applied to group',
-                        description: `${m.label} also applied to ${siblings.length} other "${lbl}" conduit${siblings.length > 1 ? 's' : ''}.`,
+                        title: applyToAll ? 'Material applied to all conduits' : 'Material applied to group',
+                        description: applyToAll
+                          ? `${m.label} applied to ${siblings.length + 1} conduit${siblings.length + 1 > 1 ? 's' : ''}.`
+                          : `${m.label} also applied to ${siblings.length} other "${lbl}" conduit${siblings.length > 1 ? 's' : ''}.`,
                       });
                     }
                   }
@@ -1533,6 +1540,21 @@ export function PropertiesPanel() {
                         </Command>
                       </PopoverContent>
                     </Popover>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="apply-mat-all"
+                        data-testid="checkbox-apply-material-all"
+                        checked={applyMaterialToAllConduits}
+                        onCheckedChange={(c) => setApplyMaterialToAllConduits(!!c)}
+                      />
+                      <Label
+                        htmlFor="apply-mat-all"
+                        className="text-xs font-normal cursor-pointer"
+                      >
+                        Apply selected material to <strong>all conduits</strong> in the network
+                      </Label>
+                    </div>
 
                     {mat && (
                       <div className="rounded bg-white border overflow-hidden">

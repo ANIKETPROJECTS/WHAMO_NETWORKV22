@@ -116,6 +116,7 @@ interface NetworkState {
   loadedFileHandle: FileSystemFileHandle | null;
   globalUnit: UnitSystem;
   showHoverData: boolean;
+  applyMaterialToAllConduits: boolean;
   nodeSelectionSet: Set<string>;
   pcharData: Record<number, PcharType>;
   nodeOrderErrorIds: string[];
@@ -150,6 +151,7 @@ interface NetworkState {
   setLoadedFileHandle: (handle: FileSystemFileHandle | null) => void;
   setGlobalUnit: (unit: UnitSystem) => void;
   setShowHoverData: (show: boolean) => void;
+  setApplyMaterialToAllConduits: (val: boolean) => void;
   setElementUnit: (id: string, kind: 'node' | 'edge', newUnit: UnitSystem) => void;
   updateHSchedule: (number: number, points: { time: number; head: number | string }[]) => void;
   addHSchedule: (number: number) => void;
@@ -189,12 +191,17 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
   loadedFileHandle: null,
   globalUnit: 'FPS',
   showHoverData: true,
+  applyMaterialToAllConduits: false,
   nodeSelectionSet: new Set(),
   pcharData: {},
   nodeOrderErrorIds: [],
   history: {
     past: [],
     future: [],
+  },
+
+  setApplyMaterialToAllConduits: (val: boolean) => {
+    set({ applyMaterialToAllConduits: val });
   },
 
   setShowHoverData: (show: boolean) => {

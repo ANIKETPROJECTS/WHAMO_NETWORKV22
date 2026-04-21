@@ -4,6 +4,8 @@ import { PIPE_MATERIALS, PIPE_MATERIALS_BY_ID } from '@/lib/pipe-materials';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { X, Filter, Check, Plus, Trash2 } from 'lucide-react';
 
@@ -637,13 +639,14 @@ function RowCells({
       ];
       const propagateToSiblings = (updater: (e: any, eUnit: UnitSystem) => any) => {
         const lbl = (d.label as string) || '';
-        if (!lbl) return;
-        const { edges: allEdges, updateEdgeData: upd } = useNetworkStore.getState();
+        const { edges: allEdges, updateEdgeData: upd, applyMaterialToAllConduits: all } =
+          useNetworkStore.getState();
+        if (!all && !lbl) return;
         allEdges
           .filter(e =>
             e.id !== row.id &&
-            (e.data?.label as string) === lbl &&
-            e.data?.type === 'conduit'
+            e.data?.type === 'conduit' &&
+            (all || (e.data?.label as string) === lbl)
           )
           .forEach(e => {
             const eUnit: UnitSystem = (e.data?.unit as UnitSystem) || globalUnit;
@@ -1004,6 +1007,7 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
     hSchedules, updateHSchedule, addHSchedule,
     pcharData,
     qSchedules, updateQSchedule,
+    applyMaterialToAllConduits, setApplyMaterialToAllConduits,
   } = useNetworkStore();
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
   const [pairsEditor, setPairsEditor] = useState<PairsEditorState | null>(null);
@@ -1214,6 +1218,22 @@ export function FlexTable({ open, onClose }: FlexTableProps) {
                     className={cn('px-3 h-full font-semibold transition-colors border-l border-slate-200', globalUnit === 'FPS' ? 'bg-[#1a73e8] text-white' : 'text-slate-600 hover:bg-slate-50')}
                     onClick={() => setGlobalUnit('FPS')}
                   >FPS</button>
+                </div>
+                <div className="flex items-center gap-1.5 px-2 h-7 rounded border border-slate-200 bg-slate-50">
+                  <Checkbox
+                    id="flextable-apply-mat-all"
+                    data-testid="checkbox-flextable-apply-material-all"
+                    checked={applyMaterialToAllConduits}
+                    onCheckedChange={(c) => setApplyMaterialToAllConduits(!!c)}
+                    className="h-3.5 w-3.5"
+                  />
+                  <Label
+                    htmlFor="flextable-apply-mat-all"
+                    className="text-[11px] font-normal cursor-pointer text-slate-700"
+                    title="When checked, picking a Pipe Material applies it to all conduits in the network"
+                  >
+                    Apply material to <strong>all conduits</strong>
+                  </Label>
                 </div>
                 <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={onClose} data-testid="flextable-close">
                   <X className="h-4 w-4" />
