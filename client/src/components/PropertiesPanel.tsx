@@ -598,9 +598,14 @@ export function PropertiesPanel() {
                       <Input
                         id="nodeNum"
                         data-testid="input-node-number"
-                        type="text" inputMode="decimal"
+                        type="text" inputMode="numeric"
                         value={nodeNumInput}
-                        onChange={(e) => setNodeNumInput(e.target.value)}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          if (v === '' || /^\d+$/.test(v)) {
+                            setNodeNumInput(v);
+                          }
+                        }}
                         onBlur={handleNodeNumberBlur}
                         className={isDuplicate ? "border-destructive ring-1 ring-destructive focus-visible:ring-destructive" : ""}
                       />
