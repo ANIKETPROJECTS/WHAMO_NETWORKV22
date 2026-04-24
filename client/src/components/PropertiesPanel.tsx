@@ -385,35 +385,53 @@ export function PropertiesPanel() {
 
     const dataUpdate: any = { unit: newUnit, _unitCache: newCache };
 
-    // Always math-convert. The unit cache is preserved for round-trip use cases
-    // elsewhere (e.g. recovering an exact user-typed value after multiple
-    // toggles), but reading from it here was a source of stale-value bugs when
-    // the cache contained values from an earlier corrupt state. Math conversion
-    // is deterministic and uses the actual current value as the source of truth.
+    // Use the cached target-unit value when it's consistent with the current
+    // value (i.e. it round-trips back via math conversion). This preserves the
+    // user's exact original number across SI→FPS→SI toggles. If the cache is
+    // stale (e.g. copied via auto-applied pipe profile, or loaded from a file),
+    // fall back to a fresh math conversion so values aren't frozen.
+    const cachedTarget: Record<string, any> = newCache[newUnit] || {};
+    const isCacheConsistent = (key: string, currentNum: number, type: keyof typeof SI_TO_FPS) => {
+      const cached = cachedTarget[key];
+      if (cached === undefined || cached === null || cached === '') return false;
+      const cachedNum = typeof cached === 'string' ? parseFloat(cached) : cached;
+      if (isNaN(cachedNum)) return false;
+      const projected = convertValue(cachedNum, newUnit, currentUnit, type);
+      const tol = Math.max(Math.abs(currentNum) * 1e-4, 1e-6);
+      return Math.abs(projected - currentNum) <= tol;
+    };
+
     Object.entries(element.data || {}).forEach(([key, value]) => {
       if (!fieldMapping[key]) return;
       if (key === 'pipeE' || key === 'pipeWT') return;
       const numValue = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
-      if (!isNaN(numValue)) {
+      if (isNaN(numValue)) return;
+      if (isCacheConsistent(key, numValue, fieldMapping[key])) {
+        dataUpdate[key] = cachedTarget[key];
+      } else {
         dataUpdate[key] = convertValue(numValue, currentUnit, newUnit, fieldMapping[key]);
       }
     });
 
-    // pipeE (Pa ↔ psi) and pipeWT (m ↔ ft): high-precision math conversion.
+    // pipeE (Pa ↔ psi) and pipeWT (m ↔ ft): same cache-consistency policy.
     if (formData.pipeE != null && formData.pipeE !== '') {
       const val = parseFloat(String(formData.pipeE));
       if (!isNaN(val)) {
-        dataUpdate.pipeE = parseFloat(convertValue(val, currentUnit, newUnit, 'pressure').toPrecision(10));
+        dataUpdate.pipeE = isCacheConsistent('pipeE', val, 'pressure')
+          ? cachedTarget['pipeE']
+          : parseFloat(convertValue(val, currentUnit, newUnit, 'pressure').toPrecision(10));
       }
     }
     if (formData.pipeWT != null && formData.pipeWT !== '') {
       const val = parseFloat(String(formData.pipeWT));
       if (!isNaN(val)) {
-        dataUpdate.pipeWT = parseFloat(convertValue(val, currentUnit, newUnit, 'diameter').toPrecision(10));
+        dataUpdate.pipeWT = isCacheConsistent('pipeWT', val, 'diameter')
+          ? cachedTarget['pipeWT']
+          : parseFloat(convertValue(val, currentUnit, newUnit, 'diameter').toPrecision(10));
       }
     }
 
-    // Handle schedulePoints — also always math-convert.
+    // Handle schedulePoints — math-convert per-point.
     if (formData.schedulePoints) {
       dataUpdate.schedulePoints = (formData.schedulePoints as any[]).map(p => ({
         ...p,

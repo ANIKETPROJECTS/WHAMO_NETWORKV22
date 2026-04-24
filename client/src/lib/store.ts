@@ -284,15 +284,33 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
         [nodeUnit]: { ...(existingCache[nodeUnit] || {}), ...savedForOldUnit },
       };
 
-      // Always math-convert. Cache reads were a source of stale-value bugs.
+      // Use the cached target value when it round-trips back to the current
+      // value via math conversion (preserves user-typed exact numbers across
+      // unit toggles); otherwise fall back to a fresh math conversion so
+      // stale or copied caches can't freeze the displayed value.
+      const cachedTarget: Record<string, any> = newCache[unit] || {};
+      const isCacheConsistent = (key: string, currentNum: number, type: keyof typeof SI_TO_FPS) => {
+        const cached = cachedTarget[key];
+        if (cached === undefined || cached === null || cached === '') return false;
+        const cachedNum = typeof cached === 'string' ? parseFloat(cached) : cached;
+        if (isNaN(cachedNum)) return false;
+        const projected = convertValue(cachedNum, unit, nodeUnit, type) as number;
+        const tol = Math.max(Math.abs(currentNum) * 1e-4, 1e-6);
+        return Math.abs((projected as number) - currentNum) <= tol;
+      };
+
       Object.entries(node.data || {}).forEach(([key, value]) => {
         if (!fieldMapping[key]) return;
-        if (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))) {
+        const numCurrent = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
+        if (isNaN(numCurrent)) return;
+        if (isCacheConsistent(key, numCurrent, fieldMapping[key])) {
+          dataUpdate[key] = cachedTarget[key];
+        } else {
           dataUpdate[key] = convertValue(value as any, nodeUnit, unit, fieldMapping[key]);
         }
       });
 
-      // Handle schedulePoints — always math-convert.
+      // Handle schedulePoints — math-convert per-point.
       if (node.data?.schedulePoints) {
         dataUpdate.schedulePoints = (node.data.schedulePoints as any[]).map(p => ({
           ...p,
@@ -331,23 +349,48 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
         [edgeUnit]: { ...(existingCache[edgeUnit] || {}), ...savedForOldUnit },
       };
 
-      // Always math-convert. Cache reads were a source of stale-value bugs.
+      // Use the cached target value when it round-trips back to the current
+      // value via math conversion (preserves user-typed exact numbers across
+      // unit toggles); otherwise fall back to a fresh math conversion so
+      // stale or copied caches can't freeze the displayed value.
+      const cachedTargetEdge: Record<string, any> = newCache[unit] || {};
+      const isCacheConsistentEdge = (key: string, currentNum: number, type: keyof typeof SI_TO_FPS) => {
+        const cached = cachedTargetEdge[key];
+        if (cached === undefined || cached === null || cached === '') return false;
+        const cachedNum = typeof cached === 'string' ? parseFloat(cached) : cached;
+        if (isNaN(cachedNum)) return false;
+        const projected = convertValue(cachedNum, unit, edgeUnit, type) as number;
+        const tol = Math.max(Math.abs(currentNum) * 1e-4, 1e-6);
+        return Math.abs((projected as number) - currentNum) <= tol;
+      };
+
       Object.entries(edge.data || {}).forEach(([key, value]) => {
         if (!fieldMapping[key]) return;
-        if (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))) {
+        const numCurrent = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
+        if (isNaN(numCurrent)) return;
+        if (isCacheConsistentEdge(key, numCurrent, fieldMapping[key])) {
+          dataUpdate[key] = cachedTargetEdge[key];
+        } else {
           dataUpdate[key] = convertValue(value as any, edgeUnit, unit, fieldMapping[key]);
         }
       });
 
-      // pipeE (Pa ↔ psi) and pipeWT (m ↔ ft): always convert mathematically,
-      // bypassing the cache to avoid stale values corrupting the result.
+      // pipeE (Pa ↔ psi) and pipeWT (m ↔ ft): same cache-consistency policy.
       if (edge.data?.pipeE != null && edge.data.pipeE !== '') {
         const val = typeof edge.data.pipeE === 'string' ? parseFloat(edge.data.pipeE) : edge.data.pipeE;
-        if (!isNaN(val)) dataUpdate.pipeE = convertValue(val, edgeUnit, unit, 'pressure');
+        if (!isNaN(val as number)) {
+          dataUpdate.pipeE = isCacheConsistentEdge('pipeE', val as number, 'pressure')
+            ? cachedTargetEdge['pipeE']
+            : convertValue(val as any, edgeUnit, unit, 'pressure');
+        }
       }
       if (edge.data?.pipeWT != null && edge.data.pipeWT !== '') {
         const val = typeof edge.data.pipeWT === 'string' ? parseFloat(edge.data.pipeWT) : edge.data.pipeWT;
-        if (!isNaN(val)) dataUpdate.pipeWT = convertValue(val, edgeUnit, unit, 'diameter');
+        if (!isNaN(val as number)) {
+          dataUpdate.pipeWT = isCacheConsistentEdge('pipeWT', val as number, 'diameter')
+            ? cachedTargetEdge['pipeWT']
+            : convertValue(val as any, edgeUnit, unit, 'diameter');
+        }
       }
 
       if (edge.data?.unit) dataUpdate.unit = undefined;
@@ -451,10 +494,26 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
         };
 
         const dataUpdate: any = { unit: newUnit };
-        // Always math-convert. Cache reads were a source of stale-value bugs.
+        // Use cached target value when consistent with current value (preserves
+        // exact user-typed numbers across round trips); otherwise math-convert.
+        const cachedTarget: Record<string, any> = newCache[newUnit] || {};
+        const isCacheConsistent = (key: string, currentNum: number, type: keyof typeof SI_TO_FPS) => {
+          const cached = cachedTarget[key];
+          if (cached === undefined || cached === null || cached === '') return false;
+          const cachedNum = typeof cached === 'string' ? parseFloat(cached) : cached;
+          if (isNaN(cachedNum)) return false;
+          const projected = convertValue(cachedNum, newUnit, oldUnit, type) as number;
+          const tol = Math.max(Math.abs(currentNum) * 1e-4, 1e-6);
+          return Math.abs((projected as number) - currentNum) <= tol;
+        };
+
         Object.entries(node.data || {}).forEach(([key, value]) => {
           if (!fieldMapping[key]) return;
-          if (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))) {
+          const numCurrent = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
+          if (isNaN(numCurrent)) return;
+          if (isCacheConsistent(key, numCurrent, fieldMapping[key])) {
+            dataUpdate[key] = cachedTarget[key];
+          } else {
             dataUpdate[key] = convertValue(value as any, oldUnit, newUnit, fieldMapping[key]);
           }
         });
@@ -488,10 +547,26 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
         };
 
         const dataUpdate: any = { unit: newUnit };
-        // Always math-convert. Cache reads were a source of stale-value bugs.
+        // Use cached target value when consistent with current value (preserves
+        // exact user-typed numbers across round trips); otherwise math-convert.
+        const cachedTarget: Record<string, any> = newCache[newUnit] || {};
+        const isCacheConsistent = (key: string, currentNum: number, type: keyof typeof SI_TO_FPS) => {
+          const cached = cachedTarget[key];
+          if (cached === undefined || cached === null || cached === '') return false;
+          const cachedNum = typeof cached === 'string' ? parseFloat(cached) : cached;
+          if (isNaN(cachedNum)) return false;
+          const projected = convertValue(cachedNum, newUnit, oldUnit, type) as number;
+          const tol = Math.max(Math.abs(currentNum) * 1e-4, 1e-6);
+          return Math.abs((projected as number) - currentNum) <= tol;
+        };
+
         Object.entries(edge.data || {}).forEach(([key, value]) => {
           if (!fieldMapping[key]) return;
-          if (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))) {
+          const numCurrent = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
+          if (isNaN(numCurrent)) return;
+          if (isCacheConsistent(key, numCurrent, fieldMapping[key])) {
+            dataUpdate[key] = cachedTarget[key];
+          } else {
             dataUpdate[key] = convertValue(value as any, oldUnit, newUnit, fieldMapping[key]);
           }
         });
