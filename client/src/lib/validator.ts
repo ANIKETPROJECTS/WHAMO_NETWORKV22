@@ -301,32 +301,6 @@ export function validateNetwork(nodes: WhamoNode[], edges: WhamoEdge[]): { error
     }
   });
 
-  // Duplicate Q-Schedule number check across all Flow Boundary nodes
-  const fbNodesWithNum = nodes.filter(n =>
-    n.type === 'flowBoundary' &&
-    n.data?.scheduleNumber !== undefined &&
-    n.data?.scheduleNumber !== ''
-  );
-  const schedNumMap = new Map<number, WhamoNode[]>();
-  fbNodesWithNum.forEach(n => {
-    const num = Number(n.data.scheduleNumber);
-    if (!schedNumMap.has(num)) schedNumMap.set(num, []);
-    schedNumMap.get(num)!.push(n);
-  });
-  schedNumMap.forEach((fbGroup, num) => {
-    if (fbGroup.length > 1) {
-      const labels = fbGroup.map(n => n.data.label).join(', ');
-      fbGroup.forEach(n => {
-        addError(
-          n.id,
-          `Duplicate Q-Schedule number ${num}: used by ${labels}. Each Flow Boundary must have a unique schedule number.`,
-          n.data.label,
-          n.type
-        );
-      });
-    }
-  });
-
   edges.forEach(e => {
     const d = e.data;
     if (d?.type === 'conduit') {
