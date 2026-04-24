@@ -715,16 +715,15 @@ export function PropertiesPanel() {
                         <div key={index} className="flex items-end gap-2 p-2 border rounded-md bg-muted/30 relative group">
                           <div className="grid gap-1 flex-1">
                             <Label className="text-[10px]">Time (T)</Label>
-                            <Input 
-                              type="text" inputMode="decimal"
+                            <NumericInput 
                               className="h-7 text-xs"
                               value={point.time}
-                              onChange={(e) => {
+                              onValueChange={(v) => {
                                 const schedNum = formData.hScheduleNumber || 1;
                                 const currentSched = hSchedules.find(s => s.number === schedNum);
                                 if (currentSched) {
                                   const newPoints = [...currentSched.points];
-                                  newPoints[index] = { ...newPoints[index], time: parseFloat(e.target.value) };
+                                  newPoints[index] = { ...newPoints[index], time: v as any };
                                   updateHSchedule(schedNum, newPoints);
                                 }
                               }}
@@ -732,16 +731,15 @@ export function PropertiesPanel() {
                           </div>
                           <div className="grid gap-1 flex-1">
                             <Label className="text-[10px]">Head (H) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                            <Input 
-                              type="text" inputMode="decimal"
+                            <NumericInput 
                               className="h-7 text-xs"
                               value={point.head}
-                              onChange={(e) => {
+                              onValueChange={(v) => {
                                 const schedNum = formData.hScheduleNumber || 1;
                                 const currentSched = hSchedules.find(s => s.number === schedNum);
                                 if (currentSched) {
                                   const newPoints = [...currentSched.points];
-                                  newPoints[index] = { ...newPoints[index], head: parseFloat(e.target.value) };
+                                  newPoints[index] = { ...newPoints[index], head: v as any };
                                   updateHSchedule(schedNum, newPoints);
                                 }
                               }}
@@ -786,11 +784,10 @@ export function PropertiesPanel() {
                   <>
                     <div className="grid gap-2">
                       <Label htmlFor="scheduleNum">Schedule Number</Label>
-                      <Input 
+                      <NumericInput 
                         id="scheduleNum" 
-                        type="text" inputMode="decimal" 
-                        value={formData.scheduleNumber ?? ''} 
-                        onChange={(e) => handleChange('scheduleNumber', e.target.value)} 
+                        value={formData.scheduleNumber} 
+                        onValueChange={(v) => handleChange('scheduleNumber', v)} 
                       />
                     </div>
                     
@@ -821,26 +818,24 @@ export function PropertiesPanel() {
                           <div key={index} className="flex items-end gap-2 p-2 border rounded-md bg-muted/30 relative group">
                             <div className="grid gap-1 flex-1">
                               <Label className="text-[10px]">Time (T)</Label>
-                              <Input 
-                                type="text" inputMode="decimal"
+                              <NumericInput 
                                 className="h-7 text-xs"
                                 value={point.time}
-                                onChange={(e) => {
+                                onValueChange={(v) => {
                                   const newPoints = [...activeQPoints];
-                                  newPoints[index] = { ...newPoints[index], time: parseFloat(e.target.value) || 0 };
+                                  newPoints[index] = { ...newPoints[index], time: v as any };
                                   updateQSchedule(activeSchedNum, newPoints);
                                 }}
                               />
                             </div>
                             <div className="grid gap-1 flex-1">
                               <Label className="text-[10px]">Flow (Q) ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
-                              <Input 
-                                type="text" inputMode="decimal"
+                              <NumericInput 
                                 className="h-7 text-xs"
                                 value={point.flow}
-                                onChange={(e) => {
+                                onValueChange={(v) => {
                                   const newPoints = [...activeQPoints];
-                                  newPoints[index] = { ...newPoints[index], flow: parseFloat(e.target.value) || 0 };
+                                  newPoints[index] = { ...newPoints[index], flow: v as any };
                                   updateQSchedule(activeSchedNum, newPoints);
                                 }}
                               />
@@ -971,33 +966,33 @@ export function PropertiesPanel() {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="grid gap-1">
                     <Label htmlFor="rq" className="text-xs">Rated Flow RQ ({currentUnit === 'SI' ? 'm³/s' : 'ft³/s'})</Label>
-                    <Input id="rq" data-testid="input-rq" type="text" inputMode="decimal" step="any"
-                      value={formData.rq !== undefined ? Number(formData.rq) : ''}
-                      onChange={(e) => handleChange('rq', e.target.value)} className="h-7 text-xs" />
+                    <NumericInput id="rq" data-testid="input-rq"
+                      value={formData.rq}
+                      onValueChange={(v) => handleChange('rq', v)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rhead" className="text-xs">Rated Head RHEAD ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input id="rhead" data-testid="input-rhead" type="text" inputMode="decimal" step="any"
-                      value={formData.rhead !== undefined ? Number(formData.rhead) : ''}
-                      onChange={(e) => handleChange('rhead', e.target.value)} className="h-7 text-xs" />
+                    <NumericInput id="rhead" data-testid="input-rhead"
+                      value={formData.rhead}
+                      onValueChange={(v) => handleChange('rhead', v)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rspeed" className="text-xs">Rated Speed RSPEED (RPM)</Label>
-                    <Input id="rspeed" data-testid="input-rspeed" type="text" inputMode="decimal" step="any"
-                      value={formData.rspeed !== undefined ? Number(formData.rspeed) : ''}
-                      onChange={(e) => handleChange('rspeed', e.target.value)} className="h-7 text-xs" />
+                    <NumericInput id="rspeed" data-testid="input-rspeed"
+                      value={formData.rspeed}
+                      onValueChange={(v) => handleChange('rspeed', v)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1">
                     <Label htmlFor="rtorque" className="text-xs">Rated Torque RTOROUE</Label>
-                    <Input id="rtorque" data-testid="input-rtorque" type="text" inputMode="decimal" step="any"
-                      value={formData.rtorque !== undefined ? Number(formData.rtorque) : ''}
-                      onChange={(e) => handleChange('rtorque', e.target.value)} className="h-7 text-xs" />
+                    <NumericInput id="rtorque" data-testid="input-rtorque"
+                      value={formData.rtorque}
+                      onValueChange={(v) => handleChange('rtorque', v)} className="h-7 text-xs" />
                   </div>
                   <div className="grid gap-1 col-span-2">
                     <Label htmlFor="wr2" className="text-xs">WR² (Moment of Inertia)</Label>
-                    <Input id="wr2" data-testid="input-wr2" type="text" inputMode="decimal" step="any"
-                      value={formData.wr2 !== undefined ? Number(formData.wr2) : ''}
-                      onChange={(e) => handleChange('wr2', e.target.value)} className="h-7 text-xs" />
+                    <NumericInput id="wr2" data-testid="input-wr2"
+                      value={formData.wr2}
+                      onValueChange={(v) => handleChange('wr2', v)} className="h-7 text-xs" />
                   </div>
                 </div>
 
@@ -1025,13 +1020,11 @@ export function PropertiesPanel() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="valveDiam">Diameter DIAM ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                <Input
+                <NumericInput
                   id="valveDiam"
                   data-testid="input-valvediam"
-                  type="text" inputMode="decimal"
-                  step="any"
-                  value={formData.valveDiam !== undefined ? Number(formData.valveDiam) : ''}
-                  onChange={(e) => handleChange('valveDiam', e.target.value)}
+                  value={formData.valveDiam}
+                  onValueChange={(v) => handleChange('valveDiam', v)}
                 />
               </div>
             </>
@@ -1257,38 +1250,34 @@ export function PropertiesPanel() {
                 <div className="grid grid-cols-2 gap-4 p-3 bg-muted/30 rounded-md border border-border/50 mb-4">
                   <div className="space-y-2">
                     <Label htmlFor="distance">DISTANCE ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="distance" 
-                      type="text" inputMode="decimal" 
-                      value={formData.distance ?? ''} 
-                      onChange={(e) => handleChange('distance', e.target.value)} 
+                      value={formData.distance} 
+                      onValueChange={(v) => handleChange('distance', v)} 
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="area">AREA ({currentUnit === 'SI' ? 'm²' : 'ft²'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="area" 
-                      type="text" inputMode="decimal" 
-                      value={formData.area ?? ''} 
-                      onChange={(e) => handleChange('area', e.target.value)} 
+                      value={formData.area} 
+                      onValueChange={(v) => handleChange('area', v)} 
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="d">D ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="d" 
-                      type="text" inputMode="decimal" 
-                      value={formData.d ?? ''} 
-                      onChange={(e) => handleChange('d', e.target.value)} 
+                      value={formData.d} 
+                      onValueChange={(v) => handleChange('d', v)} 
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="a">A ({currentUnit === 'SI' ? 'm²' : 'ft²'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="a" 
-                      type="text" inputMode="decimal" 
-                      value={formData.a ?? ''} 
-                      onChange={(e) => handleChange('a', e.target.value)} 
+                      value={formData.a} 
+                      onValueChange={(v) => handleChange('a', v)} 
                     />
                   </div>
                 </div>
@@ -1297,23 +1286,21 @@ export function PropertiesPanel() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="length">Length ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                  <Input 
+                  <NumericInput 
                     id="length" 
-                    type="text" inputMode="decimal" 
-                    value={formData.length ?? ''} 
-                    onChange={(e) => handleChange('length', e.target.value)} 
+                    value={formData.length} 
+                    onValueChange={(v) => handleChange('length', v)} 
                   />
                 </div>
                 {!formData.variable && (
                   <div className="space-y-2">
                     <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="diam" 
-                      type="text" inputMode="decimal" 
-                      value={formData.diameter ?? ''} 
-                      onChange={(e) => {
-                        const newDiam = parseFloat(e.target.value);
-                        handleChange('diameter', e.target.value);
+                      value={formData.diameter} 
+                      onValueChange={(v) => {
+                        const newDiam = parseFloat(v);
+                        handleChange('diameter', v);
 
                         if (!isNaN(newDiam) && newDiam > 0) {
                           // Recalculate wave speed (celerity) if E and WT are set
@@ -1354,26 +1341,23 @@ export function PropertiesPanel() {
                       : <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-medium" title="Set E and WT below to auto-calculate">Manual — set E &amp; WT to auto</span>
                     }
                   </div>
-                  <Input 
+                  <NumericInput 
                     id="celerity" 
-                    type="text" inputMode="decimal" 
-                    value={formData.celerity ?? ''} 
-                    onChange={(e) => {
-                      handleChange('celerity', e.target.value);
+                    value={formData.celerity} 
+                    onValueChange={(v) => {
+                      handleChange('celerity', v);
                     }}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="friction">Friction (f)</Label>
-                  <Input 
+                  <NumericInput 
                     id="friction" 
                     data-testid="input-friction"
-                    type="text" inputMode="decimal" 
-                    step="0.001"
-                    value={formData.friction ?? ''} 
-                    onChange={(e) => {
-                      handleChange('friction', e.target.value);
-                      const f = parseFloat(e.target.value);
+                    value={formData.friction} 
+                    onValueChange={(v) => {
+                      handleChange('friction', v);
+                      const f = parseFloat(v);
                       const diam = parseFloat(formData.diameter) || 0;
                       const K = currentUnit === 'SI' ? 124.58 : 185;
                       if (!isNaN(f) && f > 0 && diam > 0) {
@@ -1644,15 +1628,14 @@ export function PropertiesPanel() {
                     <Label htmlFor="pipe-e">
                       E ({currentUnit === 'SI' ? 'Pa' : 'psi'})
                     </Label>
-                    <Input
+                    <NumericInput
                       id="pipe-e"
                       data-testid="input-pipe-e"
-                      type="text" inputMode="decimal"
                       placeholder={currentUnit === 'SI' ? 'e.g. 2.07e11' : 'e.g. 30000000'}
-                      value={formData.pipeE ?? ''}
-                      onChange={(e) => {
-                        handleChange('pipeE', e.target.value);
-                        const E  = parseFloat(e.target.value);
+                      value={formData.pipeE}
+                      onValueChange={(v) => {
+                        handleChange('pipeE', v);
+                        const E  = parseFloat(v);
                         const C0 = currentUnit === 'SI' ? 1440 : 4720;
                         const Kw = currentUnit === 'SI' ? 2.07e9 : 3e5;
                         const D  = parseFloat(formData.diameter) || 0;
@@ -1668,16 +1651,14 @@ export function PropertiesPanel() {
                     <Label htmlFor="pipe-wt">
                       WT ({currentUnit === 'SI' ? 'm' : 'ft'})
                     </Label>
-                    <Input
+                    <NumericInput
                       id="pipe-wt"
                       data-testid="input-pipe-wt"
-                      type="text" inputMode="decimal"
-                      step="0.001"
                       placeholder={currentUnit === 'SI' ? 'e.g. 0.006' : 'e.g. 0.02'}
-                      value={formData.pipeWT ?? ''}
-                      onChange={(e) => {
-                        handleChange('pipeWT', e.target.value);
-                        const WT = parseFloat(e.target.value);
+                      value={formData.pipeWT}
+                      onValueChange={(v) => {
+                        handleChange('pipeWT', v);
+                        const WT = parseFloat(v);
                         const C0 = currentUnit === 'SI' ? 1440 : 4720;
                         const Kw = currentUnit === 'SI' ? 2.07e9 : 3e5;
                         const D  = parseFloat(formData.diameter) || 0;
@@ -1707,11 +1688,9 @@ export function PropertiesPanel() {
               <div className="space-y-3 rounded-md border border-dashed p-3">
                 <div className="space-y-2">
                   <Label htmlFor="mannings-n" className="font-medium">Manning's Coefficient (n)</Label>
-                  <Input
+                  <NumericInput
                     id="mannings-n"
                     data-testid="input-mannings-n"
-                    type="text" inputMode="decimal"
-                    step="0.0001"
                     placeholder="e.g. 0.013"
                     value={(() => {
                       if (formData.manningsN != null && formData.manningsN !== '') {
@@ -1725,9 +1704,9 @@ export function PropertiesPanel() {
                       }
                       return '';
                     })()}
-                    onChange={(e) => {
-                      const n = parseFloat(e.target.value);
-                      handleChange('manningsN', e.target.value);
+                    onValueChange={(v) => {
+                      const n = parseFloat(v);
+                      handleChange('manningsN', v);
                       if (!isNaN(n) && n > 0) {
                         const diam = parseFloat(formData.diameter) || 0;
                         const K = currentUnit === 'SI' ? 124.58 : 185;
@@ -1751,12 +1730,11 @@ export function PropertiesPanel() {
               <div className="grid gap-2">
                 <Label htmlFor="segments">Num Segments</Label>
                 <div className="flex items-center gap-2">
-                  <Input 
+                  <NumericInput 
                     id="segments" 
-                    type="text" inputMode="decimal" 
                     className="flex-1"
-                    value={formData.numSegments || 1} 
-                    onChange={(e) => handleChange('numSegments', e.target.value)} 
+                    value={formData.numSegments ?? 1} 
+                    onValueChange={(v) => handleChange('numSegments', v)} 
                   />
                   <div className="flex items-center gap-2 ml-2">
                     <Checkbox 
@@ -1782,22 +1760,20 @@ export function PropertiesPanel() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="cplus">CPLUS (opt)</Label>
-                    <Input 
+                    <NumericInput 
                       id="cplus" 
-                      type="text" inputMode="decimal" 
                       placeholder="0.0"
-                      value={formData.cplus ?? ''} 
-                      onChange={(e) => handleChange('cplus', e.target.value === '' ? undefined : e.target.value)} 
+                      value={formData.cplus} 
+                      onValueChange={(v) => handleChange('cplus', v === '' ? undefined : v)} 
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="cminus">CMINUS (opt)</Label>
-                    <Input 
+                    <NumericInput 
                       id="cminus" 
-                      type="text" inputMode="decimal" 
                       placeholder="0.0"
-                      value={formData.cminus ?? ''} 
-                      onChange={(e) => handleChange('cminus', e.target.value === '' ? undefined : e.target.value)} 
+                      value={formData.cminus} 
+                      onValueChange={(v) => handleChange('cminus', v === '' ? undefined : v)} 
                     />
                   </div>
                 </div>
@@ -1810,11 +1786,10 @@ export function PropertiesPanel() {
             <>
               <div className="grid gap-2">
                 <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                <Input 
+                <NumericInput 
                   id="diam" 
-                  type="text" inputMode="decimal" 
-                  value={formData.diameter ?? ''} 
-                  onChange={(e) => handleChange('diameter', e.target.value)} 
+                  value={formData.diameter} 
+                  onValueChange={(v) => handleChange('diameter', v)} 
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -1831,22 +1806,20 @@ export function PropertiesPanel() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="cplus">CPLUS (opt)</Label>
-                    <Input 
+                    <NumericInput 
                       id="cplus" 
-                      type="text" inputMode="decimal" 
                       placeholder="0.0"
-                      value={formData.cplus ?? ''} 
-                      onChange={(e) => handleChange('cplus', e.target.value === '' ? undefined : e.target.value)} 
+                      value={formData.cplus} 
+                      onValueChange={(v) => handleChange('cplus', v === '' ? undefined : v)} 
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="cminus">CMINUS (opt)</Label>
-                    <Input 
+                    <NumericInput 
                       id="cminus" 
-                      type="text" inputMode="decimal" 
                       placeholder="0.0"
-                      value={formData.cminus ?? ''} 
-                      onChange={(e) => handleChange('cminus', e.target.value === '' ? undefined : e.target.value)} 
+                      value={formData.cminus} 
+                      onValueChange={(v) => handleChange('cminus', v === '' ? undefined : v)} 
                     />
                   </div>
                 </div>
