@@ -207,41 +207,12 @@ function DesignerInner() {
       }
     }
 
-    // Path 2: no handle yet, but the File System Access API is available.
-    // Ask the user once to pick the file (typically the same project file
-    // they originally opened), then remember the handle so every subsequent
-    // Save in this session writes straight to it — no more re-downloads.
-    if ('showSaveFilePicker' in window) {
-      try {
-        const handle = await (window as any).showSaveFilePicker({
-          suggestedName,
-          types: [
-            {
-              description: 'WHAMO Project',
-              accept: { 'application/json': ['.json'] },
-            },
-          ],
-        });
-        const writable = await handle.createWritable();
-        await writable.write(json);
-        await writable.close();
-        setLoadedFileHandle(handle);
-        toast({
-          variant: "success",
-          title: "Project Saved",
-          description: `Saved to ${handle.name}. Future saves will update this file directly.`,
-        });
-        return;
-      } catch (err: any) {
-        if (err?.name === 'AbortError') return; // user cancelled the picker
-        console.warn("Save picker failed, falling back to download:", err);
-      }
-    }
-
-    // Path 3: legacy fallback (older browsers / blocked iframe permissions).
+    // No handle available — Save should behave like a quiet save (no picker).
+    // The picker prompt is reserved for "Save As". We auto-download using the
+    // current project name so the user keeps working in the same file.
     const blob = new Blob([json], { type: 'application/json' });
     saveAs(blob, suggestedName);
-    toast({ variant: "success", title: "Project Downloaded", description: "Network topology saved as JSON file." });
+    toast({ variant: "success", title: "Project Saved", description: `Network saved as ${suggestedName}.` });
   };
 
   const handleSaveAs = async () => {
