@@ -2,9 +2,13 @@ import { useNetworkStore } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { CheckSquare, XSquare } from 'lucide-react';
+import { CheckSquare, XSquare, Save } from 'lucide-react';
 
-export function NodeSelectionPanel() {
+interface NodeSelectionPanelProps {
+  onSave?: () => void;
+}
+
+export function NodeSelectionPanel({ onSave }: NodeSelectionPanelProps) {
   const { nodes, nodeSelectionSet, toggleNodeSelection, setAllNodesSelected } = useNetworkStore();
   
   const nodesList = nodes
@@ -89,6 +93,17 @@ export function NodeSelectionPanel() {
           )}
         </div>
       </ScrollArea>
+
+      {onSave && (
+        <Button
+          onClick={onSave}
+          className="w-full gap-2"
+          data-testid="button-save-node-selection"
+        >
+          <Save className="w-4 h-4" />
+          Save
+        </Button>
+      )}
     </div>
   );
 }

@@ -121,6 +121,7 @@ function DesignerInner() {
     loadedFileHandle,
     setAllNodesSelected,
     addNode,
+    nodeSelectionSet,
   } = useNetworkStore();
 
   // Fields that live in a pipe profile (shared across same-label edges)
@@ -180,6 +181,7 @@ function DesignerInner() {
       snapshotTimes,
       hSchedules,
       qSchedules,
+      nodeSelectionSet: Array.from(nodeSelectionSet),
     };
 
     try {
@@ -465,7 +467,7 @@ function DesignerInner() {
           if (json.nodes && json.edges) {
             const loadedProjectName = json.projectName || file.name.replace(/\.json$/i, '');
             const expandedEdges = expandEdges(json.edges, json.pipeProfiles);
-            loadNetwork(json.nodes, expandedEdges, { ...json.computationalParams, qSchedules: json.qSchedules, hSchedules: json.hSchedules }, json.outputRequests, loadedProjectName, handle, json.pcharData, json.snapshotTimes);
+            loadNetwork(json.nodes, expandedEdges, { ...json.computationalParams, qSchedules: json.qSchedules, hSchedules: json.hSchedules }, json.outputRequests, loadedProjectName, handle, json.pcharData, json.snapshotTimes, json.nodeSelectionSet);
             setProjectState("active");
             toast({ title: "Project Loaded", description: `Network topology "${loadedProjectName}" restored from JSON.` });
           } else {
@@ -507,7 +509,7 @@ function DesignerInner() {
             // Use project name from file or fallback to filename
             const loadedProjectName = json.projectName || file.name.replace(/\.json$/i, '');
             const expandedEdges = expandEdges(json.edges, json.pipeProfiles);
-            loadNetwork(json.nodes, expandedEdges, { ...json.computationalParams, qSchedules: json.qSchedules, hSchedules: json.hSchedules }, json.outputRequests, loadedProjectName, undefined, json.pcharData, json.snapshotTimes);
+            loadNetwork(json.nodes, expandedEdges, { ...json.computationalParams, qSchedules: json.qSchedules, hSchedules: json.hSchedules }, json.outputRequests, loadedProjectName, undefined, json.pcharData, json.snapshotTimes, json.nodeSelectionSet);
             setProjectState("active");
             toast({ title: "Project Loaded", description: `Network topology "${loadedProjectName}" restored from JSON.` });
           } else {
@@ -905,7 +907,7 @@ function DesignerInner() {
                 )}
               >
                 <div className="w-[350px] h-full">
-                  {showNodeSelection && <NodeSelectionPanel />}
+                  {showNodeSelection && <NodeSelectionPanel onSave={handleSave} />}
                 </div>
               </div>
 
