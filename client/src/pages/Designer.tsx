@@ -646,11 +646,12 @@ function DesignerInner() {
   };
 
   const handleOpenProject = () => {
-    // Trigger file input directly and synchronously to preserve the user-gesture
-    // context. The async showOpenFilePicker path can fail in proxied/iframe
-    // environments (like Replit preview), losing the gesture and preventing the
-    // fallback click from working.
-    fileInputRef.current?.click();
+    // Use the same path as the File > Open menu so we capture a file handle
+    // (via showOpenFilePicker) when the browser supports it. That handle lets
+    // Save write directly back to the same file. If the picker is unavailable
+    // or blocked (e.g. proxied iframe), handleLoadClick falls back to the
+    // hidden input automatically.
+    handleLoadClick();
   };
 
   const handleVisualizationClick = async () => {
