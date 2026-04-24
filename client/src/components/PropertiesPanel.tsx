@@ -193,6 +193,19 @@ export function PropertiesPanel() {
     }
   }, [selectedElementId]);
 
+  // Re-sync formData when the underlying element's unit changes (e.g. via the
+  // global Configuration → SI/FPS menu, or programmatic unit changes elsewhere).
+  // Without this, only labels update but the displayed numeric values stay stale.
+  const selectedElementForSync = selectedElementType === 'node'
+    ? nodes.find(n => n.id === selectedElementId)
+    : edges.find(e => e.id === selectedElementId);
+  const effectiveUnitForSync = (selectedElementForSync?.data?.unit as UnitSystem) || globalUnit;
+  useEffect(() => {
+    if (!selectedElementForSync?.data) return;
+    setFormData({ ...selectedElementForSync.data });
+    setIsDirty(false);
+  }, [effectiveUnitForSync, selectedElementId]);
+
   const handleLocalChange = (key: string, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
     setIsDirty(true);
