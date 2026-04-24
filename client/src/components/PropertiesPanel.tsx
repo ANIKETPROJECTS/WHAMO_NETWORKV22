@@ -385,55 +385,40 @@ export function PropertiesPanel() {
 
     const dataUpdate: any = { unit: newUnit, _unitCache: newCache };
 
-    // For each convertible field: use cached value if defined, otherwise math-convert.
-    // pipeE and pipeWT are excluded here — they are always math-converted below for precision.
-    const cachedTarget: Record<string, any> = newCache[newUnit] || {};
+    // Always math-convert. The unit cache is preserved for round-trip use cases
+    // elsewhere (e.g. recovering an exact user-typed value after multiple
+    // toggles), but reading from it here was a source of stale-value bugs when
+    // the cache contained values from an earlier corrupt state. Math conversion
+    // is deterministic and uses the actual current value as the source of truth.
     Object.entries(element.data || {}).forEach(([key, value]) => {
       if (!fieldMapping[key]) return;
       if (key === 'pipeE' || key === 'pipeWT') return;
-      const cachedVal = cachedTarget[key];
-      if (cachedVal !== undefined) {
-        dataUpdate[key] = cachedVal;
-      } else {
-        const numValue = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
-        if (!isNaN(numValue)) {
-          dataUpdate[key] = convertValue(numValue, currentUnit, newUnit, fieldMapping[key]);
-        }
+      const numValue = typeof value === 'string' ? parseFloat(value) : (typeof value === 'number' ? value : NaN);
+      if (!isNaN(numValue)) {
+        dataUpdate[key] = convertValue(numValue, currentUnit, newUnit, fieldMapping[key]);
       }
     });
 
-    // pipeE (Pa ↔ psi) and pipeWT (m ↔ ft): use cached value when available so that
-    // round-trips (SI→FPS→SI) restore the exact original number. Fall back to
-    // high-precision math conversion only when no cached value exists yet.
+    // pipeE (Pa ↔ psi) and pipeWT (m ↔ ft): high-precision math conversion.
     if (formData.pipeE != null && formData.pipeE !== '') {
       const val = parseFloat(String(formData.pipeE));
       if (!isNaN(val)) {
-        const cachedVal = cachedTarget['pipeE'];
-        dataUpdate.pipeE = cachedVal !== undefined
-          ? cachedVal
-          : parseFloat(convertValue(val, currentUnit, newUnit, 'pressure').toPrecision(10));
+        dataUpdate.pipeE = parseFloat(convertValue(val, currentUnit, newUnit, 'pressure').toPrecision(10));
       }
     }
     if (formData.pipeWT != null && formData.pipeWT !== '') {
       const val = parseFloat(String(formData.pipeWT));
       if (!isNaN(val)) {
-        const cachedVal = cachedTarget['pipeWT'];
-        dataUpdate.pipeWT = cachedVal !== undefined
-          ? cachedVal
-          : parseFloat(convertValue(val, currentUnit, newUnit, 'diameter').toPrecision(10));
+        dataUpdate.pipeWT = parseFloat(convertValue(val, currentUnit, newUnit, 'diameter').toPrecision(10));
       }
     }
 
-    // Handle schedulePoints
+    // Handle schedulePoints — also always math-convert.
     if (formData.schedulePoints) {
-      if (cachedTarget.schedulePoints) {
-        dataUpdate.schedulePoints = cachedTarget.schedulePoints;
-      } else {
-        dataUpdate.schedulePoints = (formData.schedulePoints as any[]).map(p => ({
-          ...p,
-          flow: convertValue(p.flow, currentUnit, newUnit, 'flow')
-        }));
-      }
+      dataUpdate.schedulePoints = (formData.schedulePoints as any[]).map(p => ({
+        ...p,
+        flow: convertValue(p.flow, currentUnit, newUnit, 'flow')
+      }));
     }
 
     if (isNode) {
