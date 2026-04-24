@@ -184,36 +184,63 @@ function DesignerInner() {
       qSchedules,
       nodeSelectionSet: Array.from(nodeSelectionSet),
     };
+    const json = JSON.stringify(data, null, 2);
+    const suggestedName = `${projectName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'network'}.json`;
 
-    try {
-      if (loadedFileHandle && 'showSaveFilePicker' in window) {
-        // We have a file handle and supporting browser, try to save directly
-        // Permission check
-        const options = {
-          mode: 'readwrite',
-        };
-        
-        // Verify permission if needed
+    // Path 1: we already have a handle for the original file — write in place.
+    if (loadedFileHandle && 'showSaveFilePicker' in window) {
+      try {
+        const options = { mode: 'readwrite' };
         if (await (loadedFileHandle as any).queryPermission(options) !== 'granted') {
           if (await (loadedFileHandle as any).requestPermission(options) !== 'granted') {
             throw new Error("Permission denied");
           }
         }
-
         const writable = await (loadedFileHandle as any).createWritable();
-        await writable.write(JSON.stringify(data, null, 2));
+        await writable.write(json);
         await writable.close();
-        toast({ variant: "success", title: "Project Saved", description: `Changes saved to ${projectName}.` });
+        const fname = (loadedFileHandle as any).name || projectName;
+        toast({ variant: "success", title: "Project Saved", description: `Changes saved to ${fname}.` });
         return;
+      } catch (err) {
+        console.warn("Direct save failed, will prompt for location:", err);
       }
-    } catch (err) {
-      console.warn("Direct save failed, falling back to download:", err);
     }
 
-    // Fallback to traditional download if no handle or direct save fails
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const fileName = `${projectName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'network'}.json`;
-    saveAs(blob, fileName);
+    // Path 2: no handle yet, but the File System Access API is available.
+    // Ask the user once to pick the file (typically the same project file
+    // they originally opened), then remember the handle so every subsequent
+    // Save in this session writes straight to it — no more re-downloads.
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await (window as any).showSaveFilePicker({
+          suggestedName,
+          types: [
+            {
+              description: 'WHAMO Project',
+              accept: { 'application/json': ['.json'] },
+            },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(json);
+        await writable.close();
+        setLoadedFileHandle(handle);
+        toast({
+          variant: "success",
+          title: "Project Saved",
+          description: `Saved to ${handle.name}. Future saves will update this file directly.`,
+        });
+        return;
+      } catch (err: any) {
+        if (err?.name === 'AbortError') return; // user cancelled the picker
+        console.warn("Save picker failed, falling back to download:", err);
+      }
+    }
+
+    // Path 3: legacy fallback (older browsers / blocked iframe permissions).
+    const blob = new Blob([json], { type: 'application/json' });
+    saveAs(blob, suggestedName);
     toast({ variant: "success", title: "Project Downloaded", description: "Network topology saved as JSON file." });
   };
 
