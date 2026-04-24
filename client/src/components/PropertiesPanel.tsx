@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ComponentProps } from 'react';
 import { useNetworkStore, type UnitSystem, type PcharType } from '@/lib/store';
 import { PIPE_MATERIALS, PIPE_MATERIALS_BY_ID } from '@/lib/pipe-materials';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -14,6 +14,34 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, ChevronDown, ChevronRight, Plus, CheckCircle2, Save } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getNodeSequenceViolations } from '@/lib/validator';
+
+type NumericInputProps = Omit<ComponentProps<typeof Input>, 'value' | 'onChange' | 'type' | 'inputMode'> & {
+  value: any;
+  onValueChange: (val: string) => void;
+};
+
+function NumericInput({ value, onValueChange, ...props }: NumericInputProps) {
+  const display =
+    value === undefined || value === null || value === ''
+      ? ''
+      : typeof value === 'string'
+        ? value
+        : String(parseFloat(Number(value).toFixed(8)));
+  return (
+    <Input
+      {...props}
+      type="text"
+      inputMode="decimal"
+      value={display}
+      onChange={(e) => {
+        const v = e.target.value;
+        if (v === '' || v === '-' || /^-?\d*\.?\d*$/.test(v)) {
+          onValueChange(v);
+        }
+      }}
+    />
+  );
+}
 
 function PcharEditor({ pType, activePc, updatePcharData }: {
   pType: number;
@@ -404,9 +432,10 @@ export function PropertiesPanel() {
   };
 
   const handleChange = (key: string, value: any) => {
-    const numericValue = (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value))) 
-      ? Number(value) 
-      : value;
+    // Preserve raw string while typing so intermediate decimal forms like "1." or "1.50"
+    // aren't collapsed by Number() conversion. saveChanges() converts strings to numbers
+    // when the value is committed.
+    const numericValue = value;
 
     const update: any = { [key]: numericValue };
     if (cacheableFields.includes(key)) {
@@ -589,12 +618,10 @@ export function PropertiesPanel() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="elev">{element.data?.type === 'surgeTank' ? 'Node Elevation' : 'Elevation'} ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                <Input 
+                <NumericInput 
                   id="elev" 
-                  type="text" inputMode="decimal" 
-                  step="any"
-                  value={formData.elevation !== undefined ? parseFloat(Number(formData.elevation).toFixed(8)) : ''} 
-                  onChange={(e) => handleChange('elevation', e.target.value)} 
+                  value={formData.elevation} 
+                  onValueChange={(v) => handleChange('elevation', v)} 
                 />
               </div>
 
@@ -621,12 +648,10 @@ export function PropertiesPanel() {
               {element.data?.type === 'reservoir' && (formData.mode || 'fixed') === 'fixed' && (
                 <div className="grid gap-2">
                   <Label htmlFor="resElev">Reservoir Elevation (HW) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                  <Input 
+                  <NumericInput 
                     id="resElev" 
-                    type="text" inputMode="decimal" 
-                    step="any"
-                    value={formData.reservoirElevation !== undefined ? parseFloat(Number(formData.reservoirElevation).toFixed(8)) : ''} 
-                    onChange={(e) => handleChange('reservoirElevation', e.target.value)} 
+                    value={formData.reservoirElevation} 
+                    onValueChange={(v) => handleChange('reservoirElevation', v)} 
                   />
                 </div>
               )}
@@ -1035,34 +1060,28 @@ export function PropertiesPanel() {
 
               <div className="grid gap-2">
                 <Label htmlFor="tankTop">Top Elevation ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                <Input 
+                <NumericInput 
                   id="tankTop" 
-                  type="text" inputMode="decimal" 
-                  step="any"
-                  value={formData.tankTop !== undefined ? parseFloat(Number(formData.tankTop).toFixed(8)) : ''} 
-                  onChange={(e) => handleChange('tankTop', e.target.value)} 
+                  value={formData.tankTop} 
+                  onValueChange={(v) => handleChange('tankTop', v)} 
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="tankBottom">Bottom Elevation ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                <Input 
+                <NumericInput 
                   id="tankBottom" 
-                  type="text" inputMode="decimal" 
-                  step="any"
-                  value={formData.tankBottom !== undefined ? parseFloat(Number(formData.tankBottom).toFixed(8)) : ''} 
-                  onChange={(e) => handleChange('tankBottom', e.target.value)} 
+                  value={formData.tankBottom} 
+                  onValueChange={(v) => handleChange('tankBottom', v)} 
                 />
               </div>
 
               {(formData.type_st === 'AIRTANK' || formData.type_st === 'DIFFERENTIAL') && (
                 <div className="grid gap-2">
                   <Label htmlFor="htank">Initial Water Level (HTANK) ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                  <Input 
+                  <NumericInput 
                     id="htank" 
-                    type="text" inputMode="decimal" 
-                    step="any"
-                    value={formData.initialWaterLevel !== undefined ? parseFloat(Number(formData.initialWaterLevel).toFixed(8)) : ''} 
-                    onChange={(e) => handleChange('initialWaterLevel', e.target.value)} 
+                    value={formData.initialWaterLevel} 
+                    onValueChange={(v) => handleChange('initialWaterLevel', v)} 
                   />
                 </div>
               )}
@@ -1071,22 +1090,18 @@ export function PropertiesPanel() {
                 <>
                   <div className="grid gap-2">
                     <Label htmlFor="riserdiam">Riser Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="riserdiam" 
-                      type="text" inputMode="decimal" 
-                      step="any"
-                      value={formData.riserDiameter !== undefined ? parseFloat(Number(formData.riserDiameter).toFixed(8)) : ''} 
-                      onChange={(e) => handleChange('riserDiameter', e.target.value)} 
+                      value={formData.riserDiameter} 
+                      onValueChange={(v) => handleChange('riserDiameter', v)} 
                     />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="risertop">Riser Top Elevation ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                    <Input 
+                    <NumericInput 
                       id="risertop" 
-                      type="text" inputMode="decimal" 
-                      step="any"
-                      value={formData.riserTop !== undefined ? parseFloat(Number(formData.riserTop).toFixed(8)) : ''} 
-                      onChange={(e) => handleChange('riserTop', e.target.value)} 
+                      value={formData.riserTop} 
+                      onValueChange={(v) => handleChange('riserTop', v)} 
                     />
                   </div>
                 </>
@@ -1104,12 +1119,10 @@ export function PropertiesPanel() {
               {!formData.hasShape && (
                 <div className="grid gap-2">
                   <Label htmlFor="diam">Diameter ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                  <Input 
+                  <NumericInput 
                     id="diam" 
-                    type="text" inputMode="decimal" 
-                    step="any"
-                    value={formData.diameter !== undefined ? parseFloat(Number(formData.diameter).toFixed(8)) : ''} 
-                    onChange={(e) => handleChange('diameter', e.target.value)} 
+                    value={formData.diameter} 
+                    onValueChange={(v) => handleChange('diameter', v)} 
                   />
                 </div>
               )}
@@ -1117,22 +1130,18 @@ export function PropertiesPanel() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="st-celerity">Celerity ({currentUnit === 'SI' ? 'm/s' : 'ft/s'})</Label>
-                  <Input 
+                  <NumericInput 
                     id="st-celerity" 
-                    type="text" inputMode="decimal" 
-                    step="any"
-                    value={formData.celerity !== undefined ? parseFloat(Number(formData.celerity).toFixed(8)) : ''} 
-                    onChange={(e) => handleChange('celerity', e.target.value)} 
+                    value={formData.celerity} 
+                    onValueChange={(v) => handleChange('celerity', v)} 
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="st-friction">Friction</Label>
-                  <Input 
+                  <NumericInput 
                     id="st-friction" 
-                    type="text" inputMode="decimal" 
-                    step="any"
-                    value={formData.friction !== undefined ? parseFloat(Number(formData.friction).toFixed(8)) : ''} 
-                    onChange={(e) => handleChange('friction', e.target.value)} 
+                    value={formData.friction} 
+                    onValueChange={(v) => handleChange('friction', v)} 
                   />
                 </div>
               </div>
@@ -1150,22 +1159,18 @@ export function PropertiesPanel() {
                 <div className="grid grid-cols-2 gap-4 p-3 bg-muted/30 rounded-md border border-border/50 mb-4">
                   <div className="space-y-2">
                     <Label htmlFor="st-cplus">CPLUS</Label>
-                    <Input 
+                    <NumericInput 
                       id="st-cplus" 
-                      type="text" inputMode="decimal" 
-                      step="any"
-                      value={formData.cplus !== undefined ? parseFloat(Number(formData.cplus).toFixed(8)) : ''} 
-                      onChange={(e) => handleChange('cplus', e.target.value)} 
+                      value={formData.cplus} 
+                      onValueChange={(v) => handleChange('cplus', v)} 
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="st-cminus">CMINUS</Label>
-                    <Input 
+                    <NumericInput 
                       id="st-cminus" 
-                      type="text" inputMode="decimal" 
-                      step="any"
-                      value={formData.cminus !== undefined ? parseFloat(Number(formData.cminus).toFixed(8)) : ''} 
-                      onChange={(e) => handleChange('cminus', e.target.value)} 
+                      value={formData.cminus} 
+                      onValueChange={(v) => handleChange('cminus', v)} 
                     />
                   </div>
                 </div>
@@ -1193,28 +1198,24 @@ export function PropertiesPanel() {
                       <div key={index} className="flex items-end gap-2 p-2 border rounded-md bg-muted/30 relative group">
                         <div className="grid gap-1 flex-1">
                           <Label className="text-[10px]">E ({currentUnit === 'SI' ? 'm' : 'ft'})</Label>
-                          <Input 
-                            type="text" inputMode="decimal"
-                            step="any"
+                          <NumericInput 
                             className="h-7 text-xs"
-                            value={pair.e !== undefined ? parseFloat(Number(pair.e).toFixed(8)) : ''}
-                            onChange={(e) => {
+                            value={pair.e}
+                            onValueChange={(v) => {
                               const newShape = [...(formData.shape as any[])];
-                              newShape[index] = { ...newShape[index], e: parseFloat(e.target.value) || 0 };
+                              newShape[index] = { ...newShape[index], e: v };
                               handleChange('shape', newShape);
                             }}
                           />
                         </div>
                         <div className="grid gap-1 flex-1">
                           <Label className="text-[10px]">A ({currentUnit === 'SI' ? 'm²' : 'ft²'})</Label>
-                          <Input 
-                            type="text" inputMode="decimal"
-                            step="any"
+                          <NumericInput 
                             className="h-7 text-xs"
-                            value={pair.a !== undefined ? parseFloat(Number(pair.a).toFixed(8)) : ''}
-                            onChange={(e) => {
+                            value={pair.a}
+                            onValueChange={(v) => {
                               const newShape = [...(formData.shape as any[])];
-                              newShape[index] = { ...newShape[index], a: parseFloat(e.target.value) || 0 };
+                              newShape[index] = { ...newShape[index], a: v };
                               handleChange('shape', newShape);
                             }}
                           />
