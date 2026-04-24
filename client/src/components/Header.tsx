@@ -77,6 +77,7 @@ interface HeaderProps {
   onGenerateOut: (fileName?: string) => void;
   isGeneratingOut: boolean;
   onSave: () => void;
+  onSaveAs: () => void;
   onLoad: () => void;
   onShowDiagram?: () => void;
   onVisualization?: () => void;
@@ -87,6 +88,7 @@ export function Header({
   onGenerateOut,
   isGeneratingOut,
   onSave,
+  onSaveAs,
   onLoad,
   onShowDiagram,
   onVisualization,
@@ -312,6 +314,9 @@ export function Header({
                 <MenubarSeparator />
                 <MenubarItem onClick={onSave} className="gap-2">
                   <Save className="w-4 h-4" /> {loadedFileHandle ? 'Save' : 'Save (Download)'}
+                </MenubarItem>
+                <MenubarItem onClick={onSaveAs} className="gap-2" data-testid="menu-save-as">
+                  <Save className="w-4 h-4" /> Save As...
                 </MenubarItem>
                 <MenubarItem
                   onClick={() =>

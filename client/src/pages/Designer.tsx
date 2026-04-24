@@ -119,6 +119,7 @@ function DesignerInner() {
     undo,
     redo,
     loadedFileHandle,
+    setLoadedFileHandle,
     setAllNodesSelected,
     addNode,
     nodeSelectionSet,
@@ -214,6 +215,53 @@ function DesignerInner() {
     const fileName = `${projectName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'network'}.json`;
     saveAs(blob, fileName);
     toast({ variant: "success", title: "Project Downloaded", description: "Network topology saved as JSON file." });
+  };
+
+  const handleSaveAs = async () => {
+    const profiles = buildPipeProfiles(edges as WhamoEdge[]);
+    const data = { 
+      projectName,
+      nodes, 
+      edges: compactEdges(edges as WhamoEdge[], profiles),
+      pipeProfiles: profiles,
+      computationalParams,
+      outputRequests,
+      pcharData,
+      snapshotTimes,
+      hSchedules,
+      qSchedules,
+      nodeSelectionSet: Array.from(nodeSelectionSet),
+    };
+
+    const suggestedName = `${projectName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'network'}.json`;
+
+    try {
+      if ('showSaveFilePicker' in window) {
+        const handle = await (window as any).showSaveFilePicker({
+          suggestedName,
+          types: [
+            {
+              description: 'WHAMO Project',
+              accept: { 'application/json': ['.json'] },
+            },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(JSON.stringify(data, null, 2));
+        await writable.close();
+        setLoadedFileHandle(handle);
+        toast({ variant: "success", title: "Project Saved As", description: `Saved a new copy as ${handle.name}.` });
+        return;
+      }
+    } catch (err: any) {
+      if (err?.name === 'AbortError') return;
+      console.warn("Save As picker failed, falling back to download:", err);
+    }
+
+    // Fallback to traditional download
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    saveAs(blob, suggestedName);
+    toast({ variant: "success", title: "Project Downloaded", description: "Saved a new copy as JSON file." });
   };
 
   const onNodesChange = useCallback(
@@ -788,6 +836,7 @@ function DesignerInner() {
         onGenerateOut={handleGenerateOut}
         isGeneratingOut={isGeneratingOut}
         onSave={handleSave} 
+        onSaveAs={handleSaveAs}
         onLoad={handleLoadClick} 
         onShowDiagram={() => {
           const svg = generateSystemDiagram(nodes, edges, { showLabels });
